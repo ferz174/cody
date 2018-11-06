@@ -172,8 +172,8 @@
 			<button id="doNew"><%= __("New")%></button>
 
 			<table id="records">
-			   <tr>
-				 <th><%= __("Name")%></th><th><%= __("Controller")%></th><th><%= __("Render")%></th><th><%= __("System")%></th>
+			   <tr align="center">
+				 <th><%= __("Name")%></th><th><%= __("Controller")%></th><th><%= __("Render")%></th><th><%= __("System")%></th><th><%= __("Description")%></th>
 			   </tr>
 
 			  <% for (var i in templates) { var t = templates[i]; %>
@@ -181,7 +181,8 @@
 						<td class="edit"><a href="./templates?request=edit&amp;id=<%= t.id %>"><%= (t.name==='') ? '--' : t.name %></a></td>
 						<td><%= t.controllerName %></td>
 						<td><%= t.fn %></td>
-						<td><%= (t.system === 'Y') ? 'yes' : 'no' %></td>
+						<td><%= (t.system === 'Y') ? __("Yes") : __("No") %></td>
+						<td><%= t.description %></td>
 					</tr>
 				<% } %>
 			</table>

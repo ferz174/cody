@@ -38,7 +38,7 @@
 	      <button id="doEdit" ><%= __("Edit")%></button>
 
         <div id="tree">
-          <ul><li id="id_<%= controller.getRoot() %>" class="open" rel="root"><a href="#"><ins>&nbsp;</ins>Files</a>
+          <ul><li id="id_<%= controller.getRoot() %>" class="open" rel="root"><a href="#"><ins>&nbsp;</ins><%= __("Files")%></a>
               <%- controller.getTree() %>
           </li></ul>
         </div>

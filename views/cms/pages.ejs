@@ -115,7 +115,7 @@
         <div>
           <a class="makeChoice" href="#" rel="<%= T.id %>"><img src="<%=cstatic%>/extentions/html.png"></a>
           <article>
-            <a class="makeChoice" href="#" rel="<%= T.id %>"><%= T.name %> page  »</a>
+            <a class="makeChoice" href="#" rel="<%= T.id %>"><%= T.name %> <%= __('page')%> »</a>
             <span><%= T.description %></span>
           </article>
         </div>
@@ -123,13 +123,13 @@
     <% } %>
 
     <% if (login.level > 50) { %>
-      <h3>Add a system page</h3>
+      <h3><%= __('Add a system page')%></h3>
       <% for (var iT in app.templates) { var T = app.templates[iT]; %>
         <% if (T.system === "Y") { %>
           <div>
             <a class="makeChoice" href="#" rel="<%= T.id %>"><img src="<%=cstatic%>/extentions/frm.gif"></a>
             <article>
-              <a class="makeChoice" href="#" rel="<%= T.id %>"><%= T.name %> <%= __('page')%>  »</a>
+              <a class="makeChoice" href="#" rel="<%= T.id %>"><%= T.name %> <%= __('page')%> »</a>
               <span><%= T.description %></span>
             </article>
           </div>

@@ -16,15 +16,15 @@
       <div id="info">
         <label><%= __("Info")%></label>
         <div>
-          <strong>Created: </strong><%= formatDate(data.created) %> <%= formatTime(data.created) %>
+          <strong><%= __("Created")%>: </strong><%= formatDate(data.created) %> <%= formatTime(data.created) %>
           <% if ((typeof data.modified !== "undefined") && (data.modified)) { %>
-            - <strong>Modified: </strong><%= formatDate(data.modified) %> <%= formatTime(data.modified) %>
+            - <strong><%= __("Modified")%>: </strong><%= formatDate(data.modified) %> <%= formatTime(data.modified) %>
           <% } %>
         </div>
       </div>
     </fieldset>
     <% var label = {}; label[page.language] = "Save"; %>
-    <% var CancelAndDelete = "<button id='doCancel'>Cancel</button><button id='doDelete'>Delete</button>"; %>
+    <% var CancelAndDelete = "<button id='doCancel'><%= __("Cancel")%></button><button id='doDelete'><%= __("Delete")%></button>"; %>
     <%- meta.html( page.language, { name: "Edit", options: {}, extraButtons: CancelAndDelete, labels: label })  %>
   </form>
 </div>

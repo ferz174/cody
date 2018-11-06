@@ -135,14 +135,14 @@
           <div id="generatordiv">
             <label for="generator"><%= __("Type")%></label>
             <select name="generator" id="generator" onchange="return ShowOptions(this.value);">
-              <option value="<%=cody.Meta.Generator.textinput%>" <%= (object.generator === cody.Meta.Generator.textinput) ? 'selected' : '' %>>Text line</option>
-              <option value="<%=cody.Meta.Generator.textareainput%>" <%= (object.generator === cody.Meta.Generator.textareainput) ? 'selected' : '' %>>Text block</option>
-              <option value="<%=cody.Meta.Generator.numberinput%>" <%= (object.generator === cody.Meta.Generator.numberinput) ? 'selected' : '' %>>Number</option>
-              <option value="<%=cody.Meta.Generator.dateinput%>" <%= (object.generator === cody.Meta.Generator.dateinput) ? 'selected' : '' %>>Date</option>
-              <option value="<%=cody.Meta.Generator.date3input%>" <%= (object.generator === cody.Meta.Generator.date3input) ? 'selected' : '' %>>Day Month Year</option>
-              <option value="<%=cody.Meta.Generator.selectinput%>" <%= (object.generator === cody.Meta.Generator.selectinput) ? 'selected' : '' %>>Popup menu</option>
-              <option value="<%=cody.Meta.Generator.radioinput%>" <%= (object.generator === cody.Meta.Generator.radioinput) ? 'selected' : '' %>>Radio buttons</option>
-              <option value="<%=cody.Meta.Generator.checkboxinput%>" <%= (object.generator === cody.Meta.Generator.checkboxinput) ? 'selected' : '' %>>Check boxes</option>
+              <option value="<%=cody.Meta.Generator.textinput%>" <%= (object.generator === cody.Meta.Generator.textinput) ? 'selected' : '' %>><%= __("Text line")%></option>
+              <option value="<%=cody.Meta.Generator.textareainput%>" <%= (object.generator === cody.Meta.Generator.textareainput) ? 'selected' : '' %>><%= __("Text block")%></option>
+              <option value="<%=cody.Meta.Generator.numberinput%>" <%= (object.generator === cody.Meta.Generator.numberinput) ? 'selected' : '' %>><%= __("Number")%></option>
+              <option value="<%=cody.Meta.Generator.dateinput%>" <%= (object.generator === cody.Meta.Generator.dateinput) ? 'selected' : '' %>><%= __("Date")%></option>
+              <option value="<%=cody.Meta.Generator.date3input%>" <%= (object.generator === cody.Meta.Generator.date3input) ? 'selected' : '' %>><%= __("Day/Month/Year")%></option>
+              <option value="<%=cody.Meta.Generator.selectinput%>" <%= (object.generator === cody.Meta.Generator.selectinput) ? 'selected' : '' %>><%= __("Popup menu")%></option>
+              <option value="<%=cody.Meta.Generator.radioinput%>" <%= (object.generator === cody.Meta.Generator.radioinput) ? 'selected' : '' %>><%= __("Radio buttons")%></option>
+              <option value="<%=cody.Meta.Generator.checkboxinput%>" <%= (object.generator === cody.Meta.Generator.checkboxinput) ? 'selected' : '' %>><%= __("Check boxes")%></option>
             </select>
           </div>
 

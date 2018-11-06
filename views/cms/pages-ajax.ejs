@@ -111,7 +111,7 @@
                     <span><%= c.atom.name %></span>
                   <% } %>
                 <% } else { %>
-                 <span>- none -</span>
+                 <span>- <%= __('None')%> -</span>
                 <% } %>
               </div>
               <div class="actions">
@@ -128,7 +128,7 @@
                   <img src="<%=dynamic%>/images/<%=c.atom.getFileName()%>" />
                   <span><%=c.atom.name%>.<%=c.atom.extention%></span>
                 <% } else { %>
-                  <span>- none -</span>
+                  <span>- <%= __('None')%> -</span>
                 <% } %>
               </div>
               <div class="actions">
@@ -227,7 +227,7 @@
           </select>
 
           <% if (login && (login.level >= 99)) { %>
-            <label for="showcontent">Show</label>
+            <label for="showcontent"><%= __('Show')%></label>
             <select name="showcontent" id="showcontent">
               <%- optionList(cody.Item.showcontentList, page.item.showcontent) %>
             </select>
@@ -258,7 +258,7 @@
 				<button id="doDelete"><%= __('Delete')%></button>
 			<% } %>
 							
-			<span id="last_modif"><%= __('Last Modified')%>: <%= formatDate(page.updated) %></span>
+			<span id="last_modif"><%= __('Modified')%>: <%= formatDate(page.updated) %></span>
 	  </div>
 	  
   </form>

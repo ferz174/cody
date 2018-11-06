@@ -29,7 +29,7 @@ SystemController.prototype.doRequest = function( finish ) {
 
   if (self.isRequest("reload")) {
     self.app.init(function() {
-      self.feedback(true, "System reloaded.");
+      self.feedback(true, "System reloaded");
       finish();
     });
 
@@ -37,7 +37,7 @@ SystemController.prototype.doRequest = function( finish ) {
     self.query("UPDATE cody.websites SET hostname=? WHERE id=?", [this.getParam("hostname"), this.getParam("id")], function (err2, results2) {
       self.doList(function() {
         self.app.init(function() {
-          self.feedback(true, "Parameters saved and system reloaded.");
+          self.feedback(true, "Parameters saved and system reloaded");
           finish();
         });
       });

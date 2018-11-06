@@ -12,7 +12,7 @@
       <div class="clearfix">
         <label for="info"><%= __("Info")%></label>
         <p class="content_text"><%= __("Created")%>: <%= formatDate(atom.created) %> @ <%= formatTime(atom.created) %>
-          <br> <%= __("Last Modified")%>: <%= formatDate(atom.updated) %> @  <%= formatTime(atom.updated) %></p>
+          <br> <%= __("Modified")%>: <%= formatDate(atom.updated) %> @  <%= formatTime(atom.updated) %></p>
       </div>
       
       <% if(atom.extention == '') { %>
@@ -27,7 +27,7 @@
         
         <% if ( ( atom.extention != 'xxx') && ( atom.extention != '---')) { %>
          <div>
-          <label for="extention"><%= __("Extention")%></label>
+          <label for="extention"><%= __("Extension")%></label>
           <input name="extention" id="extention" type="text" value="<%= atom.extention %>" size="4" />
          </div>
         <% } %>
@@ -45,7 +45,7 @@
         
         <div>
           <label for="fileupload"><%= __("Change")%></label>
-          <input id="fileToUpload" type="file" size="30" name="fileToUpload" class="input" onchange='$("#preview").attr("src","")'/>
+          <input id="fileToUpload" type="file" size="30" name="fileToUpload" class="button" onchange='$("#preview").attr("src","")'/>
         </div>  
         
         

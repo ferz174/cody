@@ -74,18 +74,18 @@
 
       <div id="ltabs" class="ui-tabs ui-widget">
         <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-          <li class="ui-state-default ui-corner-top <%= (form_show === "W") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=N" class="ui-tabs-anchor">Waiting</a></li>
-          <li class="ui-state-default ui-corner-top <%= (form_show === "A") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=T" class="ui-tabs-anchor">Approved</a></li>
-          <li class="ui-state-default ui-corner-top <%= (form_show === "R") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=D" class="ui-tabs-anchor">Rejected</a></li>
+          <li class="ui-state-default ui-corner-top <%= (form_show === "W") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=N" class="ui-tabs-anchor"><%= __("Waiting")%></a></li>
+          <li class="ui-state-default ui-corner-top <%= (form_show === "A") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=T" class="ui-tabs-anchor"><%= __("Approved")%></a></li>
+          <li class="ui-state-default ui-corner-top <%= (form_show === "R") ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=page.language%>/comments?request=list&form_show=D" class="ui-tabs-anchor"><%= __("Rejected")%></a></li>
         </ul>
 
         <div id="tree" class="ui-corner-bottom">
           <table>
-            <tr><th colspan=2>Title</th></tr>
+            <tr><th colspan=2><%= __("Title")%></th></tr>
             <tr>
               <!-- demo, moet uit de context komen uiteraard -->
               <td><%= formatDate( new Date() ) %></td>
-              <td>Naam</td>
+              <td><%= __("Naam")%></td>
             </tr>
           </table>
         </div>

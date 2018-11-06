@@ -58,14 +58,14 @@
 					<input name="name" id="name" type="text" value="<%- user.name %>" class="required"/>
 				</div>
 				<div>
-					<label for="username"><%= __("Login")%></label>
+					<label for="username"><%= __("Username")%></label>
 					<input name="username" id="username" type="text" value="<%- user.username %>" class="required" />
 				</div>
 				<div>
 					<label for="password"><%= __("Password")%></label>
 					<input name="password" id="password" type="text" value="" <% if (typeof user.username === "undefined") { %> class="required" <% } %> />
           <% if (user.id > 0) { %>
-            <span><%= __("Leave empty if you don't want to change your password.")%></span>
+            <span><%= __("Leave empty if you don't want to change your password")%></span>
           <% } %>
 				</div>
 				<div>
@@ -83,35 +83,35 @@
 					  <%- optionList(levels, user.level) %>
 					</select>
 				</div>
-        <div>
-          <label for="active"><%= __("Active")%></label>
-          <input name="active" id="activeY" type="radio" value="Y" <%= checked(user.active == 'Y') %> /><label class="choice" for="activeY">Yes</label>
-          <input name="active" id="activeN" type="radio" value="N" <%= checked(user.active != 'Y') %> /><label class="choice" for="activeN">No</label>
-        </div>
-        <div>
-          <label for="badlogins"><%= __("Bad logins")%> </label>
-          <input name="badlogins" id="badlogins" type="text" class="number" value="<%- user.badlogins %>"  class="required number"/>
-          
-          <label for="maxbadlogins"><%= __("Max allowed")%> </label>
-          <input name="maxbadlogins" id="maxbadlogins" type="text" class="number" value="<%- user.maxbadlogins %>"  class="required number"/>
-        </div>
-        <div>
-          <label for="nomail"><%= __("Allows Mail")%> </label>
-          <input name="nomail" id="nomailY" type="radio" value="Y" <%= checked(user.nomail == 'Y') %> /><label class="choice" for="nomailY">No</label>
-          <input name="nomail" id="nomailN" type="radio" value="N" <%= checked(user.nomail != 'Y') %> /><label class="choice" for="nomailN">Yes</label>
-        </div>
+				<div>
+				  <label for="active"><%= __("Active")%></label>
+				  <input name="active" id="activeY" type="radio" value="Y" <%= checked(user.active == 'Y') %> /><label class="choice" for="activeY"><%= __("Yes")%></label>
+				  <input name="active" id="activeN" type="radio" value="N" <%= checked(user.active != 'Y') %> /><label class="choice" for="activeN"><%= __("No")%></label>
+				</div>
+				<div>
+				  <label for="nomail"><%= __("Allows Mail")%> </label>
+				  <input name="nomail" id="nomailN" type="radio" value="N" <%= checked(user.nomail != 'Y') %> /><label class="choice" for="nomailN"><%= __("Yes")%></label>
+				  <input name="nomail" id="nomailY" type="radio" value="Y" <%= checked(user.nomail == 'Y') %> /><label class="choice" for="nomailY"><%= __("No")%></label>
+				</div>
 				<div>
 					<label for="email"><%= __("Email")%></label>
 					<input name="email" id="email" type="text" value="<%- user.email %>"  class="required email"/>
 				</div>
+				<div>
+				  <label for="badlogins"><%= __("Bad logins")%> </label>
+				  <input name="badlogins" id="badlogins" type="text" class="number" value="<%- user.badlogins %>"  class="required number"/>
+				  
+				  <label for="maxbadlogins"><%= __("Max allowed")%> </label>
+				  <input name="maxbadlogins" id="maxbadlogins" type="text" class="number" value="<%- user.maxbadlogins %>"  class="required number"/>
+				</div>
 			</fieldset>
-			<div id="action_buttons">
-				<button id="doSave"><%= __("Save")%></button>
-				<% if (user.id > 0) { %>
-					<button id="doDelete"><%= __("Delete")%></button>
-				<% } %>
-				<button id="doCancel"><%= __("Cancel")%></button>
-		  </div>
+				<div id="action_buttons">
+					<button id="doSave"><%= __("Save")%></button>
+					<% if (user.id > 0) { %>
+						<button id="doDelete"><%= __("Delete")%></button>
+					<% } %>
+					<button id="doCancel"><%= __("Cancel")%></button>
+			  </div>
 		</form>
     <% } %>
       
@@ -123,9 +123,9 @@
 			<button id="doNew"><%= __("New")%></button>
 									
 			<table id="records"> 
-			   <tr> 
-				 <th><%= __("Naam")%></th><th><%= __("Login")%></th><th><%= __("Domain")%></th><th><%= __("Level")%></th><th><%= __("Login")%></th><th><%= __("Email")%></th>
-			   </tr> 
+			   <tr align="center">
+				 <th><%= __("Naam")%></th><th><%= __("Username")%></th><th><%= __("Domain")%></th><th><%= __("Level")%></th><th><%= __("Active")%></th><th><%= __("Email")%></th><th><%= __("Allows Mail")%></th><th><%= __("Bad logins")%></th>
+			   </tr>
 				
 			  <% for (var i=0; i < users.length; i++) { var u = users[i]; %>			  
 					<tr>
@@ -135,8 +135,10 @@
 						<td>
 						  <%= find(levels, u.level).name %>
 						</td> 
-						<td><%= (u.active == 'Y') ? 'active' : '-' %></td> 
-						<td><%= u.email %></td> 
+						<td><%= (u.active == 'Y') ? __("Yes") : __("No") %></td> 
+						<td><%= u.email %></td>
+						<td><%= (u.nomail != 'Y') ? __("Yes") : __("No") %></td>
+						<td><%= u.badlogins %>/<%= u.maxbadlogins %></td>
 					</tr> 
 				<% } %>
 			</table>
