@@ -16,7 +16,7 @@ function LoginController(context) {
 	this.loginView = "-/login.ejs";
 		
 	// URL used when user logs in and no specific page/action was requested before
-	this.loggedInUrl = "/" + (context.page.language || context.app.defaultlanguage) + "/dashboard";
+	this.loggedInUrl = "/" + (context.page.language || context.app.defaultlanguage) + "/9";
 	// URL used when the user request a log out.
 	this.loggedOutUrl = "/" + (context.page.language || context.app.defaultlanguage);
 		
@@ -39,7 +39,7 @@ module.exports = LoginController;
 LoginController.prototype.doRequest = function( finish ) {
   var self = this;
   
-  self.context.fn = this.adminView;
+  self.context.fn = this.loginView;
 		
   if (self.isRequest("")) {
    // request for displaying the login screen

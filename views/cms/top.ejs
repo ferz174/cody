@@ -1,6 +1,6 @@
   <img src="<%=cstatic%>/images/logoMC.png">
   <% if (page.parent && isLoggedIn()) { %>
-    <span id="breadcrumb"><a href="/<%=page.language%>/dashboard"><%= __("Dashboard")%></a> » <%=page.parent.title%></span>
+    <span id="breadcrumb"><a href="/<%=page.language%>/<%=page.root.link%>"><%= __("Dashboard")%></a> » <%=page.parent.title%></span>
   <% } %>
   <section>
     <a href="http://cody-cms.org/en/110" target="_blank"><%= __("Help")%></a>
