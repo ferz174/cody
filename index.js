@@ -29,6 +29,7 @@ module.exports.FormController = require("./controllers/FormController.js");
 module.exports.StylesController = require("./controllers/StylesController.js");
 module.exports.SystemController = require("./controllers/SystemController.js");
 module.exports.TemplateController = require("./controllers/TemplateController.js");
+module.exports.ScanController = require("./controllers/ScanController.js");
 
 module.exports.Static = require("./apps/Static.js");
 module.exports.Dynamic = require("./apps/Dynamic.js");

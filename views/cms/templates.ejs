@@ -173,15 +173,15 @@
 
 			<table id="records">
 			   <tr align="center">
-				 <th><%= __("Name")%></th><th><%= __("Controller")%></th><th><%= __("Render")%></th><th><%= __("System")%></th><th><%= __("Description")%></th>
+				 <th><%= __("System")%></th><th><%= __("Name")%></th><th><%= __("Controller")%></th><th><%= __("Render")%></th><th><%= __("Description")%></th></th>
 			   </tr>
 
 			  <% for (var i in templates) { var t = templates[i]; %>
 					<tr>
+						<td align="center"><img height="15" src="<%=cstatic%>/images/main/<%= (t.system === 'Y') ? "sys_yes" : "sys_no" %>.png"></td>
 						<td class="edit"><a href="./templates?request=edit&amp;id=<%= t.id %>"><%= (t.name==='') ? '--' : t.name %></a></td>
 						<td><%= t.controllerName %></td>
 						<td><%= t.fn %></td>
-						<td><%= (t.system === 'Y') ? __("Yes") : __("No") %></td>
 						<td><%= t.description %></td>
 					</tr>
 				<% } %>

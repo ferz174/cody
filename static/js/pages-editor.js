@@ -78,7 +78,7 @@ function getPage(id) {
    
   $.ajax({
      type: "GET", 
-     url: "/" + gLanguage + "/pages",
+     url: "/" + gLanguage + "/11",
      data: "request=getnode&node=" + id,
      success: function(msg){
        if (msg.substring(0,3) === "NOK") {
@@ -164,7 +164,7 @@ function doDeletor() {
   var theId = article.attr("id");
   
   $.ajax({
-    type: "POST", url: "./pages",
+    type: "POST", url: "./11",
     data: "request=deletecontent&node="+$("#node").val()+"&id=" + theId,
     success: function(msg){
        if (msg.status != "OK") {
@@ -183,7 +183,7 @@ function doAdjust() {
   var node = $("#node").val();
 
   $.ajax({
-    type: "POST", url: "./pages",
+    type: "POST", url: "./11",
     data: "request=adjust&node="+node,
     success: function(msg){
       if (msg.status !== "OK") {
@@ -223,7 +223,7 @@ function selectedContent() {
 
 
   $.ajax({
-  / type: "POST", url: "./pages",
+  / type: "POST", url: "./11",
     data: "request=addcontent&node="+node+"&kind=" + kind,
     success: function(msg){
        if (msg.status !== "OK") {
@@ -356,7 +356,7 @@ function saveEditor(theId) {
      not needed anymore, everything is saved if the user clicks the "Save" button.
 
   $.ajax({
-     type: "POST", url: "./pages",
+     type: "POST", url: "./11",
      data: "request=savecontent&node="+gTree.getCurrentNode()+
              "&id=" + theId +
              "&item=" + $("#node").val() +

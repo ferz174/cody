@@ -24,7 +24,6 @@ function Controller(context) {
   this.app = context.app;
   this.connection = (this.app) ? this.app.getConnection() : undefined;
 
-  // console.log(this.context);
 }
 
 module.exports = Controller;

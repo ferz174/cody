@@ -19,7 +19,7 @@
 	<script>
 	  var gTree;
 		$(document).ready( function() {
-		  gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, "pages", gCody);
+		  gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, "11", gCody);
 		  gTree.getNode = getPage;
       gTree.doAdd = addPage;
       gTree.initNode = initPage;
@@ -28,10 +28,11 @@
 
       // when switching languages, try to keep the same view
       $("#ltabs > ul > li > a").click( function() {
+	 
         window.location = $(this).attr("href") + "?opennode=" + gTree.getOpenNode() + "&shownode=" + gTree.getCurrentNode();
         return false;
       });
-
+	  
       if ("<%=opennode%>" !== "0") {
         gTree.initNode(<%=opennode%>);
       }
@@ -64,7 +65,7 @@
         <div id="ltabs" class="ui-tabs ui-widget">
           <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             <% for (var iL in app.languages) { var L = app.languages[iL]; %>
-              <li class="ui-state-default ui-corner-top <%= (page.language === L.id) ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=L.id%>/pages" class="ui-tabs-anchor"><%=L.id.toUpperCase()%></a></li>
+              <li class="ui-state-default ui-corner-top <%= (page.language === L.id) ? 'ui-tabs-active ui-state-active' : '' %>" ><a href="/<%=L.id%>/11" class="ui-tabs-anchor"><%=L.id.toUpperCase()%></a></li>
             <% } %>
           </ul>
 

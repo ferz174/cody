@@ -239,7 +239,9 @@ Application.doList = function(functionList, finished) {
 Application.prototype.servePage = function(req, res) {
   var self = this;
   var path = new cody.Path(req._parsedUrl.pathname, self.defaultlanguage);
-
+  
+  console.log(req._parsedUrl.pathname);
+  
   var ip = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
@@ -630,7 +632,7 @@ Application.prototype.getPage = function(languageOrLink, itemId) {
 
 Application.prototype.findPage = function(path) {
   var self = this;
-
+	
   // hash based on only language/domain
 
   // if only language is specified (can be the defaultlanguage), serve the welcome/home page

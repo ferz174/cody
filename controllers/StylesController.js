@@ -53,7 +53,7 @@ StylesController.prototype.doRequest = function( finish ) {
                 if(new Array("image/png").indexOf(file.type) < 0){ //TODO: add other formats but convert them
                     self.feedBack(false, "logo-unsupported-format");
                 }else{
-                    var destinationPath = path.join(imagesPath, "logoMC.png");
+                    var destinationPath = path.join(imagesPath, "main/logo.png");
                     ins = fs.createReadStream(file.path);
                     ous = fs.createWriteStream(destinationPath);
                     util.pump(ins, ous, function(err) {

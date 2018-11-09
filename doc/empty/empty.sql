@@ -153,7 +153,7 @@ CREATE TABLE `data` (
 
 LOCK TABLES `data` WRITE;
 INSERT INTO `data` VALUES 
- (1,32,'{\"Titel\":\"\",\"Naam\":\"ikke\",\"e-mail adres\":\"steve.jobs@apple.com\",\"vraag\":\"Ik heb geen vragen!\"}','S','2013-09-10 19:09:39',NULL);
+ (1,32,'{\"Titel\":\"\",\"First Name\":\"ikke\",\"e-mail adres\":\"steve.jobs@apple.com\",\"vraag\":\"Ik heb geen vragen!\"}','S','2013-09-10 19:09:39',NULL);
 UNLOCK TABLES;
 
 

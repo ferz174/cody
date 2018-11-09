@@ -291,7 +291,7 @@ label.kind { display: inline-block; width: 13px; height: 16px; text-align: cente
 
 #records { border-collapse:collapse; text-align: left; margin: 8px 0px 2px 0px; width: 100%;
            box-shadow: 2px 2px 5px lightgrey; -moz-box-shadow: 2px 2px 5px lightgrey; -webkit-box-shadow: 2px 2px 5px lightgrey }
-  #records th { background-color: #99defd; border: solid 1px #cfcfcf; padding: 6px; }
+  #records th { background-color: #99ccff; border: solid 1px #cfcfcf; padding: 6px; }
   #records td { background-color: white; border: solid 1px #cfcfcf; padding: 6px 4px 10px 6px }
   #records .right { text-align: right }
   #records .center { text-align: center }

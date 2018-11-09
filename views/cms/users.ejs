@@ -54,7 +54,7 @@
 
 			<fieldset class="horizontal">
 				<div>
-					<label for="name"><%= __("Name")%></label>
+					<label for="name"><%= __("First Name")%></label>
 					<input name="name" id="name" type="text" value="<%- user.name %>" class="required"/>
 				</div>
 				<div>
@@ -124,21 +124,19 @@
 									
 			<table id="records"> 
 			   <tr align="center">
-				 <th><%= __("Naam")%></th><th><%= __("Username")%></th><th><%= __("Domain")%></th><th><%= __("Level")%></th><th><%= __("Active")%></th><th><%= __("Email")%></th><th><%= __("Allows Mail")%></th><th><%= __("Bad logins")%></th>
+				 <th><%= __("Active")%></th><th><%= __("First Name")%></th><th><%= __("Username")%></th><th><%= __("Domain")%></th><th><%= __("Level")%></th><th><%= __("Email")%></th><th><%= __("Allows Mail")%></th><th><%= __("Bad logins")%></th>
 			   </tr>
 				
 			  <% for (var i=0; i < users.length; i++) { var u = users[i]; %>			  
-					<tr>
+					<tr height="15">
+						<td align="center"><img src="<%=cstatic%>/images/main/<%= (u.active === 'Y') ? "yes" : "no" %>.png"></td>
 						<td class="edit"><a href="/<%=page.url%>/edit/<%= u.id %>"><%= (u.name==='') ? '--' : u.name %></a></td>
 						<td><%= u.username %></td>
 						<td><%= u.domain %></td> 
-						<td>
-						  <%= find(levels, u.level).name %>
-						</td> 
-						<td><%= (u.active == 'Y') ? __("Yes") : __("No") %></td> 
+						<td><%= find(levels, u.level).name %></td> 
 						<td><%= u.email %></td>
-						<td><%= (u.nomail != 'Y') ? __("Yes") : __("No") %></td>
-						<td><%= u.badlogins %>/<%= u.maxbadlogins %></td>
+						<td align="center"><img height="15" src="<%=cstatic%>/images/main/<%= (u.nomail === 'Y') ? "email_no" : "email_yes" %>.png"></td>
+						<td align="right"><%= u.badlogins %>/<%= u.maxbadlogins %></td>
 					</tr> 
 				<% } %>
 			</table>
