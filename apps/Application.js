@@ -39,7 +39,10 @@ function Application(config) {
   this.dbhost = config.dbhost || "localhost";
   this.dbport = config.dbport || 3306;
   this.db = config.db || "cody";
-  this.smtp = config.smtp || "smtp.telenet.be";
+  this.db = config.db || "empty";
+  this.smtp = config.smtp || "smtp.mail.ru";
+  this.smtpssl = config.smtpssl || "587";
+  this.smtppass = config.smtppass || "empty";
   this.smtpoptions = config.smtpoptions; // see https://github.com/andris9/Nodemailer
   this.mailFrom = config.mailFrom || "info@cody-cms.org";
 

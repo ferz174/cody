@@ -300,8 +300,12 @@ Controller.prototype.sendMail = function (pFrom, pTo, pSubject, pText, pHtml, fi
   var options = {
       host: self.context.app.smtp,
       secureConnection: false,
-      port: 25
-    };
+      port: self.context.app.smtpssl,
+      auth: {
+        user: self.context.app.mailFrom,
+        pass: self.context.app.smtppass
+      }
+  };
   // if the smtp-options are defined in the config, use these instead of the older 'separate'/'default' style
   if (typeof self.app.smtpoptions != "undefined") {
     options = self.app.smtpoptions;
