@@ -531,3 +531,8 @@ PageController.prototype.deleteContent = function( theNode, theId, finish ) {
   });
 };
 
+PageController.prototype.test2 = function( ) {
+	var self = this;
+    return "+";
+};
+

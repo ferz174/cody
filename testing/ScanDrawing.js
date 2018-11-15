@@ -28,6 +28,7 @@ module.exports = ScanDrawing;
 //
 
 ScanDrawing.sqlGetScanDrawingList = "select * from scan_drawings";
+ScanDrawing.sqlUpdateScanDrawingList = "UPDATE opro.chzmk_scan_drawings SET ? WHERE ?";
 
 
 ScanDrawing.getScanDrawings = function(controller, store) {
@@ -37,6 +38,15 @@ ScanDrawing.getScanDrawings = function(controller, store) {
   });
 };
 
+ScanDrawing.doUpdate = function(controller, finish) {
+	var self = this;
+	controller.query(ScanDrawing.sqlUpdateScanDrawingList, [arguments[1], arguments[2]], function(err, result) {
+    if (err) { console.log(err); throw(new Error("ScanDrawing.getUsers failed with sql errors")); }
+		console.log("**********GOOD " + self.id+ " >>>>>>>>>>>  "+ arguments[1] + "   =====   "+ arguments[2]);
+	});
+    //console.log("**********update scan_drawings " + self.id+ " >>>>>>>>>>>  "+ arguments[1] + "   =====   "+ arguments[2]);
+    
+};
 
 // 
 // instance methods
