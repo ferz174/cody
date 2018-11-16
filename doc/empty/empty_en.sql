@@ -15,7 +15,7 @@ CREATE TABLE `atoms` (
 ) AUTO_INCREMENT=200 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `atoms` WRITE;
-INSERT INTO `atoms` VALUES
+INSERT INTO `atoms` VALUES 
 (1,0,10,'Images','','','2012-01-01 00:00:00','2013-11-02 18:28:10'),
 (2,0,20,'Files','','','2012-07-09 14:18:36','2012-07-09 14:18:36'),
 (3,0,20,'Forms','','','2012-07-09 14:18:36','2012-07-09 14:18:36'),
@@ -60,7 +60,7 @@ CREATE TABLE `content` (
 
 
 LOCK TABLES `content` WRITE;
-INSERT INTO `content` VALUES
+INSERT INTO `content` VALUES 
 (1,97,'nl',10,'N','T',0,'','<p><span>Cody draagt zorg voor uw privacy. Lees deze Privacyverklaring om meer te weten te komen over de manier waarop persoonsgegevens worden ingezameld en verwerkt op deze website. In dit geval handelt Cody Howest daarbij steeds in overeenstemming met de bepalingen van de Belgische privacywet (Wet van 8 december 1992 tot bescherming van de persoonlijke levenssfeer ten opzichte van de verwerking van persoonsgegevens). De persoonlijke gegevens beperken zich enkel tot uw e-mailadres.</span></p>\n<p><span><strong>Verantwoordelijke</strong></span></p>\n<p><span>De verantwoordelijke voor de verwerking is Cody Howest; Rijselstraat 5, 8000 Brugge.</span></p>\n<p><span><strong>Kennisname</strong></span></p>\n<p><span>U kan van deze persoonsgegevens kennis nemen door een aanvraag te richten aan Cody Howest</span><span>(brief, fax of e-mail) en ze, indien nodig, doen verbeteren of verwijderen. Indien u niet gecontacteerd wenst te worden in het kader van email marketing, zullen uw gegevens op uw verzoek kosteloos uit de betrokken lijsten worden</span></p>\n<p><span><strong>Cookies</strong></span></p>\n<p><span>Wij gebruiken cookies om uw toekomstig bezoek aan onze site vlotter te laten verlopen. Een cookie is een klein stukje tekst dat op uw harde schijf wordt geplaatst. Cookies worden veel gebruikt om een hoger functionaliteit, en dus betere dienst, aan de bezoekers te kunnen aanbieden. [U kan het gebruik van cookies uitschakelen, al leidt dit er wel toe dat effecten opsommen die ten gevolge van het uitschakelen van cookies worden veroorzaakt.]</span></p>\n<p><span><strong>Veiligheid</strong></span></p>\n<p><span>Cody Howest verbindt zich ertoe om al de gepaste technische en organisatorische maatregelen te treffen om uw persoonsgegevens te beschermen tegen vernietiging, verlies, onbedoelde wijziging, beschadiging of openbaarmaking.</span></p>\n<p><span><strong>Toestemming</strong></span></p>\n<p><span>Door u akkoord te verklaren met deze voorwaarden en condities geeft u ook uw toestemming voor de verwerking van uw persoonsgegevens voor de doeleinden zoals hierboven beschreven.</span></p>'),
 (2,98,'nl',10,'N','T',0,'','<p><span>Door gebruik te maken van deze website verklaart u zich akkoord met onderstaande voorwaarden en condities.</span></p>\n<p><span><strong>1. Website</strong></span></p>\n<p>De eigenaar van deze website is&nbsp;<br /> Cody Howest,<br /> Rijselstraat 5<br /> 8000, Brugge,&nbsp;<br /> Belgi&euml;<br /> Tel: 32(0)50 xx,&nbsp;<br /> E-mail: info@howest.be&nbsp;<br />ON: xx</p>\n<p><span>Als u niet akkoord gaat met onderstaande voorwaarden wordt u verzocht de website te verlaten. Cody behoudt zich het recht voor deze voorwaarden periodisch aan te passen waarna de leden op de hoogte zullen worden gebracht van deze wijzigingen. Wanneer u na deze kennisgeving de website blijft gebruiken verklaart u zich akkoord met de doorgevoerde wijzigingen. Cody Howest&nbsp; kan eventueel andere diensten aanbieden aan de gebruikers van deze site. In dat geval zullen de geldende voorwaarden apart worden medegedeeld.</span></p>\n<p><span><strong>2. Toegankelijkheid</strong></span></p>\n<p><span>Cody Howest&nbsp; probeert zo goed als mogelijk de website 24 uur per dag toegankelijk te houden, nochtans kan het gebeuren dat de website ontoegankelijk is voor een korte periode omwille van onderhoudswerken, aanpassingen of technische redenen.</span></p>\n<p><span><strong>3. Verantwoordelijkheid</strong></span></p>\n<p><span>Cody Howest weerlegt elke verantwoordelijkheid met betrekking tot deze website en de aangeboden informatie. Cody Howest&nbsp; verzekert niet dat de informatie op deze website correct, compleet of actueel is. Alle informatie, producten en diensten op deze website kunnen fouten bevatten. De gebruiker wordt verzocht hiermee rekening te houden.</span></p>\n<div><span><br /></span></div>'),
 (7,1,'nl',10,'Y','S',0,'phone','0491-797204'),
@@ -152,8 +152,8 @@ CREATE TABLE `data` (
 
 
 LOCK TABLES `data` WRITE;
-INSERT INTO `data` VALUES
-(1,32,'{\"Titel\":\"\",\"First Name\":\"ikke\",\"e-mail adres\":\"steve.jobs@apple.com\",\"vraag\":\"Ik heb geen vragen!\"}','S','2013-09-10 19:09:39',NULL);
+INSERT INTO `data` VALUES 
+ (1,32,'{\"Titel\":\"\",\"First Name\":\"ikke\",\"e-mail adres\":\"steve.jobs@apple.com\",\"vraag\":\"Ik heb geen vragen!\"}','S','2013-09-10 19:09:39',NULL);
 UNLOCK TABLES;
 
 
@@ -166,10 +166,10 @@ CREATE TABLE `domains` (
 
 
 LOCK TABLES `domains` WRITE;
-INSERT INTO `domains` VALUES
-('admin','Admin'),
-('cms','CMS Users'),
-('user','Users');
+INSERT INTO `domains` VALUES 
+ ('admin','Admin'),
+ ('cms','CMS Users'),
+ ('user','Users');
 UNLOCK TABLES;
 
 
@@ -196,9 +196,9 @@ CREATE TABLE `items` (
 
 
 LOCK TABLES `items` WRITE;
-INSERT INTO `items` VALUES
+INSERT INTO `items` VALUES 
 (1,'Website',-1,1,100,'M',100,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','S',NULL,'list',''),
-(2,'Login',10,1,2,'A',70,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','Y','N','',''),
+(2,'Login',3,1,2,'A',99,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','Y','N','',''),
 (3,'Pages',-1,1,100,'M',0,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','Y','Y','',''),
 (4,'Footer',-1,1,100,'M',0,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','Y','Y','',''),
 (9,'Dashboard',-1,1,9,'M',0,'2010-01-01','2010-01-01 00:00:00','2100-01-01 00:00:00','Y','Y','',''),
@@ -221,8 +221,8 @@ INSERT INTO `items` VALUES
 (103,'Page1',1,1,100,'A',20,'2013-07-11','2013-07-11 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
 (153,'page3 in map',102,1,100,'M',30,'2013-09-09','2013-09-09 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
 (105,'page2 in map',102,1,100,'A',20,'2013-07-11','2013-07-11 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
-(106,'Contact Us',1,1,100,'A',60,'2013-09-07','2013-09-07 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
-(147,'Intros',1,1,103,'M',50,'2013-09-08','2013-09-08 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
+(106,'Contact Us',1,1,100,'A',70,'2013-09-07','2013-09-07 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
+(147,'Intros',1,1,103,'M',60,'2013-09-08','2013-09-08 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
 (148,'subpage 1',147,1,100,'M',10,'2013-09-08','2013-09-08 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
 (149,'subpage 2',147,1,100,'M',20,'2013-09-08','2013-09-08 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
 (150,'page1 in map',102,1,100,'A',10,'2013-09-08','2013-09-08 00:00:00','2101-01-31 00:00:00','Y',NULL,'list',''),
@@ -244,10 +244,9 @@ CREATE TABLE `languages` (
 ) DEFAULT CHARSET=utf8;
 
 LOCK TABLES `languages` WRITE;
-INSERT INTO `languages` VALUES
-('en','English',2),
-('nl','Neth.',3),
-('ru','Russia',1);
+INSERT INTO `languages` VALUES 
+ ('en','English',1),
+ ('nl','Nederlands',2);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `levels`;
@@ -258,10 +257,10 @@ CREATE TABLE `levels` (
 
 
 LOCK TABLES `levels` WRITE;
-INSERT INTO `levels` VALUES
-(2,'user'),
-(50,'admin'),
-(99,'superuser');
+INSERT INTO `levels` VALUES 
+ (2,'user'),
+ (50,'admin'),
+ (99,'super');
 UNLOCK TABLES;
 
 
@@ -280,7 +279,7 @@ CREATE TABLE `pages` (
 ) DEFAULT CHARSET=utf8;
 
 LOCK TABLES `pages` WRITE;
-INSERT INTO `pages` VALUES
+INSERT INTO `pages` VALUES 
 (1,'nl','Your site','welcome','Y','','','2010-01-01 00:00:00','2014-09-03 11:08:24'),
 (2,'nl','Login','login','Y','','','2010-01-01 00:00:00','2010-01-01 00:00:00'),
 (3,'nl','Pages','','Y','','','2010-01-01 00:00:00','2010-01-01 00:00:00'),
@@ -352,41 +351,7 @@ INSERT INTO `pages` VALUES
 (154,'en','11 sept 13','11sep2013','Y','','','2013-09-30 19:41:31','2013-10-01 22:43:01'),
 (155,'en','28 sept 13','28sep2013','Y','','','2013-09-30 19:43:20','2013-10-20 23:30:55'),
 (156,'en','02 nov 13','02nov2013','Y','','','2013-11-02 17:59:36','2013-11-02 18:34:12'),
-(157,'en','11 dec 13','','Y','','','2013-12-06 22:04:00','2013-12-06 22:11:13'),
-
-(1,'ru','Приветствие','welcome','Y','','','2010-01-01 00:00:00','2014-09-03 11:08:14'),
-(2,'ru','Авторизация','login','Y','','','2010-01-01 00:00:00','2018-11-08 09:23:23'),
-(3,'ru','Страницы','','Y','','','2010-01-01 00:00:00','2018-11-08 16:02:56'),
-(4,'ru','Нижний колонтитул','','Y','','','2010-01-01 00:00:00','2010-01-01 00:00:00'),
-(9,'ru','Панель управления','dashboard','Y','','','2010-01-01 00:00:00','2018-11-08 14:37:38'),
-(10,'ru','Администрирование','administration','Y','','','2010-01-01 00:00:00','2018-11-08 09:25:34'),
-(11,'ru','Структура','structure','Y','','','2010-01-01 00:00:00','2018-11-08 16:58:50'),
-(12,'ru','Изображения','images','Y','','','2010-01-01 00:00:00','2018-11-08 14:28:14'),
-(13,'ru','Файлы','files','Y','','','2010-01-01 00:00:00','2018-11-08 14:32:09'),
-(14,'ru','Формы','forms','Y','','','2010-01-01 00:00:00','2018-11-08 14:32:14'),
-(15,'ru','Пользователи','users','Y','','','2010-01-01 00:00:00','2018-11-08 14:32:21'),
-(16,'ru','Шаблоны','templates','Y','','','2010-01-01 00:00:00','2018-11-08 14:32:27'),
-(20,'ru','Управление','management','Y','','','2010-01-01 00:00:00','2018-11-08 14:37:28'),
-(21,'ru','Формы','data','Y','','','2010-01-01 00:00:00','2018-11-08 09:23:42'),
-(22,'ru','Комментарии','comments','Y','','','2010-01-01 00:00:00','2018-11-08 09:23:59'),
-(97,'ru','Privacy Declaration','privacy','Y','','','2010-01-01 00:00:00','2013-03-19 09:30:30'),
-(98,'ru','Disclaimer','disclaimer','Y','','','2010-01-01 00:00:00','2012-08-20 17:09:50'),
-(99,'ru','Главная','main','Y','','','2010-01-01 00:00:00','2018-11-09 12:37:20'),
-(102,'ru','Map1','officiele_documrutru','Y','','','2013-07-11 16:00:40','2014-09-03 10:23:12'),
-(103,'ru','Page1','page1','Y','','','2013-07-11 16:00:47','2018-11-08 15:21:50'),
-(105,'ru','page2 in map','stats','Y','','','2013-07-11 16:40:43','2014-09-03 10:23:54'),
-(106,'ru','Contact Us','contact','Y','','','2013-09-07 21:19:10','2014-09-03 10:23:22'),
-(147,'ru','Intros','','Y','','','2013-09-08 16:23:37','2014-09-03 10:23:18'),
-(148,'ru','subpage 1','','Y','','','2013-09-08 16:25:28','2014-09-03 10:23:33'),
-(149,'ru','subpage 2','','Y','','','2013-09-08 16:25:44','2014-09-03 10:23:37'),
-(150,'ru','page1 in map','','Y','','','2013-09-08 16:31:22','2014-09-03 10:24:07'),
-(151,'ru','Page2','page2','Y','','','2013-09-08 16:40:07','2014-09-03 10:23:07'),
-(152,'ru','News','news','Y','','','2013-09-08 16:41:58','2014-09-03 10:22:50'),
-(153,'ru','page3 in map','conditions','Y','','','2013-09-09 15:14:51','2014-09-03 10:24:01'),
-(154,'ru','11 sept 13','11sep2013','Y','','','2013-09-30 19:41:31','2013-10-01 22:43:01'),
-(155,'ru','28 sept 13','28sep2013','Y','','','2013-09-30 19:43:20','2013-10-20 23:30:55'),
-(156,'ru','02 nov 13','02nov2013','Y','','','2013-11-02 17:59:36','2013-11-02 18:34:12'),
-(157,'ru','11 dec 13','','Y','','','2013-12-06 22:04:00','2013-12-06 22:11:13');
+(157,'en','11 dec 13','','Y','','','2013-12-06 22:04:00','2013-12-06 22:11:13');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `templates`;
@@ -406,20 +371,20 @@ CREATE TABLE `templates` (
 
 
 LOCK TABLES `templates` WRITE;
-INSERT INTO `templates` VALUES
-(2,'login','Авторизация','LoginController','-/login.ejs','',0,'Y',0),
-(9,'dashboard','Панель управления','DashboardController','-/cms/dashboard.ejs','',0,'Y',0),
-(11,'structure','Управление структурой, схемой сайта','PageController','-/cms/pages.ejs','',0,'Y',0),
-(12,'images','Управление изображениями','ImageController','-/cms/images.ejs','',0,'Y',0),
-(13,'files','Управление файлами','FileController','-/cms/files.ejs','',0,'Y',0),
-(14,'forms','Управление формами','FormController','-/cms/forms.ejs','',0,'Y',0),
-(15,'users','Управление пользователями','UserController','-/cms/users.ejs','',0,'Y',0),
-(16,'templates','Управление обработчиками и представлениями страниц','TemplateController','-/cms/templates.ejs','',0,'Y',0),
-(18,'email','Управление сообщениями, электронными письмами','FormDataController','-/cms/forms-list.ejs','',0,'Y',0),
-(19,'comments','Управление комментариями','Controller','-/cms/comments.ejs','',0,'Y',0),
+INSERT INTO `templates` VALUES 
+(2,'Login','','LoginController','-/login.ejs','',0,'Y',0),
+(9,'Dashboard','','DashboardController','-/cms/dashboard.ejs','',0,'Y',0),
+(11,'CMS-Page','','PageController','-/cms/pages.ejs','',0,'Y',0),
+(12,'CMS-Images','','ImageController','-/cms/images.ejs','',0,'Y',0),
+(13,'CMS-Files','','FileController','-/cms/files.ejs','',0,'Y',0),
+(14,'CMS-Forms','','FormController','-/cms/forms.ejs','',0,'Y',0),
+(15,'CMS-Users','','UserController','-/cms/users.ejs','',0,'Y',0),
+(16,'CMS-Templates','','TemplateController','-/cms/templates.ejs','',0,'Y',0),
+(18,'Admin-Forms','Incoming data from forms','FormDataController','-/cms/forms-list.ejs','',0,'Y',0),
+(19,'Admin-Comments','View approve, edit or trash comments','Controller','-/cms/comments.ejs','',0,'Y',0),
 
-(100,'content','Управление материалами','Controller','index.ejs','',999,'N',100),
-(103,'categories','Управление категориями','Controller','intros.ejs','',0,'N',0),
+(100,'Content','','Controller','index.ejs','',999,'N',100),
+(103,'With intros','Displays also all intro content of the pages below','Controller','intros.ejs','',0,'N',0),
 
 (106,'CMS-Styles','','StylesController','-/cms/styles.ejs','',0,'Y',0);
 UNLOCK TABLES;
@@ -446,9 +411,9 @@ CREATE TABLE `users` (
 
 
 LOCK TABLES `users` WRITE;
-INSERT INTO `users` VALUES
-(1,'root','root',password("empty"),'admins',99,0,99,'Y','info@mysite.com','','N',0),
-(2,'admin','admin',password("empty"),'admins',50,0,99,'Y','info@mysite.com','','N',0),
-(3,'test','admin-test',password("empty"),'admins',50,0,99,'Y','info@mysite.com','','N',0),
-(11,'user','user-test',password("empty"),'users',2,0,99,'N','info@mysite.com','','N',10);
+INSERT INTO `users` VALUES 
+(1,'super','rWorks Super',password("empty"),'rWorks',99,0,99,'Y','info@mysite.com','','N',0),
+(2,'admin','rWorks Admin',password("empty"),'rWorks',50,0,99,'Y','info@mysite.com','','N',0),
+(3,'test','rWorks Test',password("empty"),'rWorks',2,0,99,'Y','info@mysite.com','','N',0),
+(11,'user','Mr. Owner User',password("empty"),'users', 50,0,99,'Y','info@mysite.com','','N',10);
 UNLOCK TABLES;

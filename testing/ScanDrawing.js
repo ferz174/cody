@@ -42,7 +42,8 @@ ScanDrawing.doUpdate = function(controller, finish) {
 	var self = this;
 	controller.query(ScanDrawing.sqlUpdateScanDrawingList, [arguments[1], arguments[2]], function(err, result) {
     if (err) { console.log(err); throw(new Error("ScanDrawing.getUsers failed with sql errors")); }
-		console.log("**********GOOD " + self.id+ " >>>>>>>>>>>  "+ arguments[1] + "   =====   "+ arguments[2]);
+		console.log("**********GOOD " + self.id+ " >>>>>>>>>>>  "+ arguments[1].recognize + "   =====   "+ arguments[2]);
+		console.log("GOOD >> " + result);
 	});
     //console.log("**********update scan_drawings " + self.id+ " >>>>>>>>>>>  "+ arguments[1] + "   =====   "+ arguments[2]);
     

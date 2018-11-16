@@ -142,8 +142,8 @@ rl.question("\n1) Enter projectname: ", function (sitename) {
                             dbpassword: dbpass,
                             dbhost: dbhost,
                             smtp: "smtpmailer."+hostname,
-                            version: "V0.1",
-                            defaultlanguage: "en",
+                            version: "v 3.0",
+                            defaultlanguage: "ru",
                             datapath: "/usr/local/data/"+sitename,
                             port: 3001
                           }));
