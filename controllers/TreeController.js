@@ -118,10 +118,9 @@ TreeController.prototype.doRequest = function( finish ) {
     
   } else if (self.isRequest("getnode")) {
     // get all info and data on this node
-    this.fetchNode( self.getParam("node"), function() {
+    this.fetchNode( self.getParam("node"), function() {		
       finish( self.context.fn.replace(".ejs", "-ajax.ejs") );
-    });
-        
+    });        
     
   } else if (self.isRequest("save")) {
     // save all info on this node (done by a submit, so we need to redraw the screen, too bad)

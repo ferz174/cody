@@ -27,6 +27,12 @@ function Item(basis, app) {
   
   // add a 'parentId' for consistency
   //  this.parent will be replaced once all items are created in 'pickParent'
+  
+  
+  console.log("================================================================1");
+    console.log(cody.server.init);
+  console.log("================================================================2");
+  
   this.parentId = this.parent;
 }
 

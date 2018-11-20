@@ -71,14 +71,12 @@ function selectedTemplate() {
 }
 
 
-function getPage(id) {
+function getPage(id, theService) {
   var self = this;
-  
-  hideEditor();
-   
+  hideEditor();   
   $.ajax({
      type: "GET", 
-     url: "/" + gLanguage + "/11",
+     url: "/" + gLanguage + "/"+  theService,
      data: "request=getnode&node=" + id,
      success: function(msg){
        if (msg.substring(0,3) === "NOK") {
@@ -103,6 +101,7 @@ function initPage(id) {
 
   self.currentNode = id;
   self.openNode = id;
+  
   $("#newContentForm #node").val(id);
 
   $("#tabs").tabs().removeClass("ui-widget-content").removeClass("ui-corner-all");
@@ -164,7 +163,7 @@ function doDeletor() {
   var theId = article.attr("id");
   
   $.ajax({
-    type: "POST", url: "./11",
+    type: "POST", url: $(this)[0].form.attributes.action.value,
     data: "request=deletecontent&node="+$("#node").val()+"&id=" + theId,
     success: function(msg){
        if (msg.status != "OK") {
@@ -181,9 +180,8 @@ function doDeletor() {
 
 function doAdjust() {
   var node = $("#node").val();
-
   $.ajax({
-    type: "POST", url: "./11",
+    type: "POST", url: $(this)[0].form.attributes.action.value,
     data: "request=adjust&node="+node,
     success: function(msg){
       if (msg.status !== "OK") {

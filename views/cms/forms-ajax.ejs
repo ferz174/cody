@@ -98,7 +98,7 @@
 
 <div id="content_data">
 
-  <form action="./forms" method="post" class="clearfix" name="onepage" id="onepage" enctype="multipart/form-data">
+  <form action="./<%= page.link %>" method="post"  class="clearfix" name="onepage" id="onepage" enctype="multipart/form-data">
     <input type="hidden" name="request" id="request" value="save" />
     <input type="hidden" name="node" value="<%= atom.id %>" />
     <input type="hidden" name="extention" value="<%= atom.extention %>" />

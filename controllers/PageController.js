@@ -35,13 +35,12 @@ PageController.prototype = Object.create( cody.TreeController.prototype );
 
 module.exports = PageController;
 
-
-
 PageController.prototype.doRequest = function( finish ) {
   var self = this;
 
   self.context.opennode = "0";
-  self.context.shownode = "0";
+  self.context.shownode = "0"; 
+  self.context.pageparent = self.context.page.itemId;
   
   if (self.isRequest("realdelete")) {
     self.realDelete( self.getParam("node"), function whenDone(result) {
@@ -62,7 +61,7 @@ PageController.prototype.doRequest = function( finish ) {
     });
 
     
-  } else if (self.isRequest("deletecontent")) {
+  } else if (self.isRequest("deletecontent")) { 
     self.deleteContent( self.getParam("node"), self.getParam("id"), function() {
       finish( { status: "OK" } );
     });
@@ -396,15 +395,15 @@ PageController.prototype.deleteObject = function( nodeId, finish ) {
 
 PageController.prototype.fetchNode = function( theNode, finish ) {
   var self = this;
-  
+  var pageparent = self.context.page.itemId; 
   var aPage = self.getObject( cody.TreeController.toId(theNode) );
   if (! self.isAllowed(aPage)) {
     this.gen("NAL,User is not allowed to edit this page with id = " + theNode, { "Content-Type": "application/html" });
     return;
   }
-  
   // just switch the page in our current context and we're done ??
   self.context.page = aPage;
+  self.context.pageparent = pageparent;
   
   //TODO: get all the (main) content blocks connected to this page
   // for the moment they are all there from startup

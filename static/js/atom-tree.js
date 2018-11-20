@@ -22,6 +22,8 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
   this.pleaseOpen = undefined;
   this.rootId = "id_"+theRoot;
   this.nextType = "";
+  //this.theService = theService;
+
 
 
   this.warnUser = function(message) {
@@ -53,6 +55,7 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
             self.warnUser("You are not allowed to edit this node, sorry.");
 
           } else {
+			  
             $("#right_cont").html(msg).show();
 
             self.initNode(id);
@@ -148,11 +151,10 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
   this.doEdit = function(aNode) {
     var self = this;
     var t = $("#tree").jstree("get_selected");
-
     if (aNode) {
-      self.getNode(aNode);
+      self.getNode(aNode, theService);
     } else if (t) {
-      self.getNode(t.attr("id"));
+      self.getNode(t.attr("id"), theService);
     } else {
       self.warnUser("Please select an item to edit first");
     }
@@ -315,7 +317,7 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
     .bind("select_node.jstree", function (e, data) {
       // console.log("Tree - select");
       var nodeId = $(data.args[0]).parent().attr("id");
-      if (self.currentNode === nodeId) {
+      if (self.currentNode === nodeId) {		
         self.doEdit();
       } else if (typeof nodeId !== "undefined") {
         self.currentNode = nodeId;

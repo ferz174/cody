@@ -48,7 +48,7 @@
     <div>
 	
     <% if (typeof user != "undefined") { %>
-		<form action="./users" method="post" id="record">
+		<form action="./<%=page.link%>" method="post" id="record">
    			<input type="hidden" name="request" id="request" value="save" /> 
    			<input type="hidden" name="id" value="<%- user.id %>" /> 
 
@@ -117,7 +117,7 @@
       
       
     <% if (typeof users != "undefined") { %>
-    <form action="./users" method="post" id="search">
+    <form action="./<%=page.link%>" method="post" id="search">
  	   	<input type="hidden" name="request" id="request" value="list" /> 
  	   	<!--TODO: add  search button + input field -->
 			<button id="doNew"><%= __("New")%></button>
