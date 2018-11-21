@@ -31,7 +31,7 @@
 	"Domain": "Группа",
 	"OK": "ОК",
 	"Add": "Добавить",
-	"Rename": "Наименование",
+	"Rename": "Новое имя",
 	"Edit": "Изменить",
 	"Website": "Сайт",
 	"Pages": "Страницы",
@@ -159,5 +159,16 @@
 	"Add facebook like": "Add facebook like",
 	"Add facebook share": "Add facebook share",
 	"Test mail": "Test mail",
-	"Sent 0 mails": "Sent 0 mails"
+	"Sent 0 mails": "Sent 0 mails",
+	"Document Number": "Номер документа",
+	"Document Name": "Название документа",
+	"failed to save the data": "failed to save the data",
+	"Content item": "Содержимое пункта",
+	"First subitem": "Содержимое подпункта",
+	"All subitems": "Содержимое всех подпунктов",
+	"Don't show subitems": "Не показывать подпункты",
+	"Lightbox (not yet implemented)": "Лайтбоксы (в разработке)",
+	"Alphabetical": "Алфавитный",
+	"Chronological": "Хронологический",
+	"New item": "Новый"
 }

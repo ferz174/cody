@@ -28,7 +28,7 @@ module.exports = ScanDrawing;
 //
 
 ScanDrawing.sqlGetScanDrawingList = "select * from scan_drawings";
-ScanDrawing.sqlUpdateScanDrawingList = "UPDATE opro.chzmk_scan_drawings SET ? WHERE ?";
+ScanDrawing.sqlUpdateScanDrawingList = "UPDATE constructures.scan_drawings SET ? WHERE ?";
 
 
 ScanDrawing.getScanDrawings = function(controller, store) {

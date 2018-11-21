@@ -17,7 +17,7 @@ var codywd = rootwd + "/node_modules/cody";
 var mkdir = function (dir) {
   // making directory without exception if exists
   try {
-    fs.mkdirSync(dir, 0755);
+    fs.mkdirSync(dir, 0775);
   } catch (e) {
     if (e.code !== "EEXIST") {
       throw e;
@@ -81,108 +81,123 @@ console.log("\nCreating project in ", rootwd + "/");
 
 rl.question("\n1) Enter projectname: ", function (sitename) {
   console.log("Note: also using " + sitename + " as database name.");
-  console.log("Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html");
+  console.log("Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password");
+  console.log("http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html");
   
   rl.question("\n2) Enter root password for mysql so we can create a new database and user: ", function (dbrootpw) {
     
-    rl.question("\n3) Enter site database user: ", function (dbuser) {
+    rl.question("\n3) Enter site database user ("+sitename+"): ", function (dbuser) {
+		dbuser = dbuser || sitename;
       
-      rl.question("\n4) Enter site database password: ", function (dbpass) {
+      rl.question("\n4) Enter site database password ("+dbrootpw+"): ", function (dbpass) {
+		  dbpass = dbpass || dbrootpw;
 
-        rl.question("\n5) Enter dbhost for db: ", function (dbhost) {
+        rl.question("\n5) Enter dbhost for db (localhost): ", function (dbhost) {
+			dbhost = dbhost || "localhost";
              
-          rl.question("\n6) Enter hostname for site: ", function (hostname) {
-          var con = mysql.createConnection({
-            host: dbhost,
-            user: dbuser,
-            password: dbpass,
-            multipleStatements: true
-          });
+          rl.question("\n6) Enter hostname for site ("+sitename+"): ", function (hostname) {
+			hostname = hostname || sitename;
+			var con = mysql.createConnection({
+				host: dbhost,
+				user: "root",
+				password: dbrootpw,
+				multipleStatements: true
+			});
 
-          rl.question("\n7) Enter a location for storing documents: ", function (datadir) {
-          
-            console.log("dbhost is "+dbhost);
-            con.connect();
-            con.query("create database " + sitename + " default charset utf8", function (err) {
-              if (err) console.log(err);
-              con.query("grant all on " + sitename + ".* to '" + dbuser + "'@'%' identified by '" + dbpass + "'", function (err) {
-                if (err) console.log(err);
+			  rl.question("\n7) Enter port for site (3001): ", function (siteport) {
+				  siteport = siteport || "3001";
+				  
+				rl.question("\n8) Enter language for site (default: en, or | nl | ru | zh |): ", function (language) {
+					language = language || "en"
+				  
+				  rl.question("\n9) Enter a location for storing documents ("+rootwd+"): ", function (datadir) {
+					  datadir = datadir || rootwd;
+				  
+					console.log("dbhost is "+dbhost);
+					con.connect();
+					con.query("create database " + sitename + " default charset utf8", function (err) {
+					  if (err) console.log(err);
+					  con.query("grant all on " + sitename + ".* to '" + dbuser + "'@'%' identified by '" + dbpass + "'", function (err) {
+						if (err) console.log(err);
 
-                con.query("grant all on " + sitename + ".* to '" + dbuser +"'@'"+ dbhost + " identified by '" + dbpass + "'", function (err) {
-                  if (err) console.log(err);
+						con.query("grant all on " + sitename + ".* to '" + dbuser +"'@'"+ dbhost + "' identified by '" + dbpass + "'", function (err) {
+						  if (err) console.log(err);
 
-                  con.end();
-                  con = mysql.createConnection({
-                    host: dbhost,
-                    user: dbuser,
-                    database: sitename,
-                    password: dbpass,
-                    multipleStatements: true
-                  });
-                  console.log("dbhost is "+dbhost);
-                  con.connect();
+						  con.end();
+						  con = mysql.createConnection({
+							host: dbhost,
+							user: dbuser,
+							database: sitename,
+							password: dbpass,
+							multipleStatements: true
+						  });
+						  console.log("dbhost is "+dbhost);
+						  con.connect();
 
-                  mkdir(path.join(rootwd, sitename));
-                    fs.readdirSync(codywd + "/doc/empty").forEach(function (src) {
-                      copyRecursiveSync(path.join(codywd,"doc","empty", src), path.join(rootwd, sitename , src));
-                    });
+						  mkdir(path.join(rootwd, sitename));
+							fs.readdirSync(codywd + "/doc/empty").forEach(function (src) {
+							  copyRecursiveSync(path.join(codywd,"doc","empty", src), path.join(rootwd, sitename , src));
+							});
 
-                    fs.readFile(path.join(rootwd, sitename, "empty.sql"), function (err, initstatements) {
-                      if (err) throw err;
+							fs.readFile(path.join(rootwd, sitename, "empty.sql"), function (err, initstatements) {
+							  if (err) throw err;
 
-                      con.query(initstatements.toString(), function (err) {
-                        if (err) throw err;
+							  con.query(initstatements.toString(), function (err) {
+								if (err) throw err;
 
-                        fs.writeFileSync(path.join(rootwd, sitename, "config.json"), JSON.stringify(
-                          { name: sitename,
-                            mailFrom: "info@"+hostname,
-                            hostnames:"localhost,"+hostname,
-                            db: sitename,
-                            dbuser: dbuser,
-                            dbpassword: dbpass,
-                            dbhost: dbhost,
-                            smtp: "smtpmailer."+hostname,
-                            version: "v 3.0",
-                            defaultlanguage: "ru",
-                            datapath: "/usr/local/data/"+sitename,
-                            port: 3001
-                          }));
-                        copy(path.join(rootwd, sitename, "index.js"), path.join(rootwd, sitename+".js"));
-                        fs.unlinkSync(path.join(rootwd, sitename, "index.js"));
-
-
-                        mkdir(datadir);
-                        mkdir(path.join(datadir,sitename));
-                        console.log("created "+datadir+"/"+sitename+"/");
-                        mkdir(path.join(datadir,sitename,"images"));
-                        console.log("created "+datadir+"/"+sitename+"/images");
-                        mkdir(path.join(datadir,sitename,"files"));
-                        console.log("created "+datadir+"/"+sitename+"/files");
+								fs.writeFileSync(path.join(rootwd, sitename, "config.json"), JSON.stringify(
+								  {
+										name: sitename,
+										mailFrom: "info@"+hostname,
+										hostnames:"localhost,"+hostname,
+										db: sitename,
+										dbuser: dbuser,
+										dbpassword: dbpass,
+										dbhost: dbhost,
+										smtp: "smtpmailer."+hostname,
+										version: "v 3.0",
+										defaultlanguage: language,
+										datapath: datadir+"/"+sitename,
+										port: siteport
+								  }));
+								copy(path.join(rootwd, sitename, "index.js"), path.join(rootwd, sitename+".js"));
+								fs.unlinkSync(path.join(rootwd, sitename, "index.js"));
 
 
-                        console.log("---")
-                        console.log("Site '" + sitename + "' has been prepared.\n")
-                        console.log("Please create DNS entries, or add to /etc/hosts:");
-                        console.log("127.0.0.1     " + hostname);
-                        console.log("Also check index.js and config.json to fine-tune extra parameters, encryption key, ...");
-                        console.log("---")
-                        console.log("Start your site using:");
-                        console.log("$ forever start " + sitename + ".js");
-                        console.log("    or");
-                        console.log("$ node " + sitename + ".js");
-                        console.log("-");
-                        console.log("surf to http://localhost:3001");
-                        console.log("    or manage your site at");
-                        console.log("http://localhost:3001/en/dashboard");
-                        con.end();
-                        rl.close();
-                      });
-                    });
-                });
-              });
-            });
-          });
-        });
+								mkdir(datadir);
+								mkdir(path.join(datadir,sitename));
+								console.log("created "+datadir+"/"+sitename+"/");
+								mkdir(path.join(datadir,sitename,"images"));
+								console.log("created "+datadir+"/"+sitename+"/images");
+								mkdir(path.join(datadir,sitename,"files"));
+								console.log("created "+datadir+"/"+sitename+"/files");
+
+
+								console.log("---")
+								console.log("Site '" + sitename + "' has been prepared.\n")
+								console.log("Please create DNS entries, or add to /etc/hosts:");
+								console.log("127.0.0.1     " + hostname);
+								console.log("Also check index.js and config.json to fine-tune extra parameters, encryption key, ...");
+								console.log("---")
+								console.log("Start your site using:");
+								console.log("$ forever start " + sitename + ".js");
+								console.log("    or");
+								console.log("$ node " + sitename + ".js");
+								console.log("-");
+								console.log("surf to http://localhost:"+siteport);
+								console.log("    or manage your site at");
+								console.log("http://localhost:"+siteport+"/"+language+"/dashboard");
+								con.end();
+								rl.close();
+							  });
+							});
+						});
+					  });
+					});
+				  });
+				});
+			  });
+			});
         });
       });
     });

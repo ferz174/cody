@@ -21,15 +21,6 @@ var multer = cody.multer;
 
 var sitename = __filename.split(path.sep).pop().split(".")[0];
 
-// add i18n
-var i18n = cody.i18n;
-i18n.configure({
-    locales:['ru', 'ru'],
-    directory: __dirname + '/locales',
-    defaultLocale: 'ru'
-});
-cody.server.use(i18n.init);
-
 // use the new 4.x middleware
 cody.server.use(bodyParser());
 cody.server.use(expressSession({secret: 'a secret', cookie: { maxAge: 60*60*1000 }}));
@@ -61,6 +52,15 @@ ctrls.forEach(function (ctrl) {
   console.log("Loaded controller: " + cname);
   cody.config.controllers[cname] = require(path.join(cpath, cname));
 });
+
+// 1c. add i18n
+var i18n = cody.i18n;
+i18n.configure({
+    locales:[cody.config.defaultlanguage, cody.config.defaultlanguage],
+    directory: __dirname + "/" + sitename + '/locales',
+    defaultLocale: cody.config.defaultlanguage
+});
+cody.server.use(i18n.init);
 
 
 // 2. if -c exists, overwrite customized config values
