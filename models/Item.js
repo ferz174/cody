@@ -28,11 +28,6 @@ function Item(basis, app) {
   // add a 'parentId' for consistency
   //  this.parent will be replaced once all items are created in 'pickParent'
   
-  
-  console.log("================================================================1");
-    console.log(cody.server.init);
-  console.log("================================================================2");
-  
   this.parentId = this.parent;
 }
 
@@ -63,7 +58,7 @@ Item.addDefaults = function(basis, parent) {
 Item.orderbyList = [ { id: 'M', name: 'Manual'},
                      { id: 'A', name: 'Alphabetical'},
                      { id: 'D', name: 'Chronological'} ];
-Item.showcontentList = [ { id: 'Y', name: 'Content'},
+Item.showcontentList = [ { id: 'Y', name: 'Content item'},
                          { id: 'S', name: 'First subitem'},
                          { id: 'N', name: 'All subitems'},
                          { id: 'D', name: 'Don\'t show subitems'},
@@ -92,6 +87,7 @@ Item.kNothing     = 'N';
 Item.kSubItem     = 'S';
 Item.kNoSubitems  = 'D';
 Item.kLightBox    = 'L';
+Item.kLanguagues  = 'N';
 
 Item.kDefaultName  = 'New item';
 

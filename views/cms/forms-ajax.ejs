@@ -13,10 +13,15 @@
      cody.Meta.Generator.checkboxinput
      cody.Meta.Generator.submitbutton
      */
+	 
+	 tmp = <%__("Minimum chars")%>;
+	 
+	 console.log(document.getElementById("mindiv").getElementsByTagName("label")[0].innerText);
+	 
     if (theType === <%=cody.Meta.Generator.textinput%>) { // text input
 	  $('#mindiv').show();
-	  //$('#mindiv')[0].childNodes[1].innerText = <%= __("Minimum chars")%>;
-	  $('#mindiv')[0].childNodes[1].innerText = "1212";
+	  document.getElementById("mindiv").getElementsByTagName("label")[0].innerText(tmp);
+	  //$('#mindiv')[0].childNodes[1].innerText = "1212";
       $('#maxdiv').show();
       //$('#maxdiv')[0].childNodes[1].textContent(<% __("Maximum chars")%>);
       $('#requireddiv').show();
@@ -26,7 +31,7 @@
 
     } else if (theType === <%=cody.Meta.Generator.textareainput%>) { // text area
       $('#mindiv').show();
-      $('#mindiv')[0].childNodes[1].innerText = "9898";
+      //$('#mindiv')[0].childNodes[1].innerText = "9898";
       $('#maxdiv').show();
       //$('#maxdiv')[0].childNodes[1].innerText(<% __("Nr of lines")%>);
       $('#requireddiv').show();
@@ -98,7 +103,7 @@
 
 <div id="content_data">
 
-  <form action="./<%= page.link %>" method="post"  class="clearfix" name="onepage" id="onepage" enctype="multipart/form-data">
+  <form action="./<%= page.item.id %>" method="post" class="clearfix" name="onepage" id="onepage" enctype="multipart/form-data">
     <input type="hidden" name="request" id="request" value="save" />
     <input type="hidden" name="node" value="<%= atom.id %>" />
     <input type="hidden" name="extention" value="<%= atom.extention %>" />
@@ -159,7 +164,7 @@
             <input name="min" id="min" type="text" value="<%= val(object.min) %>" size="4" />
           </div>
           <div id="maxdiv">
-            <label for="max"><%= __("Max / Lines")%> </label>
+            <label for="max"><%= __("Max / Lines")%></label>
             <input name="max" id="max" type="text" value="<%= val(object.max) %>" size="4" />
           </div>
 		  

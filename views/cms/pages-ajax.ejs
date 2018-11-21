@@ -1,5 +1,5 @@
 <div id="content_data">
- 	<form action="./<%= pageparent %>" method="post" class="clearfix" name="onepage" id="onepage">
+ 	<form action="./<%= pagelink %>" method="post" class="clearfix" name="onepage" id="onepage">
     <input type="hidden" name="request" id="request" value="save" /> 
     <input type="hidden" name="node" id="node" value="<%=page.item.id%>" />
     <input type="hidden" name="language" id="language" value="<%=page.language%>" />
@@ -46,8 +46,8 @@
               </div>
               <div class="actions">
                 <button class="doEditorT"><%= __('Edit')%></button>
-                <button class="doDeletor"><%= __('Delete')%></button>
                 <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+                <button class="doDeletor"><%= __('Delete')%></button>
               </div>
 
             <% } else if (c.kind == "M") { %>
@@ -58,8 +58,8 @@
                 </select>
               </div>
               <div class="actions">
-                <button class="doDeletor"><%= __('Delete')%></button>
                 <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+                <button class="doDeletor"><%= __('Delete')%></button>
               </div>
 
             <% } else if (c.kind == "S") { %>
@@ -70,8 +70,8 @@
               <textarea name="data_<%= c.id %>" class="stringdata"><%= c.data %></textarea>
             </div>
             <div class="actions">
-              <button class="doDeletor"><%= __('Delete')%></button>
               <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+              <button class="doDeletor"><%= __('Delete')%></button>
             </div>
 
             <% } else if (c.kind == "B") { %>
@@ -82,8 +82,8 @@
               <textarea name="data_<%= c.id %>" class="stringdata"><%= c.data %></textarea>
             </div>
             <div class="actions">
-              <button class="doDeletor"><%= __('Delete')%></button>
               <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%>Move</span>
+              <button class="doDeletor"><%= __('Delete')%></button>
             </div>
 
             <% } else if (c.kind == "H") { %>
@@ -94,8 +94,8 @@
               <textarea name="data_<%= c.id %>" class="stringdata"><%= c.data %></textarea>
             </div>
             <div class="actions">
-              <button class="doDeletor">Delete</button>
               <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+              <button class="doDeletor"><%= __('Delete')%></button>
             </div>
 
             <% } else if (c.kind == "F") { %>
@@ -116,8 +116,8 @@
               </div>
               <div class="actions">
                 <button class="doEditorF"><%= __('Edit')%></button>
-                <button class="doDeletor"><%= __('Delete')%></button>
                 <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+                <button class="doDeletor"><%= __('Delete')%></button>
               </div>
 
             <% } else if (c.kind == "I") { %>
@@ -133,8 +133,8 @@
               </div>
               <div class="actions">
                 <button class="doEditorI"><%= __('Edit')%></button>
-                <button class="doDeletor"><%= __('Delete')%></button>
                 <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+                <button class="doDeletor"><%= __('Delete')%></button>
               </div>
 
             <% } else { %>
@@ -145,8 +145,8 @@
                 <textarea name="data_<%= c.id %>" class="stringdata"><%= c.data %></textarea>
               </div>
               <div class="actions">
-                <button class="doDeletor"><%= __('Delete')%></button>
                 <span class="ui-icon-arrowthick-2-n-s ui-icon"><%= __('Move')%></span>
+                <button class="doDeletor"><%= __('Delete')%></button>
               </div>
 
             <% } %>
@@ -223,12 +223,28 @@
         <div>
             <label for="orderby"><%= __('Order sublevels')%></label>
             <select name="orderby" id="orderby">
+			<% if (cody.Item.kLanguagues === 'N') {
+				for (var i in cody.Item.orderbyList)
+				{
+					cody.Item.orderbyList[i].name = __(cody.Item.orderbyList[i].name);
+				}
+			}			
+			%>
+			
             <%- optionList(cody.Item.orderbyList, page.item.orderby) %>
           </select>
 
           <% if (login && (login.level >= 99)) { %>
             <label for="showcontent"><%= __('Show')%></label>
             <select name="showcontent" id="showcontent">
+				<% if (cody.Item.kLanguagues === 'N') {
+					for (var i in cody.Item.showcontentList)
+					{
+						cody.Item.showcontentList[i].name = __(cody.Item.showcontentList[i].name);
+					}
+				}			
+				%>
+			
               <%- optionList(cody.Item.showcontentList, page.item.showcontent) %>
             </select>
           <% } else { %>
@@ -253,14 +269,14 @@
 	
 		<div id="action_buttons">
 			<button id="doSave"><%= __('Save')%></button>
-			
+			<span id="last_modif"><%= __('Modified')%>: <%= formatDate(page.updated) %></span>
 			<% if (! page.isActive()) { %>
 				<button id="doDelete"><%= __('Delete')%></button>
 			<% } %>
-							
-			<span id="last_modif"><%= __('Modified')%>: <%= formatDate(page.updated) %></span>
 	  </div>
 	  
   </form>
 </div>	
 
+<% if (cody.Item.kLanguagues === 'N') cody.Item.kDefaultName  = __('New item');
+ cody.Item.kLanguagues  = 'Y'; %>

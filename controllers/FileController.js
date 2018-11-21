@@ -23,7 +23,6 @@ module.exports = FileController;
 
 FileController.prototype.doRequest = function( finish ) {
   var self = this;
-  
   if (self.isRequest("xxx")) {
     // needed ?
     finish("");

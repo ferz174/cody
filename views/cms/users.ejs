@@ -4,7 +4,7 @@
 
 <% include header.ejs %>
 
-<body id="users">
+<body id="<%= page.item.id %>">
 
 	<script src="<%=cstatic%>/js/lib/jquery-1.9.1<%=min%>.js"></script>
 	<script src="<%=cstatic%>/js/lib/jquery-ui-1.10.1<%=min%>.js"></script>
@@ -48,7 +48,7 @@
     <div>
 	
     <% if (typeof user != "undefined") { %>
-		<form action="./<%=page.link%>" method="post" id="record">
+		<form action="./<%=page.item.id%>" method="post" id="record">
    			<input type="hidden" name="request" id="request" value="save" /> 
    			<input type="hidden" name="id" value="<%- user.id %>" /> 
 
@@ -117,7 +117,7 @@
       
       
     <% if (typeof users != "undefined") { %>
-    <form action="./<%=page.link%>" method="post" id="search">
+    <form action="./<%=page.item.id%>" method="post" id="search">
  	   	<input type="hidden" name="request" id="request" value="list" /> 
  	   	<!--TODO: add  search button + input field -->
 			<button id="doNew"><%= __("New")%></button>

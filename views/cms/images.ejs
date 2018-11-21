@@ -4,7 +4,7 @@
 
 <% include header.ejs %>
 
-<body id="images">
+<body id="<%= page.item.id %>"> 
 
 <script src="<%=cstatic%>/js/lib/jquery-1.9.1<%=min%>.js"></script>
 <script src="<%=cstatic%>/js/lib/jquery-ui-1.10.1<%=min%>.js"></script>
@@ -16,7 +16,7 @@
 <script src="<%=cstatic%>/js/atom-tree.js"></script>
 <script>
 	$(document).ready( function() {
-	  var gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, "images", gCody);
+	  var gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, <%= page.item.id %>, gCody);
 	  gTree.init();
 	});
 </script>
@@ -34,8 +34,8 @@
 	      <button id="doAddFolder"><%= __("Add Folder")%> </button>
 	      <button id="doAddImage"><%= __("Add Image")%> </button><br>
 	      <button id="doRename" ><%= __("Rename")%></button>
-	      <button id="doDelete" ><%= __("Delete")%></button>
 	      <button id="doEdit" ><%= __("Edit")%></button>
+	      <button id="doDelete" ><%= __("Delete")%></button>
 
         <div id="tree">
           <ul>

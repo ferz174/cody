@@ -4,7 +4,7 @@
 
 <% include header.ejs %>
 
-<body id="pages">
+<body id="<%= page.item.id %>">
 	<script src="<%=cstatic%>/js/lib/jquery-1.9.1<%=min%>.js"></script>
 	<script src="<%=cstatic%>/js/lib/jquery-ui-1.10.1<%=min%>.js"></script>
 	<script src="<%=cstatic%>/js/lib/jquery.validate<%=min%>.js"></script>
@@ -19,7 +19,7 @@
 	<script>
 	  var gTree;
 		$(document).ready( function() {
-		  gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, "<%= page.item.id %>", gCody);
+		  gTree = new jAtomTree(1, "<%=shownode%>", gLanguage, <%= page.item.id %>, gCody);
 		  gTree.getNode = getPage;
 		  gTree.doAdd = addPage;
 		  gTree.initNode = initPage;
@@ -58,9 +58,9 @@
 	
  	    <div id="left_nav">
 				<button id="doAdd"><%= __("Add")%></button>
-				<button id="doRename"><%= __("Rename")%></button>  
-				<button id="doDelete"><%= __("Delete")%></button>
+				<button id="doRename"><%= __("Rename")%></button><br>
 				<button id="doEdit"><%= __("Edit")%></button>
+				<button id="doDelete"><%= __("Delete")%></button>
 
         <div id="ltabs" class="ui-tabs ui-widget">
           <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">

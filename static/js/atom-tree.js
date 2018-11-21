@@ -317,7 +317,7 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
     .bind("select_node.jstree", function (e, data) {
       // console.log("Tree - select");
       var nodeId = $(data.args[0]).parent().attr("id");
-      if (self.currentNode === nodeId) {		
+      if (self.currentNode === nodeId) {
         self.doEdit();
       } else if (typeof nodeId !== "undefined") {
         self.currentNode = nodeId;

@@ -4,7 +4,7 @@
 
 <% include header.ejs %>
 
-<body id="templates">
+<body id="<%= page.item.id %>">
 
 	<script src="<%=cstatic%>/js/lib/jquery-1.9.1<%=min%>.js"></script>
 	<script src="<%=cstatic%>/js/lib/jquery-ui-1.10.1<%=min%>.js"></script>
@@ -86,7 +86,7 @@
     <div>
 
     <% if (typeof template != "undefined") { %>
-		<form action="./templates" method="post" id="record">
+		<form action="./<%= page.item.id %>" method="post" id="record">
       <input type="hidden" name="request" id="request" value="save" />
       <input type="hidden" name="id" value="<%- template.id %>" />
       <input type="hidden" id="content" name="content" value="X" />
@@ -144,8 +144,8 @@
               <input type="hidden" name="sortorder_<%= c.id %>" class="sortorder" value="<%= c.sortorder %>" />
               <input type="hidden" name="intro_<%= c.id %>" class="intro" value="<%= c.intro %>" />
               <input type="hidden" name="kind_<%= c.id %>" class="kind" value="<%= c.kind %>" />
-              <button class="doDeletor" rel="<%= c.id %>"><%= __("Delete")%></button>
               <span class="ui-icon-arrowthick-2-n-s ui-icon mover"><%= __("Move")%></span>
+              <button class="doDeletor" rel="<%= c.id %>"><%= __("Delete")%></button>
             </article>
           <% } %>
         </div>
@@ -167,7 +167,7 @@
 
 
     <% if (typeof templates != "undefined") { %>
-    <form action="./templates" method="post" id="search">
+    <form action="./<%= page.item.id %>" method="post" id="search">
  	   	<input type="hidden" name="request" id="request" value="list" />
 			<button id="doNew"><%= __("New")%></button>
 
@@ -179,7 +179,7 @@
 			  <% for (var i in templates) { var t = templates[i]; %>
 					<tr>
 						<td align="center"><img height="15" src="<%=cstatic%>/images/main/<%= (t.system === 'Y') ? "sys_yes" : "sys_no" %>.png"></td>
-						<td class="edit"><a href="./templates?request=edit&amp;id=<%= t.id %>"><%= (t.name==='') ? '--' : t.name %></a></td>
+						<td class="edit"><a href="./<%= page.link %>?request=edit&amp;id=<%= t.id %>"><%= (t.name==='') ? '--' : t.name %></a></td>
 						<td><%= t.controllerName %></td>
 						<td><%= t.fn %></td>
 						<td><%= t.description %></td>
