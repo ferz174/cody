@@ -72,6 +72,12 @@ function startWebApp(mainServer, config, done) {
         var fileserver = new cody.Static(req, res, config.name);
         fileserver.serve();
       });
+	  
+      // mysite.com/www/file-path
+      siteServer.get("/www/*", function (req, res) {
+        var fileserver = new cody.Static(req, res, config.name);
+        fileserver.serve();
+      });
 
       // mysite.com/data/[category]file-id.extension (standard "files" and "images")
       siteServer.get("/data/*", function (req, res) {
