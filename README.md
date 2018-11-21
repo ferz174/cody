@@ -42,12 +42,19 @@ By following these steps you will be running your own CMS system in no time. If 
     
     Creating cody web tree in current directory
     1) Enter sitename: mysite
+	
     Note: also using my site as database name.
-    Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password see http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html
+    Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password see
+	http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html
+	
     2) Enter root password for mysql so we can create a new database and user: 
     3) Enter site database user: mysitename
     4) Enter site database password: mysitepassword
-    5) Enter hostname for site: mysite.local (or localhost)
+    5) Enter dbhost for database: localhost
+	6) Enter hostname for site: mysite.local
+	7) Enter port for site: 3001
+	8) Enter language for site (default: en, or | nl | ru | zh |): en
+	9) Enter a location for storing documents: codydev
     Site mysite has been prepared.
     
     Please create DNS entries, or add to /etc/hosts:

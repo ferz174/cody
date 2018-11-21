@@ -79,7 +79,7 @@ var rl = readline.createInterface({
 
 console.log("\nCreating project in ", rootwd + "/");
 
-rl.question("\n1) Enter projectname: ", function (sitename) {
+rl.question("\n1) Enter sitename: ", function (sitename) {
   console.log("Note: also using " + sitename + " as database name.");
   console.log("Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password");
   console.log("http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html");
@@ -92,7 +92,7 @@ rl.question("\n1) Enter projectname: ", function (sitename) {
       rl.question("\n4) Enter site database password ("+dbrootpw+"): ", function (dbpass) {
 		  dbpass = dbpass || dbrootpw;
 
-        rl.question("\n5) Enter dbhost for db (localhost): ", function (dbhost) {
+        rl.question("\n5) Enter dbhost for database (localhost): ", function (dbhost) {
 			dbhost = dbhost || "localhost";
              
           rl.question("\n6) Enter hostname for site ("+sitename+"): ", function (hostname) {
