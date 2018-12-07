@@ -14,14 +14,11 @@
      cody.Meta.Generator.submitbutton
      */
 	 
-	 console.log($('#mindiv')[0].childNodes[1]);
-	 
     if (theType === <%=cody.Meta.Generator.textinput%>) { // text input
 	  $('#mindiv').show();
-	  //document.getElementById("mindiv").getElementsByTagName("label")[0].innerText(tmp);
-	  $('#mindiv')[0].childNodes[1].innerText = "<% __('Minimum chars')%>";
+	  //$('#mindiv')[0].childNodes[1].innerText = "<% __('Minimum chars')%>";
       $('#maxdiv').show();
-      $('#maxdiv')[0].childNodes[1].innerText = "<% __('Maximum chars')%>";
+      //$('#maxdiv')[0].childNodes[1].innerText = "<% __('Maximum chars')%>";
       $('#requireddiv').show();
       $('#textvalidationdiv').show();
       $('#numbervalidationdiv').hide();
@@ -29,9 +26,9 @@
 
     } else if (theType === <%=cody.Meta.Generator.textareainput%>) { // text area
       $('#mindiv').show();
-      $('#mindiv')[0].childNodes[1].innerText = "<% __('Nr of chars')%>";
+      //$('#mindiv')[0].childNodes[1].innerText = "<% __('Nr of chars')%>";
       $('#maxdiv').show();
-      $('#maxdiv')[0].childNodes[1].innerText = "<% __('Nr of lines')%>";
+      //$('#maxdiv')[0].childNodes[1].innerText = "<% __('Nr of lines')%>";
       $('#requireddiv').show();
       $('#textvalidationdiv').show();
       $('#numbervalidationdiv').hide();
@@ -39,9 +36,9 @@
 
     } else if (theType === <%=cody.Meta.Generator.numberinput%>) { // number text input
       $('#mindiv').show();
-      $('#mindiv')[0].childNodes[1].innerText = "<% __('Minimum')%>";
+      //$('#mindiv')[0].childNodes[1].innerText = "<% __('Minimum')%>";
       $('#maxdiv').show();
-      $('#maxdiv')[0].childNodes[1].innerText = "<% __('Maximum')%>";
+      //$('#maxdiv')[0].childNodes[1].innerText = "<% __('Maximum')%>";
       $('#requireddiv').show();
       $('#textvalidationdiv').hide();
       $('#numbervalidationdiv').show();

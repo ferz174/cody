@@ -23,7 +23,6 @@ function Controller(context) {
 
   this.app = context.app;
   this.connection = (this.app) ? this.app.getConnection() : undefined;
-
 }
 
 module.exports = Controller;
@@ -32,6 +31,12 @@ Controller.prototype.close = function() {
   this.closeConnection();
 };
 
+//reconnect to database
+Controller.prototype.resetConnection = function( context_app ) {
+	if(this.connection) return this.connection;
+	this.connection = (context_app) ? context_app.getConnection() : undefined;
+	return this.connection;
+};
 
 //
 // core handler
@@ -403,7 +408,7 @@ Controller.prototype.getUNum = function(paramName, defaultValue) {
 
 Controller.prototype.query = function(sql, params, callback) {
   // callback = function(error, results)
-
+	console.log(this.connection);
   this.connection.query(sql, params, callback);
 };
 Controller.prototype.escape = function(v){
