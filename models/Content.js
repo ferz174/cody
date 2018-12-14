@@ -33,6 +33,7 @@ Content.kindName = function(theKind) {
          (theKind === "P") ? "Params" :
          (theKind === "S") ? "String" :
          (theKind === "F") ? "File" :
+		 (theKind === "L") ? "Link" :
          "Block";
 };
 
@@ -112,6 +113,15 @@ Content.prototype.renderShare = function(controller) {
       '}(document, "script", "facebook-jssdk"));</script>';
 };
 
+Content.prototype.renderLink = function(controller) {
+  var url = this.data.replace("[page]", controller.context.page.getURL(this.language));
+  if (url === "") url = controller.context.page.getURL(this.language);
+  if (url.indexOf("http") < 0) { url = "http://" + url; }
+
+  return '<a href="'+url+'">'+url+'</a>';
+};
+
+
 Content.prototype.renderImage = function(controller) {
   if (this.atom && (typeof this.atom != "undefined")) {
     return "<img src='" + controller.context.dynamic + "/images/" + this.atom.id + "." + this.atom.extention + "'>";
@@ -154,6 +164,9 @@ Content.prototype.render = function(controller) {
 
   } else if (this.kind === "P") {
     return this.renderParams(controller);
+	
+  } else if (this.kind === "L") {
+    return this.renderLink(controller);
 
   } else {
     return controller.render(this);
