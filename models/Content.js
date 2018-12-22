@@ -118,7 +118,7 @@ Content.prototype.renderLink = function(controller) {
   if (url === "") url = controller.context.page.getURL(this.language);
   if (url.indexOf("http") < 0) { url = "http://" + url; }
 
-  return '<a href="'+url+'">'+url+'</a>';
+  return ''+url+'\n<iframe src="'+url+'" name="moyiframe" ></iframe>';
 };
 
 
