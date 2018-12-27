@@ -57,6 +57,7 @@ $(document).ready(function(){
       var parent = $(this).parent();
       var id = parent.attr("data-id");
       var meta = parent.attr("data-meta");
+	  var tmp = {request: 'edit', id: id, meta: meta};
       $.ajax({
         type: "GET",
         url: "/<%= page.getURL() %>",
@@ -72,6 +73,7 @@ $(document).ready(function(){
           }
         }
       });
+	  		console.log(tmp);
     });
   });
 
@@ -122,7 +124,7 @@ $(document).ready(function(){
 
     <div id="right_cont">
       <div id="content_data">
-      <form action="/<%=page.language%>/<%= page.item.id %>" method="post" id="formdata">
+      <form action="/<%=page.language%>/<%= page.link  %>" method="post" id="formdata">
         <fieldset>
           <input type="hidden" name="form_show" value="<%=form_show%>">
           <input type="hidden" name="request" id="request" value="list">
