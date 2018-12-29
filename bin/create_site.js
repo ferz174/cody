@@ -148,8 +148,8 @@ rl.question("\n1) Enter sitename: ", function (sitename) {
 								fs.writeFileSync(path.join(rootwd, sitename, "config.json"), JSON.stringify(
 								  {
 										name: sitename,
-										smtp:"mail."+hostname,
-										mailFrom:"sapr@metcon.ru",
+										smtp: "smtp.mail."+hostname,
+										mailFrom: hostname+"@mail",
 										smtppass: dbpass,
 										smtpssl:"587",
 										mailFrom: "info@"+hostname,

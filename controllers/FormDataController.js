@@ -56,10 +56,6 @@ FormDataController.prototype.doRequest = function( finish ) {
     self.context.fn = "-/cms/forms-list.ejs";
     self.sendTestMail(finish);
 	
-  } else if (this.isRequest("email")) {
-    self.context.fn = "";
-    self.sendTestMail(finish);
-
   } else {
     cody.Controller.prototype.doRequest.call(self, finish);
   }

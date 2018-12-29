@@ -57,7 +57,6 @@ $(document).ready(function(){
       var parent = $(this).parent();
       var id = parent.attr("data-id");
       var meta = parent.attr("data-meta");
-	  var tmp = {request: 'edit', id: id, meta: meta};
       $.ajax({
         type: "GET",
         url: "/<%= page.getURL() %>",
@@ -73,7 +72,6 @@ $(document).ready(function(){
           }
         }
       });
-	  		console.log(tmp);
     });
   });
 
