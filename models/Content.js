@@ -33,6 +33,7 @@ Content.kindName = function(theKind) {
          (theKind === "P") ? "Params" :
          (theKind === "S") ? "String" :
          (theKind === "F") ? "File" :
+		 (theKind === "W") ? "Wrapper" :
 		 (theKind === "L") ? "Link" :
          "Block";
 };
@@ -62,7 +63,7 @@ Content.prototype.renderText = function(controller) {
 
 Content.prototype.renderParams = function(controller) {
   // these values should already be in the current context
-  return "<!-- page params " + this.data + " -->";
+  return "<!-- ApplyIn" + this.data + "ApplyOut -->";
 }
 
 Content.prototype.renderForm = function(controller) {
@@ -113,18 +114,25 @@ Content.prototype.renderShare = function(controller) {
       '}(document, "script", "facebook-jssdk"));</script>';
 };
 
-Content.prototype.renderLink = function(controller) {
-  var url = this.data.replace("[page]", controller.context.page.getURL(this.language));
-  if (url === "") url = controller.context.page.getURL(this.language);
-  if (url.indexOf("http") < 0) { url = "http://" + url; }
+Content.prototype.renderWrapper = function(controller) {
+	var url = this.data.replace("[page]", controller.context.page.getURL(this.language));
+	if (url === "") url = controller.context.page.getURL(this.language);
+	if (!(url.indexOf("http")+1)) url = "http://"+url;
+	return false;
+	//return '<div id="render_wrapper"><iframe id="'+((controller.context.page.link) ? controller.context.page.link : controller.context.page.itemId)+'" src="'+url+'" width="100%" height="100%"></iframe></div>';
+};
 
-  return ''+url+'\n<iframe src="'+url+'" name="moyiframe" ></iframe>';
+Content.prototype.renderLink = function(controller) {
+	var url = this.data.replace("[page]", controller.context.page.getURL(this.language));
+	if (url === "") url = controller.context.page.getURL(this.language);
+	if (!(url.indexOf("http")+1)) url = "http://"+url;
+	return '<div id="render_link"><a id="'+((controller.context.page.link) ? controller.context.page.link : controller.context.page.itemId)+'" href="'+url+'" target="_blank"><img height="100" src="'+controller.context.cstatic+'/images/main/link.png" alt="link"></a></div>';
 };
 
 
 Content.prototype.renderImage = function(controller) {
   if (this.atom && (typeof this.atom != "undefined")) {
-    return "<img src='" + controller.context.dynamic + "/images/" + this.atom.id + "." + this.atom.extention + "'>";
+    return '<div id="render_image"><img src="' + controller.context.dynamic + '/images/' + this.atom.id + '.' + this.atom.extention + '" border="0"></div>';
   } else {
     return "<!-- missing atom for " + this.id + " -->";
   }
@@ -167,6 +175,9 @@ Content.prototype.render = function(controller) {
 	
   } else if (this.kind === "L") {
     return this.renderLink(controller);
+	
+  } else if (this.kind === "W") {
+    return this.renderWrapper(controller);
 
   } else {
     return controller.render(this);
