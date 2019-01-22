@@ -1,17 +1,14 @@
-//
-// ЧЗМК - 2018
-//
-//
+
 console.log("loading " + module.id);
 
-var cody = require("./../index.js");
-var name_bd = "constructures";
+var cody = require("../index.js");
+var dbscan = "constructures";
+var db_scan_table = "scan_drawings"
 
 function ScanDrawing(basis) {
-	for (var a in basis) {
-		if (basis.hasOwnProperty(a)) {
-			this[a] = basis[a];
-		}
+	for (var a in basis)
+	{
+		if (basis.hasOwnProperty(a)) this[a] = basis[a];
 	}
 	this.id = this.id || 0;
 	this.item = this.item || "";
@@ -23,86 +20,65 @@ function ScanDrawing(basis) {
 
 module.exports = ScanDrawing;
 
-ScanDrawing.sqlGetScanDrawingList = "select * from scan_drawings";
-ScanDrawing.sqlGetScanDrawingBy = "select * from "+name_bd+".scan_drawings where ?";
-ScanDrawing.sqlUpdateScanDrawingList = "update "+name_bd+".scan_drawings set ? where ?";
-ScanDrawing.sqlGetScanDrawingsNotName = "select * from "+name_bd+".scan_drawings as sdrawing "+
-										"where (? REGEXP sdrawing.detect or sdrawing.item = ?) and "+
-										"(sdrawing.name is null or sdrawing.name='') order by sdrawing.scandate desc";
+ScanDrawing.sqlNewScanDrawing = "insert into "+dbscan+"."+db_scan_table+" (item) values (?)";
+ScanDrawing.sqlGetScanDrawing = "select * from "+dbscan+"."+db_scan_table+" where ?";
+ScanDrawing.sqlSetScanDrawing = "update "+dbscan+"."+db_scan_table+" set ? where ?";
+ScanDrawing.sqlGetScanDrawings = "select item File, item FileName, date_format(scandate,'%d.%m.%Y %H:%i:%s') date from "+dbscan+"."+db_scan_table+" where scandate > ? and scandate < adddate(?, interval 1 day)";
+ScanDrawing.sqlGetScanDrawingsNotName = "select * from "+dbscan+"."+db_scan_table+" as scantable "+
+										"where (? REGEXP scantable.detect or scantable.item = ?) and "+
+										"(scantable.name is null or scantable.name='') order by scantable.scandate desc";
 
 //Функции без прототипа
 //Вставка новой записи
-ScanDrawing.doInsert = function(controller, data, finish) { 
-	controller.resetConnection(controller.app).
-	query("insert into "+name_bd+".scan_drawings (item) values (?)", data,
-    function(err, result) {
-		if (err) throw(new Error("ScanDrawing.doInsert error: "+ err));
-		finish(result.insertId);          	 
-    }); 
+ScanDrawing.NewScanDrawing = function(controller, data, finish) {
+	controller.resetConnection(controller.app).query(ScanDrawing.sqlNewScanDrawing, data, function(error, result) {
+		if (error) throw(new Error("ScanDrawing.NewScanDrawing sql error: "+error));
+		finish(result.insertId);
+    });
 };
 
 //Обновление записей из асинхронных функций
-ScanDrawing.doUpdateAsyn = function() {	
-	arguments[0].resetConnection(arguments[0].app).
-	query(ScanDrawing.sqlUpdateScanDrawingList, [arguments[1], arguments[2]], function(err) {
-		if (err) throw(new Error("ScanDrawing.doUpdateAsyn error: "+ err)); 
-	});	
-};
-
-ScanDrawing.doUpdateAsynData = function() {
-	var	query_data = arguments[1];
-	arguments[0].resetConnection(arguments[0].app).
-	query(query_data, function(err) {
-		if (err) throw(new Error("doUpdateAsynData: "+ err)); 
-	});	
-};
-
-//Получение сканируемого чертежа
-ScanDrawing.getScanDrawing = function() {	
-	var controller = arguments[0];
-	var store = arguments[2]; 
-	controller.resetConnection(controller.app).query(ScanDrawing.sqlGetScanDrawingBy, [arguments[1]], function(error, results) {
-		if (error) { throw(new Error("ScanDrawing.getScanDrawing failed with sql errors")); }
-		store(results[0] ? new cody.ScanDrawing(results[0]) : false);		
+ScanDrawing.SetScanDrawing = function(controller, data, id, finish) {
+	controller.resetConnection(controller.app).query(ScanDrawing.sqlSetScanDrawing, [data, id], function(error) {
+		if (error) throw(new Error("ScanDrawing.SetScanDrawing sql error: "+error));
 	});
 };
 
-ScanDrawing.getScanDrawingsList = function(controller, store) {
-  controller.query(ScanDrawing.sqlGetScanDrawingList, function(err, result) {
-    if (err) { throw(new Error("ScanDrawing.getUsers failed with sql errors")); }
-    store(result);
-  });
+ScanDrawing.SetScanDrawingData = function(controller, data, finish) {
+	var store = finish;
+	controller.resetConnection(controller.app).query(data, function(error) {
+		if (error) throw(new Error("SetScanDrawingData: "+ error));
+		store(result);
+	});
+};
+
+//Получение сканируемого чертежа
+ScanDrawing.GetScanDrawing = function(controller, data, finish) {
+	var store = finish;
+	controller.resetConnection(controller.app).query(ScanDrawing.sqlGetScanDrawing, [data], function(error, result) {
+		if (error) throw(new Error("ScanDrawing.GetScanDrawing sql errors: "+error));
+		store(result[0] ? new cody.ScanDrawing(result[0]) : false);
+	});
+};
+
+ScanDrawing.GetScanDrawings = function(controller, data, finish) {
+	var store = finish;
+	controller.query(ScanDrawing.sqlGetScanDrawings, [data, data], function(error, result) {
+		if (error) throw(new Error("ScanDrawing.GetScanDrawings sql errors: "+error));
+		var temp = result[0].File;
+		console.log(result);
+		store(result);
+	});
 };
 
 //Получение чертеже которые не перемещены в сводку т.е. поле name null
-ScanDrawing.getScanDrawingsNotName = function(controller, data, finish) {
+ScanDrawing.GetScanDrawingsNotName = function(controller, data, finish) {
 	var store = finish;
-	controller.resetConnection(controller.app).
-	query(ScanDrawing.sqlGetScanDrawingsNotName, [data, data], function(err, result) {		
-    if (err) { throw(new Error("ScanDrawing.getScanDrawingsNotName sql errors"));  store([{"false" : err}]);}		
-	//store((result.length == 1) ? result[0] : {"false" : "Ошибка структуры базы данных обратитесь к разрабочику (length="+result.length+")"});
-    store(result);
+	controller.resetConnection(controller.app).query(ScanDrawing.sqlGetScanDrawingsNotName, [data, data], function(error, result) {
+		if (error) {
+			throw(new Error("ScanDrawing.GetScanDrawingsNotName sql errors: "+error));
+			store([{"false" : error}]);
+		}
+		store((result.length) ? result : [{"false" : ""}]);
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

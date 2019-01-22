@@ -49,12 +49,14 @@ Page.addDefaults = function(basis, item) {
 Page.loadPages = function(connection, store) {
   connection.query('select * from pages', [], function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadPages failed with sql errors")); }
+	console.log("1=+++++++++++++++++++++++++++++++++***********************");
     store(result);
   });
 };
 Page.loadLanguages = function(connection, store) {
   connection.query('select * from languages order by sortorder', [], function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadLanguages failed with sql errors")); }
+	console.log("2=+++++++++++++++++++++++++++++++++***********************");
     store(result);
   });
 };
@@ -302,6 +304,7 @@ Page.prototype.doUpdate = function(controller, next, isNew) {
         console.log("Page.doUpdate -> inserted page: " + self.language + "/" + self.itemId);
         self.created = self.updated = new Date();
       }
+	  console.log("3=+++++++++++++++++++++++++++++++++***********************");
       if (typeof next === "function") { next(); }
     });
     
@@ -317,6 +320,7 @@ Page.prototype.doUpdate = function(controller, next, isNew) {
         console.log("Page.doUpdate -> updated page: " + self.language + "/" + self.itemId);
         self.updated = new Date();
       }
+	  console.log("4=+++++++++++++++++++++++++++++++++***********************");
       if (typeof next === "function") { next(); }
     });
   }
@@ -335,6 +339,7 @@ Page.prototype.doDelete = function(controller, next) {
         } else {
           console.log("Page.doDelete -> deleted page: " + self.language + "/" + self.itemId);
         }
+		console.log("6=+++++++++++++++++++++++++++++++++***********************");
         if (typeof next === "function") { next(); }
   });
 };
@@ -351,6 +356,7 @@ Page.prototype.doDeactivate = function(controller, next) {
         } else {
           console.log("Page.doDeactivate -> deactived page: " + self.language + "/" + self.itemId);
         }
+		console.log("7=+++++++++++++++++++++++++++++++++***********************");
         if (typeof next === "function") { next(); }
   });
 };
@@ -440,6 +446,7 @@ Page.prototype.deleteContentById = function( controller, theId, next ) {
         self.content.splice(i, 1);
         console.log("Page.deleteContentById -> deleted content " + theId + ", on: " + i + ", of: " + self.language + "/" + self.itemId);
       }
+	  console.log("8=+++++++++++++++++++++++++++++++++***********************");
       if (typeof next === "function") { next(); }
     });  
   } else {
@@ -474,6 +481,7 @@ Page.prototype.fetchContent = function( app, language, itemId, next ) {
     "select * from content where item = ? and language = ? order by intro desc, sortorder asc",
     [itemId, language],
     function(err, result) {
+		console.log("9=+++++++++++++++++++++++++++++++++***********************");
       if (err) { 
         console.log(err); 
         throw(new Error("Page.fetchContent failed with sql errors"));
