@@ -406,7 +406,7 @@ Controller.prototype.getUNum = function(paramName, defaultValue) {
 
 Controller.prototype.query = function(sql, params, callback) {
   // callback = function(error, results)
-	console.log(this.connection);	
+	//console.log(this.connection);	
   this.connection.query(sql, params, callback);
   //this.connection.end();
 };
