@@ -98,7 +98,7 @@ function startWebApp(mainServer, config, done) {
 
 
     if (typeof done === "function") {
-        done();
+        done(app);
     }
 
   });

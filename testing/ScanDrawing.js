@@ -2,7 +2,6 @@
 console.log("loading " + module.id);
 
 var cody = require("../index.js");
-var dbscan = "constructures";
 var db_scan_table = "scan_drawings"
 
 function ScanDrawing(basis) {
@@ -20,11 +19,11 @@ function ScanDrawing(basis) {
 
 module.exports = ScanDrawing;
 
-ScanDrawing.sqlNewScanDrawing = "insert into "+dbscan+"."+db_scan_table+" (item) values (?)";
-ScanDrawing.sqlGetScanDrawing = "select * from "+dbscan+"."+db_scan_table+" where ?";
-ScanDrawing.sqlSetScanDrawing = "update "+dbscan+"."+db_scan_table+" set ? where ?";
-ScanDrawing.sqlGetScanDrawings = "select item File, item FileName, date_format(scandate,'%d.%m.%Y %H:%i:%s') date from "+dbscan+"."+db_scan_table+" where scandate > ? and scandate < adddate(?, interval 1 day)";
-ScanDrawing.sqlGetScanDrawingsNotName = "select * from "+dbscan+"."+db_scan_table+" as scantable "+
+ScanDrawing.sqlNewScanDrawing = "insert into "+db_scan_table+" (item) values (?)";
+ScanDrawing.sqlGetScanDrawing = "select * from "+db_scan_table+" where ?";
+ScanDrawing.sqlSetScanDrawing = "update "+db_scan_table+" set ? where ?";
+ScanDrawing.sqlGetScanDrawings = "select item File, item FileName, date_format(scandate,'%d.%m.%Y %H:%i:%s') date from "+db_scan_table+" where scandate > ? and scandate < adddate(?, interval 1 day)";
+ScanDrawing.sqlGetScanDrawingsNotName = "select * from "+db_scan_table+" as scantable "+
 										"where (? REGEXP scantable.detect or scantable.item = ?) and "+
 										"(scantable.name is null or scantable.name='') order by scantable.scandate desc";
 

@@ -395,7 +395,7 @@ Application.prototype.getConnection = function() {
     self.log("Application", "Make new Connection");
     
     // https://github.com/felixge/node-mysql
-    self.connection = connectDB(self);
+    self.connection = setConnection(self);
   } else {
     self.log("Application.getConnection", "Returning existing connection");
   }
@@ -406,21 +406,21 @@ Application.prototype.getConnection = function() {
   return self.connection;
 };
 
-//Создание соединение с БД
-function connectDB(self) {
+//Connect to database
+function setConnection(self) {
 	self.connection = mysql.createConnection({
         host: self.dbhost, port: self.dbport,
         user: self.dbuser, password: self.dbpassword,
         database: self.db
     });	
-	self.connection.on('error', function(err) {
+	self.connection.on('error', function(error) {
 		self.connection = null;
-		self.log("Ошибка при обращении к базе данных", err.code);
-		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-			self.log("Перезапуск DB", self.dbhost);
-			connectDB(self)       
+		self.log("setConnection: error connection db", error.code);
+		if (error.code === 'PROTOCOL_CONNECTION_LOST') {
+			self.log("restart db", self.dbhost);
+			setConnection(self)       
 		} else {  
-		  throw err; 
+		  throw error; 
 		}			
 	});
 	
