@@ -395,11 +395,7 @@ Application.prototype.getConnection = function() {
     self.log("Application", "Make new Connection");
     
     // https://github.com/felixge/node-mysql
-    self.connection = mysql.createConnection({
-        host: self.dbhost, port: self.dbport,
-        user: self.dbuser, password: self.dbpassword,
-        database: self.db
-    });
+    self.connection = connectDB(self);
   } else {
     self.log("Application.getConnection", "Returning existing connection");
   }
@@ -409,6 +405,27 @@ Application.prototype.getConnection = function() {
   }
   return self.connection;
 };
+
+//Создание соединение с БД
+function connectDB(self) {
+	self.connection = mysql.createConnection({
+        host: self.dbhost, port: self.dbport,
+        user: self.dbuser, password: self.dbpassword,
+        database: self.db
+    });	
+	self.connection.on('error', function(err) {
+		self.connection = null;
+		self.log("Ошибка при обращении к базе данных", err.code);
+		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+			self.log("Перезапуск DB", self.dbhost);
+			connectDB(self)       
+		} else {  
+		  throw err; 
+		}			
+	});
+	
+	return self.connection;
+}
 
 Application.prototype.returnConnection = function( connection ) {
   // Do nothing: we only have 1 connection and we don't close it in between requests...

@@ -66,7 +66,6 @@ ScanDrawing.GetScanDrawings = function(controller, data, finish) {
 	controller.query(ScanDrawing.sqlGetScanDrawings, [data, data], function(error, result) {
 		if (error) throw(new Error("ScanDrawing.GetScanDrawings sql errors: "+error));
 		var temp = result[0].File;
-		console.log(result);
 		store(result);
 	});
 };

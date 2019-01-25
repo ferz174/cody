@@ -32,10 +32,8 @@ Controller.prototype.close = function() {
 };
 
 //reconnect to database
-Controller.prototype.resetConnection = function( context_app ) {
-	if(this.connection) return this.connection;
-	this.connection = (context_app) ? context_app.getConnection() : undefined;
-	return this.connection;
+Controller.prototype.resetConnection = function( context_app ) {	
+	return (this.app) ? this.app.getConnection() : undefined;
 };
 
 //
