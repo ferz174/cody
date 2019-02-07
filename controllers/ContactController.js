@@ -231,7 +231,7 @@ ContactController.prototype.doTestMail = function (finished) {
   var pSubject = this.getParam("subject", "testing");
   var pName = this.getParam("testname", "testname");
   var email = this.getParam("testmail", "testing@cody-cms.org");
-  var pFrom = this.app.mailFrom;
+  var pFrom = this.app.mailfrom;
   var pText = this.getParam("content","cody-cms.org testing");
   //self.sendMail (pFrom, C.email, pSubject, pText);
   console.log ("mailto: from=" + pFrom + ", to=" + pName + " - " + email + " - " +  pSubject + " - " +  pText);
@@ -239,7 +239,7 @@ ContactController.prototype.doTestMail = function (finished) {
 
 ContactController.prototype.doMails = function (finished) {
   this.sendTargetMails(finished, this.getParam("q_tags", ""),
-                                 this.app.mailFrom,
+                                 this.app.mailfrom,
                                  this.getParam("subject", "testing"),
                                  this.getParam("content","cody-cms.org testing"));
 }

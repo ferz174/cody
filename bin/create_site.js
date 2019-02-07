@@ -149,10 +149,10 @@ rl.question("\n1) Enter sitename: ", function (sitename) {
 								  {
 										name: sitename,
 										smtp: "smtp.mail."+hostname,
-										mailFrom: hostname+"@mail",
+										mailfrom: hostname+"@mail",
 										smtppass: dbpass,
 										smtpssl:"587",
-										mailFrom: "info@"+hostname,
+										mailfrom: "info@"+hostname,
 										hostnames: "localhost,"+hostname,
 										db: sitename.replace(/-/g,"_"),
 										dbuser: dbuser,

@@ -106,7 +106,7 @@ FormDataController.prototype.sendAllMail = function(finish) {
           (typeof this.data.mail  != "undefined") ? this.data.mail : "";
 
         if (email !== "") {
-          self.sendMail(self.app.mailFrom, email,
+          self.sendMail(self.app.mailfrom, email,
                         self.context.subject, body, function() {
             nr++;
             done();
@@ -131,7 +131,7 @@ FormDataController.prototype.sendTestMail = function(finish) {
   self.listData(function() {
 
     var body = self.personalize(self.context.content, {name: self.context.testname});
-    self.sendMail(self.app.mailFrom, self.context.testmail, self.context.subject, body);
+    self.sendMail(self.app.mailfrom, self.context.testmail, self.context.subject, body);
 
     finish();
   });

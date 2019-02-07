@@ -44,7 +44,7 @@ function Application(config) {
   this.smtpssl = config.smtpssl || "587";
   this.smtppass = config.smtppass || "empty";
   this.smtpoptions = config.smtpoptions; // see https://github.com/andris9/Nodemailer
-  this.mailFrom = config.mailFrom || "info@cody-cms.org";
+  this.mailfrom = config.mailfrom || "info@cody-cms.org";
 
   this.dumpStructures = config.dumpstructures || true;
   if (this.logging) {
@@ -273,10 +273,13 @@ Application.prototype.buildContext = function (path, req, res) {
   
   // build a context
   var context = new cody.Context(path, page, self, req, res);
-  console.log("servePage - params -> "); console.log(context.params);
-  console.log("servePage - session -> "); console.log(context.session);
+  console.log("servePage - params -> "); //console.log(context.params);
+  console.log("servePage - session -> "); //console.log(context.session);
 
-  if (typeof req.files !== "undefined") { console.log("servePage - files -> "); console.log(req.files); }
+  if (typeof req.files !== "undefined") {
+	//console.log("servePage - files -> ");
+	//console.log(req.files);
+	}
 
   return context;
 };
@@ -653,7 +656,7 @@ Application.prototype.findPage = function(path) {
   // hash based on only language/domain
 
   // if only language is specified (can be the defaultlanguage), serve the welcome/home page
-  var aPage = self.urls[path.pagelink + ((path.domain === "") ? "welcome" : "")];
+  var aPage = self.urls[path.pagelink + ((path.domain === "") ? "main" : "")];
   
   // if page not found -> serve the language/notfound page
   if (typeof aPage === "undefined") {

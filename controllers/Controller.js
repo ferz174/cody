@@ -46,10 +46,14 @@ Controller.prototype.doRequest = function( finish ) {
 
   // if you don't want any rendering to be done:
   //  pass an empty string (or set this.context.fn to empty)
-
-  if (! this.hasSubmittedForm(finish)) {
-    finish();
-  }
+	var self = this;
+	if (self.isRequest("list")) {
+		var list = JSON.parse(self.getParam("list"));
+		console.log(list);
+		finish();
+	} else if (! this.hasSubmittedForm(finish)) {
+		finish();
+	}
 };
 
 Controller.prototype.doCrudRequest = function( finish ) {
@@ -269,7 +273,7 @@ Controller.prototype.alertFormOwner = function(atom, form) {
       }
     }
     mail += "\n\nYour website.\n";
-    self.sendMail(self.app.mailFrom, formDesc.alert, "Message from " + atom.app.name, mail);
+    self.sendMail(self.app.mailfrom, formDesc.alert, "Message from " + atom.app.name, mail);
   }
 };
 
@@ -305,7 +309,7 @@ Controller.prototype.sendMail = function (pFrom, pTo, pSubject, pText, pHtml, fi
       secureConnection: false,
       port: self.context.app.smtpssl,
       auth: {
-        user: self.context.app.mailFrom,
+        user: self.context.app.mailfrom,
         pass: self.context.app.smtppass
       }
   };
