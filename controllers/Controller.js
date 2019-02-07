@@ -47,9 +47,9 @@ Controller.prototype.doRequest = function( finish ) {
   // if you don't want any rendering to be done:
   //  pass an empty string (or set this.context.fn to empty)
 	var self = this;
-	if (self.isRequest("list")) {
-		var list = JSON.parse(self.getParam("list"));
-		console.log(list);
+	if (self.isRequest("data")) {
+		var data = JSON.parse(self.getParam("data"));
+		console.log(data);
 		finish();
 	} else if (! this.hasSubmittedForm(finish)) {
 		finish();
