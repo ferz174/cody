@@ -397,10 +397,12 @@ PageController.prototype.fetchNode = function( theNode, finish ) {
   var self = this;
   var pagelink = self.context.page.itemId; 
   var aPage = self.getObject( cody.TreeController.toId(theNode) );
-  if (! self.isAllowed(aPage)) {
+  
+  if (! self.isAllowed(aPage) && self.context.login.level > 100) {
     this.gen("NAL,User is not allowed to edit this page with id = " + theNode, { "Content-Type": "application/html" });
     return;
   }
+  
   // just switch the page in our current context and we're done ??
   self.context.page = aPage;
   self.context.pagelink = pagelink;

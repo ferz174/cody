@@ -170,6 +170,7 @@ Context.prototype.render = function(params) {
 
 Context.prototype.setLogin = function(login) {
   if (typeof this.session !== "undefined") this.session.login = login;
+  this.session.domain = (typeof login == "undefined" || JSON.stringify(login).length == 2) ? "" : this.session.login.domain;
   this.login = new cody.User(login);
 };
 Context.prototype.isLoggedIn = function() {

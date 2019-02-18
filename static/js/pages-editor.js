@@ -83,7 +83,7 @@ function getPage(id, theService) {
          self.warnUser("Got error from server: " + msg);
               
        } else if (msg.substring(0,3) === "NAL") {
-         self.warnUser("You are not allowed to edit this page, sorry.");
+         self.warnUser("You are not allowed to edit this page, sorry");
              
        } else {
 

@@ -46,12 +46,7 @@ Controller.prototype.doRequest = function( finish ) {
 
   // if you don't want any rendering to be done:
   //  pass an empty string (or set this.context.fn to empty)
-	var self = this;
-	if (self.isRequest("data")) {
-		var data = JSON.parse(self.getParam("data"));
-		console.log(data);
-		finish();
-	} else if (! this.hasSubmittedForm(finish)) {
+	if (! this.hasSubmittedForm(finish)) {
 		finish();
 	}
 };
@@ -193,10 +188,11 @@ Controller.prototype.isAllowed = function( theItemOrPage ) {
   console.log("Controller.isAllowed: user = '" + aUserDomain + "', item/page(" + theItemOrPage.getId() + ") = '" + anItemDomain + "'");
 
   // no userdomain -> not allowed
+  //if (aUserDomain === "" || (aUserDomain != anItemDomain)) { return false; }
   if (aUserDomain === "") { return false; }
 
-  // user has all rights or belongs to cody admin
-  if ((aUserDomain === "*") || (aUserDomain === "cody")) { return true; }
+  // user has all rights or belongs to root
+  if ((aUserDomain === "*") || (aUserDomain === "root")) { return true; }
 
   // item can be edited by any domain or no specific domains are set up
   if ((anItemDomain === "*") || (anItemDomain === "")) { return true; }

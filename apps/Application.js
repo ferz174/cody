@@ -249,7 +249,6 @@ Application.prototype.servePage = function(req, res) {
   console.log("--LOG--A--|" + ip + "|" + new Date() + "|" + req.headers['host'] + "|" + req._parsedUrl.pathname);
 
   self.log("servePage - path -> " + path.link);
-  
    
   var aContext = self.buildContext( path, req, res );
   if (typeof aContext !== "undefined") {
@@ -262,6 +261,9 @@ Application.prototype.buildContext = function (path, req, res) {
   var self = this;
   
   // get the page
+  
+  //console.log(path);
+  
   var page = self.findPage(path);
   
   if (typeof page === "undefined") {
@@ -384,7 +386,7 @@ Application.prototype.logInFirst = function(context) {
 };
 
 Application.prototype.notAllowed = function(context) {
-  this.delegate(context, "notallowed");
+  this.delegate(context, "404");
 };
 
 
@@ -654,14 +656,14 @@ Application.prototype.findPage = function(path) {
   var self = this;
 	
   // hash based on only language/domain
-
+  
   // if only language is specified (can be the defaultlanguage), serve the welcome/home page
-  var aPage = self.urls[path.pagelink + ((path.domain === "") ? "main" : "")];
+  var aPage = self.urls[path.pagelink + ((path.domain === "" || path.domain === "notallowed") ? "main" : "")];
   
   // if page not found -> serve the language/notfound page
   if (typeof aPage === "undefined") {
     console.log("Application.findPage - not found -> " + path.pagelink + ", trying -> " + path.language + "/notfound");
-    aPage = self.urls[path.language + "/notfound"];
+    aPage = self.urls[path.language + "/"];
   }
 
   if (typeof aPage !== "undefined") {
