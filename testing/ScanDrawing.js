@@ -22,7 +22,7 @@ module.exports = ScanDrawing;
 ScanDrawing.sqlNewScanDrawing = "insert into "+db_scan_table+" (item) values (?)";
 ScanDrawing.sqlGetScanDrawing = "select * from "+db_scan_table+" where ?";
 ScanDrawing.sqlSetScanDrawing = "update "+db_scan_table+" set ? where ?";
-ScanDrawing.sqlGetScanDrawings = "select item File, item FileName, date_format(scandate,'%d.%m.%Y %H:%i:%s') date from "+db_scan_table+" where scandate > ? and scandate < adddate(?, interval 1 day)";
+ScanDrawing.sqlGetScanDrawings = "select item File, name FileName, date_format(scandate,'%d.%m.%Y %H:%i:%s') date from "+db_scan_table+" where scandate > ? and scandate < adddate(?, interval 1 day)";
 ScanDrawing.sqlGetScanDrawingsNotName = "select * from "+db_scan_table+" as scantable "+
 										"where (? REGEXP scantable.detect or scantable.item = ?) and "+
 										"(scantable.name is null or scantable.name='') order by scantable.scandate desc";
@@ -64,7 +64,8 @@ ScanDrawing.GetScanDrawings = function(controller, data, finish) {
 	var store = finish;
 	controller.query(ScanDrawing.sqlGetScanDrawings, [data, data], function(error, result) {
 		if (error) throw(new Error("ScanDrawing.GetScanDrawings sql errors: "+error));
-		var temp = result[0].File;
+		//var temp = result[0].File;
+		//console.log(temp);
 		store(result);
 	});
 };
