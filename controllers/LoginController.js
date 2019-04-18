@@ -127,8 +127,6 @@ LoginController.prototype.continueRequest = function(finish) {
   //check for pending request from before the login request
   var aSession = self.context.session;
   if (aSession && aSession.pendingContext) {
-	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	console.log(aSession);
     console.log("LoginController.tryLogin -> found pending session after login");
 
     /* we could have Express handle this too, but still some research to do
