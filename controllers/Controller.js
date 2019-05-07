@@ -445,7 +445,7 @@ Controller.prototype.render =  function( theContent ) {
 
 Controller.prototype.gen = function( theContent, theHeader ) {
   if (typeof theHeader === "undefined") {
-    this.context.res.writeHead(200, { "Content-Type": "application/json" });
+    this.context.res.writeHead(200, { "Content-Type": "application/json"});
   } else {
     this.context.res.writeHead(200, theHeader);
   }

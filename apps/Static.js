@@ -164,8 +164,11 @@ Static.prototype.serve = function () {
         console.log("Static.serve -> sending: " + filename + " - " + file.length + " bytes as " + type);
         self.response.writeHead(200, {
           "Content-Type": type,
-          "Cache-Control": "public, max-age=" + maxCacheAge
+          "Cache-Control": "public, max-age=" + maxCacheAge,
+		  "Access-Control-Allow-Origin": "*",
+		  //"Access-Control-Allow-Credentials": "true",
         });
+		console.log("This is Access-Control-Allow-Origin: *");
         self.response.write(file, "binary");
         self.response.end();
         
