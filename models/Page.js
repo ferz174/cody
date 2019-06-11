@@ -49,13 +49,13 @@ Page.addDefaults = function(basis, item) {
 Page.loadPages = function(connection, store) {
   connection.query('select * from pages', [], function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadPages failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 Page.loadLanguages = function(connection, store) {
   connection.query('select * from languages order by sortorder', [], function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadLanguages failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 
@@ -471,7 +471,7 @@ Page.prototype.fetchContent = function( app, language, itemId, next ) {
   var nrI = 1;
 
   app.connection.query(
-    "select * from content where item = ? and language = ? order by intro desc, sortorder asc",
+    "select * from content where item = '$1' and language = '$2' order by intro desc, sortorder asc",
     [itemId, language],
     function(err, result) {
       if (err) { 

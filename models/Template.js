@@ -47,7 +47,7 @@ Template.prototype.findController = function(aControllerName, controllers) {
 Template.loadTemplates = function(connection, store) {
   connection.query('select * from templates', [], function(err, result) {
     if (err) { console.log(err); throw(new Error("Template.loadTemplates failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 

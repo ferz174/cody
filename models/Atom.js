@@ -46,7 +46,7 @@ Atom.prototype.pickParent = function(atomList) {
 
 Atom.loadAtoms = function(connection, store) {
   connection.query('select * from atoms', [], function(err, result) {
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 

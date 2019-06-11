@@ -4,7 +4,7 @@
 //
 
 
-var mysql = require('mysql');
+//var mysql = require('mysql');
 // JM: assuming Application is always require()'d directly by cody/index.js since ../../index.js is ugly.
 // maybe replace in all other files as well.
 var cody = module.parent.exports;
@@ -32,6 +32,9 @@ function Application(config) {
   this.name = config.name || "cody";
   this.version =  config.version || "v1.0";
   this.datapath =  config.datapath || "./data";
+  
+  this.dbsql = config.dbsql || "mysql";
+  sql = require(this.dbsql);
 
   this.dbuser = config.dbuser || "cody";
   // allowing empty password, thanks linksgo2011 & ticup (changed also in template startup file: doc/empty/index.js)
@@ -413,11 +416,17 @@ Application.prototype.getConnection = function() {
 
 //Connect to database
 function setConnection(self) {
-	self.connection = mysql.createConnection({
-        host: self.dbhost, port: self.dbport,
-        user: self.dbuser, password: self.dbpassword,
-        database: self.db
-    });	
+	if (self.dbsql == "mysql") {
+		self.connection = sql.createConnection({
+			host: self.dbhost, port: self.dbport,
+			user: self.dbuser, password: self.dbpassword,
+			database: self.db
+		});
+	} else if (self.dbsql == "pg") {
+		self.connection = new sql.Client("postgres://"+self.dbuser+":"+self.dbpassword+"@"+self.dbhost+":"+self.dbport+"/"+self.db);
+		self.connection.connect();
+	}
+	
 	self.connection.on('error', function(error) {
 		self.connection = null;
 		self.log("setConnection: error connection db", error.code);

@@ -31,35 +31,35 @@ module.exports = User;
 // Class stuff
 //
 
-User.sqlGetUserByPw = "select * from users where username = ? and password = password(?)";
-User.sqlGetUserById = "select * from users where id = ?";
-User.sqlDeleteUser = "delete from users where id = ?";
-User.sqlGetUserList = "select * from users where level <= ? order by name";
+User.sqlGetUserByPw = "select * from users where username = '$1' and password = password('$2')";
+User.sqlGetUserById = "select * from users where id = '$1'";
+User.sqlDeleteUser = "delete from users where id = '$1'";
+User.sqlGetUserList = "select * from users where level <= '$1' order by name";
 User.sqlGetDomainList = "select distinct domain from users order by 1";
-User.sqlAddBadLogin = "update users set badlogins = badlogins + 1 where username = ?";
-User.sqlClearBadLogins = "update users set badlogins = 0 where username = ?";
+User.sqlAddBadLogin = "update users set badlogins = badlogins + 1 where username = '$1'";
+User.sqlClearBadLogins = "update users set badlogins = 0 where username = '$1'";
 User.sqlGetDomainList = "select distinct domain from users order by domain";
-User.sqlGetLevelList = "select id, name from levels where id <= ? order by id";
+User.sqlGetLevelList = "select id, name from levels where id <= '$1' order by id";
 
 
 User.getUsers = function(controller, level, store) {
   controller.query(User.sqlGetUserList, [level], function(err, result) {
     if (err) { console.log(err); throw(new Error("User.getUsers failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 
 User.getDomains = function(controller, store) {
   controller.query(User.sqlGetDomainList, [], function(err, result) {
     if (err) { console.log(err); throw(new Error("User.getDomains failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 
 User.getLevels = function(controller, level, store) {
   controller.query(User.sqlGetLevelList, [level], function(err, result) {
     if (err) { console.log(err); throw(new Error("User.getLevels failed with sql errors")); }
-    store(result);
+    store(result.rows ? result.rows : result);
   });
 };
 
@@ -68,7 +68,6 @@ User.getUser = function() {
   //   getUser(controller, username, password, store)
   // or
   //   getUser(controller, id, store)
-  
   var controller = arguments[0];
   var store;
   
@@ -76,6 +75,7 @@ User.getUser = function() {
     store = arguments[3];  
     controller.query(User.sqlGetUserByPw, [arguments[1], arguments[2]], function(error, results) {
       if (error) { console.log(error); throw(new Error("User.getUser failed with sql errors")); }
+	  console.log(results);
       store(new User(results[0]));
    });
 
