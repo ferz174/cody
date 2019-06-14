@@ -4,9 +4,7 @@
 //
 console.log("loading " + module.id);
 
-var mysql = require("mysql");
 var cody = require("./../index.js");
-
 
 function UserController(context) {
   console.log("UserController.constructor -> page(" + context.page.itemId + ") = " + context.page.title + ", request = " + context.request);

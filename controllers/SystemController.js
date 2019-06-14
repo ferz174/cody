@@ -1,13 +1,10 @@
 
 console.log("loading " + module.id);
 
-var mysql = require("mysql");
 var cody = require("./../index.js");
 var fs = require("fs");
 var path = require("path");
 var util = require("util");
-
-var mysql = require('mysql');
 
 module.exports = SystemController;
 

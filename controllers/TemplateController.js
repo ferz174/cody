@@ -4,9 +4,7 @@
 //
 console.log("loading " + module.id);
 
-var mysql = require("mysql");
 var cody = require("../index.js");
-
 
 function TemplateController(context) {
   console.log("TemplateController.constructor -> page(" + context.page.itemId + ") = " + context.page.title + ", request = " + context.request);
@@ -17,7 +15,6 @@ function TemplateController(context) {
 
 TemplateController.prototype = Object.create( cody.Controller.prototype );
 module.exports = TemplateController;
-
 
 
 TemplateController.prototype.doRequest = function( finish ) {

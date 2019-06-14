@@ -4,10 +4,8 @@
 //
 console.log("loading " + module.id);
 
-var mysql = require("mysql");
 var nodemailer = require("nodemailer");
 var cody = require("../index.js");
-
 
 function Controller(context) {
   // only called for using my methods

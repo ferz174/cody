@@ -2,11 +2,9 @@
 // Johan Coppieters - jan 2013 - jWorks
 //
 //
-var mysql = require('mysql');
 var cody = require('../index.js');
 
 console.log("loading " + module.id);
-
 
 function FileController(context) {
   console.log("FileController.constructor -> page(" + context.page.itemId + ") = " + context.page.title + ", request = " + context.request);
