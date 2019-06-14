@@ -47,13 +47,17 @@ Page.addDefaults = function(basis, item) {
 };
 
 Page.loadPages = function(connection, store) {
-  connection.query('select * from pages', [], function(err, result) {
+  connection.query('select * from pages',
+  [],
+  function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadPages failed with sql errors")); }
     store(result.rows ? result.rows : result);
   });
 };
 Page.loadLanguages = function(connection, store) {
-  connection.query('select * from languages order by sortorder', [], function(err, result) {
+  connection.query('select * from languages order by sortorder',
+  [],
+  function(err, result) {
     if (err) { console.log(err); throw(new Error("Page.loadLanguages failed with sql errors")); }
     store(result.rows ? result.rows : result);
   });
@@ -292,8 +296,8 @@ Page.prototype.doUpdate = function(controller, next, isNew) {
   // new or existing record?
   if (isNew) {
     // console.log("Page.doUpdate -> insert page " + self.title);
-    controller.query("insert into pages (title, link, active, keywords, description , updated, created, item, language) " +
-                     "values (?, ?, ?, ?, ?, now(), now(), ?, ?)", values,
+    controller.query("insert into pages (title, link, active, keywords, description , updated, created, item, language) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", now(), now(), "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+")",
+	values,
     function(err, result) {
       if (err) { 
         console.log("Page.doUpdate -> error inserting page: " + self.language + "/" + self.itemId);
@@ -307,8 +311,8 @@ Page.prototype.doUpdate = function(controller, next, isNew) {
     
   } else {
     //  console.log("Page.doUpdate -> update page " + self.itemId + " - " + self.title);
-    controller.query("update pages set title = ?, link = ?, active = ?, keywords = ?, description = ?, updated = now() " +
-                     " where item = ? and language = ?", values,
+    controller.query("update pages set title = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", link = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", active = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", keywords = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", description = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", updated = now() where item = "+(cody.config.dbsql == "pg" ? '$6' : '?')+" and language = "+(cody.config.dbsql == "pg" ? '$7' : '?'),
+	values,
     function(err) {
       if (err) { 
         console.log("Page.doUpdate -> error updating page: " + self.language + "/" + self.itemId);
@@ -327,7 +331,7 @@ Page.prototype.doDelete = function(controller, next) {
 
   // should NOT be used !!
   console.log("ERROR: should not be used -- delete page " + self.language + "/" + this.item.id + " - " + this.title);
-  controller.query("delete from pages where item = ? and language = ?",
+  controller.query("delete from pages where item = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and language = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
       [self.itemId, self.language],
       function(err) {
         if (err) { 
@@ -343,7 +347,7 @@ Page.prototype.doDeactivate = function(controller, next) {
   var self = this;
   console.log("Page.doDeactivate -> deactive page " + self.language + "/" + self.itemId + " - " + self.title);
   this.active = 'N';
-  controller.query("update pages set active = 'N' where item = ? and language = ?",
+  controller.query("update pages set active = 'N' where item = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and language = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
       [self.itemId, self.language],
       function(err) {
         if (err) { 
@@ -433,7 +437,9 @@ Page.prototype.deleteContentById = function( controller, theId, next ) {
   
   var i = self.getContentIndex(theId);
   if (i >= 0) {
-    controller.query("delete from content where id=?", [theId], function(err) {
+    controller.query("delete from content where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+	[theId],
+	function(err) {
       if (err) { 
         console.log(err); 
       } else {
@@ -452,8 +458,9 @@ Page.prototype.deleteContentById = function( controller, theId, next ) {
 Page.prototype.deleteContent = function( controller, next ) {
   var self = this;
   
-  controller.query("delete from content where item=? and language=?", 
-      [self.itemId, self.language], function(err) {
+  controller.query("delete from content where item = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and language = "+(cody.config.dbsql == "pg" ? '$2' : '?'), 
+  [self.itemId, self.language],
+  function(err) {
     if (err) { 
       console.log(err); 
     } else {
@@ -469,11 +476,10 @@ Page.prototype.fetchContent = function( app, language, itemId, next ) {
   var self = this;
   var nrC = 1;
   var nrI = 1;
-
-  app.connection.query(
-    "select * from content where item = '$1' and language = '$2' order by intro desc, sortorder asc",
+  app.connection.query("select * from content where item = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and language = "+(cody.config.dbsql == "pg" ? '$2' : '?')+" order by intro desc, sortorder asc",
     [itemId, language],
     function(err, result) {
+      result = result.rows ? result.rows : result;
       if (err) { 
         console.log(err); 
         throw(new Error("Page.fetchContent failed with sql errors"));

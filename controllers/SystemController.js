@@ -34,7 +34,9 @@ SystemController.prototype.doRequest = function( finish ) {
     });
 
   } else if (self.isRequest("Save")) {
-    self.query("UPDATE cody.websites SET hostname=? WHERE id=?", [this.getParam("hostname"), this.getParam("id")], function (err2, results2) {
+    self.query("update cody.websites set hostname = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
+	[this.getParam("hostname"), this.getParam("id")],
+	function (err, result) {
       self.doList(function() {
         self.app.init(function() {
           self.feedback(true, "Parameters saved and system reloaded");
@@ -59,15 +61,19 @@ SystemController.prototype.doList = function(finish) {
   if (hostname.indexOf(":") >= 0) {
     hostname = (hostname.split(":"))[0];
   }
-  var hostnameA = self.escape("%," + hostname);
-  var hostnameB = self.escape(hostname + ",%");
-  hostname = self.escape(hostname);
+  //var hostnameA = self.escape("%," + hostname);
+  //var hostnameB = self.escape(hostname + ",%");
+  //hostname = self.escape(hostname);
 
-  self.query("SELECT * FROM cody.websites WHERE hostname=" + hostname + " OR hostname LIKE " + hostnameA + " OR hostname LIKE " + hostnameB, function (err, results) {
+  //self.query("SELECT * FROM cody.websites WHERE hostname = " + hostname + " OR hostname LIKE " + hostnameA + " OR hostname LIKE " + hostnameB,
+  self.query("select * from cody.websites where hostname = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" or hostname like "+(cody.config.dbsql == "pg" ? '$2' : '?')+" or hostname like "+(cody.config.dbsql == "pg" ? '$3' : '?'),
+  [self.escape(hostname), self.escape("%," + hostname) , self.escape(hostname + ",%")],
+  function (err, result) {
+	result = result.rows ? result.rows : result;
     if (err) throw err;
-    if (results.length > 0) {
-      var result = results[0];
-      self.context.config = result;
+    if (result.length > 0) {
+      //var result = result[0];
+      self.context.config = result[0];
       finish(self.formView);
     }
   });

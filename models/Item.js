@@ -70,7 +70,9 @@ Item.prototype.pickParent = function(itemList) {
 };
 
 Item.loadItems = function(connection, store) {
-  connection.query('select * from items', [], function(err, result) {
+  connection.query('select * from items',
+  [],
+  function(err, result) {
     if (err) { console.log(err); throw(new Error("Item.loadItems failed with sql errors")); }
     store(result.rows ? result.rows : result);
   });
@@ -132,24 +134,20 @@ Item.prototype.scrapeFrom = function(controller) {
 Item.prototype.doUpdate = function(controller, finish) {
   var self = this;
   
-  var values = [self.name, self.parentId, self.user, self.templateId, self.orderby, self.sortorder, 
-                self.dated, self.validfrom, self.validto, self.showcontent, self.needslogin,
-                self.defaultrequest, self.alloweddomains];
+  var values = [self.name, self.parentId, self.user, self.templateId, self.orderby, self.sortorder, self.dated, self.validfrom, self.validto, self.showcontent, self.needslogin, self.defaultrequest, self.alloweddomains];
   
   // new or existing record?
   if ((typeof self.id === "undefined") || (self.id === 0)) {
     
     //console.log("Item.doUpdate -> insert item " + self.name);
-    controller.query("insert into items (name, parent, user, template, orderby, sortorder, " +
-                     " dated, validfrom, validto, showcontent, needslogin, " +
-                     " defaultrequest, alloweddomains) " +
-                     "values (?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, ?)", values,
+    controller.query("insert into items (name, parent, user, template, orderby, sortorder, dated, validfrom, validto, showcontent, needslogin, defaultrequest, alloweddomains) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+")",
+	values,
       function(err, result) {
         if (err) { 
           console.log("Item.doUpdate -> erroring inserting item: " + self.name);
           console.log(err); 
         } else {
-          self.id = result.insertId;
+          self.id = (result.rows ? result.rows : result).insertId;
           console.log("Item.doUpdate -> inserted item: " + self.id);
           if (typeof finish === "function") { finish(); }
         }
@@ -158,10 +156,8 @@ Item.prototype.doUpdate = function(controller, finish) {
   } else {
     //console.log("Item.doUpdate -> update item " + self.id + " - " + self.name);
     values.push(self.id);
-    controller.query("update items set name = ?, parent = ?, user = ?, template = ?, orderby = ?, sortorder = ?, " +
-                     " dated = ?, validfrom = ?, validto = ?, showcontent = ?, needslogin = ?, " +
-                     " defaultrequest = ?, alloweddomains = ? " +
-                     "where id = ?", values,
+    controller.query("update items set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", user = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", template = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", orderby = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", dated = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", validfrom = "+(cody.config.dbsql == "pg" ? '$8' : '?')+", validto = "+(cody.config.dbsql == "pg" ? '$9' : '?')+", showcontent = "+(cody.config.dbsql == "pg" ? '$10' : '?')+", needslogin = "+(cody.config.dbsql == "pg" ? '$11' : '?')+", defaultrequest = "+(cody.config.dbsql == "pg" ? '$12' : '?')+", alloweddomains = "+(cody.config.dbsql == "pg" ? '$13' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$14' : '?'),
+	values,
       function(err) {
         if (err) { 
           console.log("Item.doUpdate -> erroring updating item: " + self.id);
@@ -177,11 +173,15 @@ Item.prototype.doUpdate = function(controller, finish) {
 Item.prototype.doDelete = function(controller, finish) {
   var self = this;
 
-  controller.query("delete from items where id = ?", [ self.id ], function() {
+  controller.query("delete from items where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  [ self.id ],
+  function() {
     delete controller.app.items[self.id];
     console.log("Item.doDelete -> deleted item: " + self.id);
     
-    controller.query("delete from pages where item = ?", [ self.id ], function(err) {
+    controller.query("delete from pages where item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+	[ self.id ],
+	function(err) {
       if (err) { 
         console.log("Item.doDelete -> erroring deleting all pages from item: " + self.id);
         console.log(err); 
@@ -189,7 +189,9 @@ Item.prototype.doDelete = function(controller, finish) {
         controller.app.deletePagesForItem(self.id, function() {
           console.log("Item.doDelete -> deleted all pages from item: " + self.id);
           
-          controller.query("delete from content where item=?", [ self.id ], function(err) {
+          controller.query("delete from content where item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+		  [ self.id ],
+		  function(err) {
             if (err) { 
               console.log(err); 
             } else {

@@ -45,7 +45,9 @@ Atom.prototype.pickParent = function(atomList) {
 };
 
 Atom.loadAtoms = function(connection, store) {
-  connection.query('select * from atoms', [], function(err, result) {
+  connection.query('select * from atoms',
+  [],
+  function(err, result) {
     store(result.rows ? result.rows : result);
   });
 };
@@ -135,14 +137,14 @@ Atom.prototype.doUpdate = function(controller, finish) {
     
     console.log("Atom.doUpdate -> insert atom " + self.name);
     values.push(controller.getLoginId());
-    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) " +
-                     "values (?, ?, ?, ?, ?, now(), now())", values,
+    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", now(), now())",
+	values,
       function(err, result) {
         if (err) { 
           console.log("Atom.doUpdate -> erroring inserting atom: " + self.name);
           console.log(err); 
         } else {
-          self.id = result.insertId;
+          self.id = (result.rows ? result.rows : result).insertId;
           console.log("Atom.doUpdate -> inserted atom: " + self.id);
           if (typeof finish === "function") { finish(); }
         }
@@ -151,8 +153,8 @@ Atom.prototype.doUpdate = function(controller, finish) {
   } else {
     console.log("Atom.doUpdate -> update atom " + self.id + " - " + self.name);
     values.push(self.id);
-    controller.query("update atoms set name = ?, parent = ?, sortorder = ?, note = ?, extention = ?, updated = now() " +
-                     "where id = ?", values,
+    controller.query("update atoms set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", note = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", extention = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", updated = now() where id = "+(cody.config.dbsql == "pg" ? '$6' : '?'),
+	values,
       function(err) {
         if (err) { 
           console.log("Atom.doUpdate -> erroring updating atom: " + self.id);
@@ -168,7 +170,9 @@ Atom.prototype.doUpdate = function(controller, finish) {
 Atom.prototype.doDelete = function(controller, finish) {
   var self = this;
   console.log("Atom.doDelete -> delete atom " + self.id + " - " + self.name);
-  controller.query("delete from atoms where id = ?", [ self.id ], function() {
+  controller.query("delete from atoms where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  [ self.id ],
+  function() {
     delete controller.app.atoms[self.id];
     console.log("Atom.doUpdate -> deleted atom: " + self.id);
     

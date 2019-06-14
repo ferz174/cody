@@ -177,15 +177,18 @@ ContactController.prototype.doImportFormData = function (atomId, status, finishe
   var tags = self.getParam("tags");
   if (Array.isArray(tags)) tags = tags.join(",");
 
-  self.query("select data, status, created from data where atom = ? and status = ?", [atomId, status], function(err, results) {
+  self.query("select data, status, created from data where atom = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and status = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
+  [atomId, status],
+  function(err, result) {
+	result = result.rows ? result.rows : result;
     if (err) {
       console.log("error selecting data with status="+ status + " and atom=" + atomId + " -> " + err);
       self.feedBack(false, "Error fetching data from the forms");
       finished();
 
     } else {
-      console.log("importing " + results.length + " records.");
-      cody.Application.each(results, function(done) {
+      console.log("importing " + result.length + " records.");
+      cody.Application.each(result, function(done) {
         console.log("using data: " + this.data);
         var json = JSON.parse(this.data);
         var arr = [ffield(json, ["cie", "company"]),
@@ -204,22 +207,21 @@ ContactController.prototype.doImportFormData = function (atomId, status, finishe
                    "N",
                    JSON.stringify(json)];
         console.log(arr);
-        self.query("insert into contacts " +
-          "(company, name, title, street, zipcity, country, email, phone, phone2, origin, tags, active, note, nomail, data) " +
-          "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", arr, done);
+        self.query("insert into contacts (company, name, title, street, zipcity, country, email, phone, phone2, origin, tags, active, note, nomail, data) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+", "+(cody.config.dbsql == "pg" ? '$14' : '?')+", "+(cody.config.dbsql == "pg" ? '$15' : '?')+")",
+		arr, done);
 
       }, function(err) {
         if (err) {
           console.log("error inserting data -> " + err);
           self.feedBack(false, "Error inserting data");
         } else {
-          self.feedBack(true, results.length + " records added");
+          self.feedBack(true, result.length + " records added");
         }
 
         finished();
       });
-      for (var iRec in results) {
-        var rec = results[iRec];
+      for (var iRec in result) {
+        var rec = result[iRec];
 
       }
     }
@@ -258,7 +260,10 @@ ContactController.prototype.sendTargetMails = function (finished, tags, pFrom, p
   }
   console.log("Sending email from " + pFrom + " to contacts with tags: " + tags + " -> " + p);
 
-  self.query("select * from contacts " + p, ps, function(err, result) {
+  self.query("select * from contacts " + p,
+  ps,
+  function(err, result) {
+	result = result.rows ? result.rows : result;
     if (err) { console.log("error selecting contacts with tags "+ tags + " -> " + err); } else {
 
       for (var iC in result) {

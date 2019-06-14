@@ -147,16 +147,18 @@ FormDataController.prototype.listData = function(finish) {
 
   console.log("FormDataController.listData ->  meta = " + self.context.form_meta + ", status = " + self.context.form_show);
 
-  self.query("select id, atom, data,status,created, modified from data " +
-    "where (atom = ? or ? = 0) and (status = ? or ? = 'X') order by atom, created desc",
-    [self.context.form_meta, self.context.form_meta, self.context.form_show, self.context.form_show], function(error, result) {
-      if (error) { console.log("FormDataController.listData -> error " + error); }
-      self.context.data = [];
-      for (var i = 0; i < result.length; i++) {
-        self.context.data[i] = cody.Meta.getData(result[i]);
-      }
-      finish();
-    });
+  self.query("select id, atom, data,status,created, modified from data where (atom = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" or "+(cody.config.dbsql == "pg" ? '$2' : '?')+" = 0) and (status = "+(cody.config.dbsql == "pg" ? '$3' : '?')+" or "+(cody.config.dbsql == "pg" ? '$4' : '?')+" = 'X') order by atom, created desc",
+  [self.context.form_meta, self.context.form_meta, self.context.form_show, self.context.form_show],
+  function(error, result) {
+	result = result.rows ? result.rows : result;
+	if (error) { console.log("FormDataController.listData -> error " + error); }
+	self.context.data = [];
+	for (var i = 0; i < result.length; i++)
+	{
+		self.context.data[i] = cody.Meta.getData(result[i]);
+	}
+	finish();
+  });
 };
 
 
@@ -173,7 +175,9 @@ FormDataController.prototype.saveData = function(id, meta, finish) {
 FormDataController.prototype.deleteData = function(id, finish) {
   var self = this;
 
-  self.query("delete from data where id = ?", [id], function(error, result) {
+  self.query("delete from data where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  [id],
+  function(error, result) {
     if (error) {
       console.log("FormDataController.deleteData -> error " + error);
       self.feedBack(false, "Error deleting data [" + error + "]");

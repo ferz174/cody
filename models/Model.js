@@ -144,7 +144,9 @@ Model.prototype.scrapeFrom = function() {
 Model.prototype.doDelete = function( theId, finish ) {
   var self = this;
 
-  self.controller.query(self.makeDelete(), [theId], function(err, result) {
+  self.controller.query(self.makeDelete(),
+  [theId],
+  function(err, result) {
     if (err) {
       self.controller.feedBack(false, "Failed to delete the record " + theId + " from " + self.tableName);
     } else {
@@ -165,12 +167,14 @@ Model.prototype.doSave = function( finish ) {
   if (self.id.val === self.id.def) {
     // no id -> a new record -> insert
     console.log("query: " + self.makeInsert() + " <- " + values);
-    self.controller.query(self.makeInsert(), values, function(err, result){
+    self.controller.query(self.makeInsert(),
+	values,
+	function(err, result){
       if (err) {
         console.log("error inserting into " + self.tableName + " -> " + err);
         self.controller.feedBack(true, "Error inserting a record in " + self.tableName);
       } else {
-        self.id.val = result.insertId;
+        self.id.val = (result.rows ? result.rows : result).insertId;
         console.log("generated id -> " + self.getString());
         self.controller.feedBack(true, "Successfully a record in " + self.tableName);
       }
@@ -183,7 +187,9 @@ Model.prototype.doSave = function( finish ) {
     values.push(self.id.val);
 
     console.log("query: " + self.makeUpdate() + " <- " + values);
-    self.controller.query(self.makeUpdate(), values, function(err, result){
+    self.controller.query(self.makeUpdate(),
+	values,
+	function(err, result){
       if (err) {
         console.log("error updating " + self.tableName + ", record = " + self.getString() + " -> " + err);
         self.controller.feedBack(true, "Error updating the record = " + self.getString() + " in " + self.tableName);
@@ -201,8 +207,10 @@ Model.prototype.doGetRefs = function(finish) {
   cody.Application.each(self.refs, function(done) {
     if (typeof this.list === "String") {
       // "list" is a string containing a query
-      self.controller.query(this.list, [], function(err, results) {
-        self.controller.context[this.name] = results;
+      self.controller.query(this.list,
+	  [],
+	  function(err, result) {
+        self.controller.context[this.name] = result.rows ? result.rows : result;
         done();
       });
 
@@ -225,7 +233,10 @@ Model.prototype.doGet = function(theId, finish) {
 
     } else {
       console.log("query: " + self.makeSelect() + " <- " + theId);
-      self.controller.query(self.makeSelect(), [theId], function(err, result) {
+      self.controller.query(self.makeSelect(),
+	  [theId],
+	  function(err, result) {
+		result = result.rows ? result.rows : result;
         if (result.length > 0) {
           self.controller.context.record = result[0];
           self.id.val = theId;
@@ -271,13 +282,15 @@ Model.prototype.doList = function(finish) {
 
   // fetch the list
   console.log("list records: " + q.join("|") + " -> " + self.makeList());
-  self.controller.query(self.makeList(), q, function(err, result) {
+  self.controller.query(self.makeList(),
+  q,
+  function(err, result) {
     if (err) {
       console.log("error searching for records " + self.tableName + ", search params = " + q.join("|") + " -> " + err);
       console.log("error searching, while using: " + self.makeList());
       self.controller.feedBack(true, "Error searching for records in " + self.tableName);
     } else {
-      self.controller.context.records = result;
+      self.controller.context.records = result.rows ? result.rows : result;
     }
 
     self.doGetRefs(finish);
