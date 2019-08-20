@@ -40,7 +40,7 @@ Item.addDefaults = function(basis, parent) {
   
   basis.name = basis.name || Item.kDefaultName;
   basis.parent = basis.parent || parent.id;
-  basis.user = basis.user || parent.user;
+  basis.user_id = basis.user_id || parent.user_id;
   basis.sortorder = basis.sortorder || 9999;
   basis.orderby = basis.orderby || parent.orderby;
   basis.dated = basis.dated || new Date();
@@ -139,15 +139,15 @@ Item.prototype.doUpdate = function(controller, finish) {
   // new or existing record?
   if ((typeof self.id === "undefined") || (self.id === 0)) {
     
-    //console.log("Item.doUpdate -> insert item " + self.name);
-    controller.query("insert into items (name, parent, user, template, orderby, sortorder, dated, validfrom, validto, showcontent, needslogin, defaultrequest, alloweddomains) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+")",
+    console.log("Item.doUpdate -> insert item " + self.name);
+    controller.query("insert into items (name, parent, user_id, template, orderby, sortorder, dated, validfrom, validto, showcontent, needslogin, defaultrequest, alloweddomains) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+")"+""+(cody.config.dbsql == "pg" ? ' returning id' : '')+"",
 	values,
       function(err, result) {
         if (err) { 
           console.log("Item.doUpdate -> erroring inserting item: " + self.name);
           console.log(err); 
         } else {
-          self.id = (result.rows ? result.rows : result).insertId;
+          self.id = result.rows ? result.rows[0].id : result.insertId;
           console.log("Item.doUpdate -> inserted item: " + self.id);
           if (typeof finish === "function") { finish(); }
         }
@@ -156,7 +156,7 @@ Item.prototype.doUpdate = function(controller, finish) {
   } else {
     //console.log("Item.doUpdate -> update item " + self.id + " - " + self.name);
     values.push(self.id);
-    controller.query("update items set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", user = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", template = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", orderby = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", dated = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", validfrom = "+(cody.config.dbsql == "pg" ? '$8' : '?')+", validto = "+(cody.config.dbsql == "pg" ? '$9' : '?')+", showcontent = "+(cody.config.dbsql == "pg" ? '$10' : '?')+", needslogin = "+(cody.config.dbsql == "pg" ? '$11' : '?')+", defaultrequest = "+(cody.config.dbsql == "pg" ? '$12' : '?')+", alloweddomains = "+(cody.config.dbsql == "pg" ? '$13' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$14' : '?'),
+    controller.query("update items set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", user_id = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", template = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", orderby = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", dated = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", validfrom = "+(cody.config.dbsql == "pg" ? '$8' : '?')+", validto = "+(cody.config.dbsql == "pg" ? '$9' : '?')+", showcontent = "+(cody.config.dbsql == "pg" ? '$10' : '?')+", needslogin = "+(cody.config.dbsql == "pg" ? '$11' : '?')+", defaultrequest = "+(cody.config.dbsql == "pg" ? '$12' : '?')+", alloweddomains = "+(cody.config.dbsql == "pg" ? '$13' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$14' : '?'),
 	values,
       function(err) {
         if (err) { 

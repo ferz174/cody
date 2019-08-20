@@ -127,7 +127,7 @@
 				 <th><%= __("Active")%></th><th><%= __("First Name")%></th><th><%= __("Username")%></th><th><%= __("Domain")%></th><th><%= __("Level")%></th><th><%= __("Email")%></th><th><%= __("Allows Mail")%></th><th><%= __("Bad logins")%></th>
 			   </tr>
 				
-			  <% for (var i=0; i < users.length; i++) { %>			  
+			  <% for (var i=0; i < users.length; i++) { %>
 					<tr height="15">
 						<td align="center"><img src="<%=cstatic%>/images/main/<%= (users[i].active === 'Y') ? "yes" : "no" %>.png"></td>
 						<td class="edit"><a href="/<%=page.url%>/edit/<%= users[i].id %>"><%= (users[i].name==='') ? '--' : users[i].name %></a></td>

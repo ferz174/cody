@@ -64,7 +64,7 @@ User.getUser = function() {
   if (arguments.length === 4) {
     store = arguments[3];
 	console.log(cody.config.dbsql);
-    controller.query("select * from users where username = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and password = md5("+(cody.config.dbsql == "pg" ? '$2' : '?')+")",
+    controller.query("select * from users where username = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and password = "+(cody.config.dbsql == "pg" ? 'md5($2)' : 'password(?)'),
 	[arguments[1], arguments[2]],
 	function(error, result) {
       if (error) { console.log(error); throw(new Error("User.getUser failed with sql errors")); }
@@ -176,13 +176,13 @@ User.prototype.doUpdate = function(controller, finish) {
 
     console.log("insert user " + this.username);
     values.push(self.password);
-    controller.query("insert into users (username, name, domain, level, badlogins, maxbadlogins, active, email, note, nomail, sortorder, password) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", password("+(cody.config.dbsql == "pg" ? '$12' : '?')+"))",
+    controller.query("insert into users (username, name, domain, level, badlogins, maxbadlogins, active, email, note, nomail, sortorder, password) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? 'md5($12)' : 'password(?)')+")"+""+(cody.config.dbsql == "pg" ? ' returning id' : '')+"",
 	values,
         function(err, result) {
-          if (err) { 
+          if (err) {
             console.log(err); throw(new Error("User.doUpdate/insert failed with sql errors")); 
           } else {
-            self.id = (result.rows ? result.rows : result).insertId;
+            self.id = result.rows ? result.rows[0].id : result.insertId;
             console.log("inserted user: " + self.id);
             if (typeof finish === "function") { finish(); }
           }

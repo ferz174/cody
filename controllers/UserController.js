@@ -84,8 +84,8 @@ UserController.prototype.doGet = function(id, finish) {
       self.context.user = new cody.User({id: 0});
       finish();
     } else {
-      cody.User.getUser( self, id, function(record) {
-        self.context.user = record;
+      cody.User.getUser( self, id, function(result) {
+        self.context.user = result;
         finish();
       });
     }
