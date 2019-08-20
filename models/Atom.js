@@ -137,7 +137,7 @@ Atom.prototype.doUpdate = function(controller, finish) {
     
     console.log("Atom.doUpdate -> insert atom " + self.name);
     values.push(controller.getLoginId());
-    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", now(), now())",
+    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, now(), now())' : '(?, ?, ?, ?, ?, now(), now())'),
 	values,
       function(err, result) {
         if (err) { 
@@ -153,7 +153,7 @@ Atom.prototype.doUpdate = function(controller, finish) {
   } else {
     console.log("Atom.doUpdate -> update atom " + self.id + " - " + self.name);
     values.push(self.id);
-    controller.query("update atoms set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", note = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", extention = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", updated = now() where id = "+(cody.config.dbsql == "pg" ? '$6' : '?'),
+    controller.query("update atoms set "+(cody.config.dbsql == "pg" ? 'name = $1, parent = $2, sortorder = $3, note = $4, extention = $5, updated = now() where id = $6' : 'name = ?, parent = ?, sortorder = ?, note = ?, extention = ?, updated = now() where id = ?'),
 	values,
       function(err) {
         if (err) { 
@@ -170,7 +170,7 @@ Atom.prototype.doUpdate = function(controller, finish) {
 Atom.prototype.doDelete = function(controller, finish) {
   var self = this;
   console.log("Atom.doDelete -> delete atom " + self.id + " - " + self.name);
-  controller.query("delete from atoms where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from atoms where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [ self.id ],
   function() {
     delete controller.app.atoms[self.id];

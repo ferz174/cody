@@ -140,7 +140,7 @@ Item.prototype.doUpdate = function(controller, finish) {
   if ((typeof self.id === "undefined") || (self.id === 0)) {
     
     console.log("Item.doUpdate -> insert item " + self.name);
-    controller.query("insert into items (name, parent, user_id, template, orderby, sortorder, dated, validfrom, validto, showcontent, needslogin, defaultrequest, alloweddomains) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+")"+""+(cody.config.dbsql == "pg" ? ' returning id' : '')+"",
+    controller.query("insert into items (name, parent, user_id, template, orderby, sortorder, dated, validfrom, validto, showcontent, needslogin, defaultrequest, alloweddomains) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning id' : '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'),
 	values,
       function(err, result) {
         if (err) { 
@@ -156,7 +156,7 @@ Item.prototype.doUpdate = function(controller, finish) {
   } else {
     //console.log("Item.doUpdate -> update item " + self.id + " - " + self.name);
     values.push(self.id);
-    controller.query("update items set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", parent = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", user_id = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", template = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", orderby = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", dated = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", validfrom = "+(cody.config.dbsql == "pg" ? '$8' : '?')+", validto = "+(cody.config.dbsql == "pg" ? '$9' : '?')+", showcontent = "+(cody.config.dbsql == "pg" ? '$10' : '?')+", needslogin = "+(cody.config.dbsql == "pg" ? '$11' : '?')+", defaultrequest = "+(cody.config.dbsql == "pg" ? '$12' : '?')+", alloweddomains = "+(cody.config.dbsql == "pg" ? '$13' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$14' : '?'),
+    controller.query("update items set "+(cody.config.dbsql == "pg" ? 'name = $1, parent = $2, user_id = $3, template = $4, orderby = $5, sortorder = $6, dated = $7, validfrom = $8, validto = $9, showcontent = $10, needslogin = $11, defaultrequest = $12, alloweddomains = $13 where id = $14' : 'name = ?, parent = ?, user_id = ?, template = ?, orderby = ?, sortorder = ?, dated = ?, validfrom = ?, validto = ?, showcontent = ?, needslogin = ?, defaultrequest = ?, alloweddomains = ? where id = ?'),
 	values,
       function(err) {
         if (err) { 
@@ -173,13 +173,13 @@ Item.prototype.doUpdate = function(controller, finish) {
 Item.prototype.doDelete = function(controller, finish) {
   var self = this;
 
-  controller.query("delete from items where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from items where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [ self.id ],
   function() {
     delete controller.app.items[self.id];
     console.log("Item.doDelete -> deleted item: " + self.id);
     
-    controller.query("delete from pages where item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+    controller.query("delete from pages where "+(cody.config.dbsql == "pg" ? 'item = $1' : 'item = ?'),
 	[ self.id ],
 	function(err) {
       if (err) { 
@@ -189,7 +189,7 @@ Item.prototype.doDelete = function(controller, finish) {
         controller.app.deletePagesForItem(self.id, function() {
           console.log("Item.doDelete -> deleted all pages from item: " + self.id);
           
-          controller.query("delete from content where item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+          controller.query("delete from content where "+(cody.config.dbsql == "pg" ? 'item = $1' : 'item = ?'),
 		  [ self.id ],
 		  function(err) {
             if (err) { 

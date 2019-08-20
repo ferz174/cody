@@ -267,7 +267,7 @@ Meta.prototype.saveValues = function( controller, status, done ) {
   var data = JSON.stringify(values);
 
   if ((typeof this.objectId === "undefined") || (this.objectId === 0)) {
-    controller.query("insert into data (atom, data, created, modified, status) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", now(), null, 'N')",
+    controller.query("insert into data (atom, data, created, modified, status) values ("+(cody.config.dbsql == "pg" ? '$1, $2' : '?, ?')+", now(), now(), 'N')",
     [self.metaId, data],
       function(error, result){
         self.objectId = (result.rows ? result.rows : result).insertId;
@@ -275,7 +275,7 @@ Meta.prototype.saveValues = function( controller, status, done ) {
     });
 
   } else {
-    controller.query("update data set data = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", modified = now(), status = "+(cody.config.dbsql == "pg" ? '$2' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$3' : '?'),
+    controller.query("update data set "+(cody.config.dbsql == "pg" ? 'data = $1, modified = now(), status = $2 where id = $3' : 'data = ?, modified = now(), status = ? where id = ?'),
 	[data, status, self.objectId],
 	done);
   }
@@ -285,7 +285,7 @@ Meta.prototype.readValues = function( controller, id, done ) {
   var self = this;
   this.objectId = id;
 
-  controller.query("select id, atom, data, status, created, modified from data where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("select id, atom, data, status, created, modified from data where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [id],
   function(error, result) {
 	result = result.rows ? result.rows : result;

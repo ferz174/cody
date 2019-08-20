@@ -27,7 +27,7 @@ function User(basis) {
 module.exports = User;
 
 User.getUsers = function(controller, level, store) {
-  controller.query("select * from users where level <= "+(cody.config.dbsql == "pg" ? '$1' : '?')+" order by name",
+  controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'level <= $1 order by name' : 'level <= ? order by name'),
   [level],
   function(err, result) {
     if (err) { console.log(err); throw(new Error("User.getUsers failed with sql errors")); }
@@ -45,7 +45,7 @@ User.getDomains = function(controller, store) {
 };
 
 User.getLevels = function(controller, level, store) {
-  controller.query("select id, name from levels where id <= "+(cody.config.dbsql == "pg" ? '$1' : '?')+" order by id",
+  controller.query("select id, name from levels where "+(cody.config.dbsql == "pg" ? 'id <= $1 order by id' : 'id <= ? order by id'),
   [level],
   function(err, result) {
     if (err) { console.log(err); throw(new Error("User.getLevels failed with sql errors")); }
@@ -64,7 +64,7 @@ User.getUser = function() {
   if (arguments.length === 4) {
     store = arguments[3];
 	console.log(cody.config.dbsql);
-    controller.query("select * from users where username = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and password = "+(cody.config.dbsql == "pg" ? 'md5($2)' : 'password(?)'),
+    controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'username = $1 and password = md5($2)' : 'username = ? and password = password(?)'),
 	[arguments[1], arguments[2]],
 	function(error, result) {
       if (error) { console.log(error); throw(new Error("User.getUser failed with sql errors")); }
@@ -74,7 +74,7 @@ User.getUser = function() {
     
   } else if (arguments.length === 3) {
     store = arguments[2];  
-    controller.query("select * from users where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+    controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
 	[arguments[1]],
 	function(error, result) {
       if (error) { console.log(error); throw(new Error("User.getUser failed with sql errors")); }
@@ -84,7 +84,7 @@ User.getUser = function() {
 };
 
 User.deleteUser = function(controller, id, finish) {
-  controller.query("delete from users where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from users where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [id],
   function(error, result) {
     if (error) {  
@@ -144,7 +144,7 @@ User.prototype.scrapeFrom = function(controller) {
 
 // not on prototype, no user object exists
 User.addBadLogin = function(controller, theUserName, finish) {
-  controller.query("update users set badlogins = badlogins + 1 where username = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("update users set badlogins = badlogins + 1 where "+(cody.config.dbsql == "pg" ? 'username = $1' : 'username = ?'),
   [theUserName],
   finish);
 };
@@ -153,7 +153,7 @@ User.prototype.clearBadLogins = function(controller, finish) {
   var self = this;
   
   if (self.badlogins > 0) { 
-    controller.query("update users set badlogins = 0 where username = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+    controller.query("update users set badlogins = 0 where "+(cody.config.dbsql == "pg" ? 'username = $1' : 'username = ?'),
 	[self.username],
 	function(err, result) {
       if (err) { console.log(err); throw(new Error("User.clearBadLogins failed with sql errors")); }
@@ -176,7 +176,7 @@ User.prototype.doUpdate = function(controller, finish) {
 
     console.log("insert user " + this.username);
     values.push(self.password);
-    controller.query("insert into users (username, name, domain, level, badlogins, maxbadlogins, active, email, note, nomail, sortorder, password) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? 'md5($12)' : 'password(?)')+")"+""+(cody.config.dbsql == "pg" ? ' returning id' : '')+"",
+    controller.query("insert into users (username, name, domain, level, badlogins, maxbadlogins, active, email, note, nomail, sortorder, password) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, md5($12)) returning id' : '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, password(?))'),
 	values,
         function(err, result) {
           if (err) {
@@ -191,7 +191,7 @@ User.prototype.doUpdate = function(controller, finish) {
   } else {
     console.log("update user " + self.id + " - " + this.username);
     values.push(self.id);
-    controller.query("update users set username = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", name = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", domain = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", level = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", badlogins = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", maxbadlogins = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", active = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", email = "+(cody.config.dbsql == "pg" ? '$8' : '?')+", note = "+(cody.config.dbsql == "pg" ? '$9' : '?')+", nomail = "+(cody.config.dbsql == "pg" ? '$10' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$11' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$12' : '?')+"",
+    controller.query("update users set "+(cody.config.dbsql == "pg" ? 'username = $1, name = $2, domain = $3, level = $4, badlogins = $5, maxbadlogins = $6, active = $7, email = $8, note = $9, nomail = $10, sortorder = $11 where id = $12' : 'username = ?, name = ?, domain = ?, level = ?, badlogins = ?, maxbadlogins = ?, active = ?, email = ?, note = ?, nomail = ?, sortorder = ? where id = ?'),
 	values,
       function(err) {
         if (err) { 
@@ -199,7 +199,7 @@ User.prototype.doUpdate = function(controller, finish) {
         } else {
           console.log("updated user: " + self.id);
           if (self.password != "") {
-            controller.query("update users set password = password("+(cody.config.dbsql == "pg" ? '$1' : '?')+") where id = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
+            controller.query("update users set "+(cody.config.dbsql == "pg" ? 'password = md5($1) where id $2' : 'password = password(?) where id ?'),
 			[self.password, self.id],
 			function() {
               if (err) {
@@ -220,7 +220,7 @@ User.prototype.doUpdate = function(controller, finish) {
 
 User.prototype.doDelete = function(controller, finish) {
   var self = this;
-  controller.query("delete from users where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from users where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [self.id],
   function(isOK) {
     if (typeof finish === "function") { finish(isOK); }
@@ -229,7 +229,7 @@ User.prototype.doDelete = function(controller, finish) {
 
 
 User.emailExists = function (controller, email, finish) {
- controller.query("select * from users where email = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+ controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'email = $1' : 'email = ?'),
  [email],
  function (err, result) {
    if (err)
@@ -239,7 +239,7 @@ User.emailExists = function (controller, email, finish) {
 };
 
 User.getByEmail = function (controller, email, finish) {
- controller.query("select * from users where email = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+ controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'email = $1' : 'email = ?'),
  [email],
  function (err, result) {
    result = result.rows ? result.rows : result;

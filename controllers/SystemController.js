@@ -31,7 +31,7 @@ SystemController.prototype.doRequest = function( finish ) {
     });
 
   } else if (self.isRequest("Save")) {
-    self.query("update cody.websites set hostname = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
+    self.query("update cody.websites set "+(cody.config.dbsql == "pg" ? 'hostname = $1 where id = $2' : 'hostname = ? where id = ?'),
 	[this.getParam("hostname"), this.getParam("id")],
 	function (err, result) {
       self.doList(function() {
@@ -63,7 +63,7 @@ SystemController.prototype.doList = function(finish) {
   //hostname = self.escape(hostname);
 
   //self.query("SELECT * FROM cody.websites WHERE hostname = " + hostname + " OR hostname LIKE " + hostnameA + " OR hostname LIKE " + hostnameB,
-  self.query("select * from cody.websites where hostname = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" or hostname like "+(cody.config.dbsql == "pg" ? '$2' : '?')+" or hostname like "+(cody.config.dbsql == "pg" ? '$3' : '?'),
+  self.query("select * from cody.websites where "+(cody.config.dbsql == "pg" ? 'hostname = $1 or hostname like $2 or hostname like $3' : 'hostname = ? or hostname like ? or hostname like ?'),
   [self.escape(hostname), self.escape("%," + hostname) , self.escape(hostname + ",%")],
   function (err, result) {
 	result = result.rows ? result.rows : result;

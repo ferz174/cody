@@ -78,7 +78,7 @@ Template.prototype.scrapeFrom = function(controller) {
 
 Template.prototype.doDelete = function(controller, done) {
   var self = this;
-  controller.query("delete from templates where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from templates where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [self.id],
   done);
 };
@@ -92,7 +92,7 @@ Template.prototype.doUpdate = function(controller, finish) {
   if ((typeof self.id === "undefined") || (self.id === 0)) {
 
     console.log("insert template " + this.name);
-    controller.query("insert into templates (name, description, controller, fn,  allowedtemplates, maxnumber, system, defaultchild) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+")",
+    controller.query("insert into templates (name, description, controller, fn,  allowedtemplates, maxnumber, system, defaultchild) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8)' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
 	values,
       function(err, result) {
         if (err) {
@@ -108,7 +108,7 @@ Template.prototype.doUpdate = function(controller, finish) {
   } else {
     console.log("update template " + self.id + " - " + this.name);
     values.push(self.id);
-    controller.query("update templates set name = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", description = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", controller = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", fn = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", allowedtemplates = "+(cody.config.dbsql == "pg" ? '$5' : '?')+", maxnumber = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", system = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", defaultchild = "+(cody.config.dbsql == "pg" ? '$8' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+    controller.query("update templates set "+(cody.config.dbsql == "pg" ? 'name = $1, description = $2, controller = $3, fn = $4, allowedtemplates = $5, maxnumber = $6, system = $7, defaultchild = $8 where id = $9' : 'name = ?, description = ?, controller = ?, fn = ?, allowedtemplates = ?, maxnumber = ?, system = ?, defaultchild = ? where id = ?'),
 	values,
       function(err) {
         if (err) {
@@ -163,7 +163,7 @@ Template.prototype.updateContent = function( controller, finish ) {
 Template.prototype.addContent = function( controller, theId, theKind, finish ) {
   var self = this;
   var name = "New " + cody.Content.kindName(theKind);
-  controller.query("insert into content (item, language, sortorder, intro, kind, atom, name, data) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", '*', 999, 'N', "+(cody.config.dbsql == "pg" ? '$2' : '?')+", 0, "+(cody.config.dbsql == "pg" ? '$3' : '?')+", '')",
+  controller.query("insert into content (item, language, sortorder, intro, kind, atom, name, data) values "+(cody.config.dbsql == "pg" ? '($1, \'*\', 999, \'N\', $2, 0, $3, \'\')' : '(?, \'*\', 999, \'N\', ?, 0, ?, \'\')'),
   [-1 * theId, theKind, name],
   function(err) {
     // before template content was language independent the query was:
@@ -175,14 +175,14 @@ Template.prototype.addContent = function( controller, theId, theKind, finish ) {
 
 Template.prototype.copyContentFrom = function( controller, fromTemplate, finish ) {
   var self = this;
-  controller.query("insert into content select 0, "+(cody.config.dbsql == "pg" ? '$1' : '?')+" , language, sortorder, intro, kind, atom, name, data from content a where a.item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("insert into content select 0, "+(cody.config.dbsql == "pg" ? '$1' : '?')+" , language, sortorder, intro, kind, atom, name, data from content a where "+(cody.config.dbsql == "pg" ? 'a.item = $1' : 'a.item = ?'),
   [-1 * self.id, -1 * fromTemplate],
   finish);
 };
 
 Template.prototype.deleteAllContent = function( controller, finish ) {
   var self = this;
-  controller.query("delete from content where item = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from content where "+(cody.config.dbsql == "pg" ? 'item = $1' : 'item = ?'),
   [-1 * self.id],
   finish);
 };
@@ -190,7 +190,7 @@ Template.prototype.deleteAllContent = function( controller, finish ) {
 
 Template.prototype.deleteContent = function( controller, theContent, finish ) {
   var self = this;
-  controller.query("delete from content where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from content where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [theContent],
   finish);
 };

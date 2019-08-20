@@ -209,7 +209,7 @@ Content.prototype.scrapeFromWithId = function(controller) {
 Content.prototype.doDelete = function(controller, finish) {
   var self = this;
   
-  controller.query("delete from content where id = "+(cody.config.dbsql == "pg" ? '$1' : '?'),
+  controller.query("delete from content where "+(cody.config.dbsql == "pg" ? 'id = $1' : 'id = ?'),
   [self.id],
   function(err, result){
     if (err) { 
@@ -230,7 +230,7 @@ Content.prototype.doUpdate = function(controller, isNew, finish) {
   // new or existing record?
   if (isNew) {
     // console.log("Content.doUpdate -> insert content " + self.name);
-    controller.query("insert into content (item, language, sortorder, intro, kind , atom, name, data) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+")",
+    controller.query("insert into content (item, language, sortorder, intro, kind , atom, name, data) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8)' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
 	values,
       function(err, result) {
         if (err) { 
@@ -246,7 +246,7 @@ Content.prototype.doUpdate = function(controller, isNew, finish) {
   } else {
     //console.log("Content.doUpdate -> update content: " + self.id + ", for: " + self.itemId + " - " + self.kind);
     values.push(this.id);
-    controller.query("update content set item = "+(cody.config.dbsql == "pg" ? '$1' : '?')+", language = "+(cody.config.dbsql == "pg" ? '$2' : '?')+", sortorder = "+(cody.config.dbsql == "pg" ? '$3' : '?')+", intro = "+(cody.config.dbsql == "pg" ? '$4' : '?')+", kind = "+(cody.config.dbsql == "pg" ? '$5' : '?')+" , atom = "+(cody.config.dbsql == "pg" ? '$6' : '?')+", name = "+(cody.config.dbsql == "pg" ? '$7' : '?')+", data = "+(cody.config.dbsql == "pg" ? '$8' : '?')+" where id = "+(cody.config.dbsql == "pg" ? '$9' : '?'),
+    controller.query("update content set "+(cody.config.dbsql == "pg" ? 'item = $1, language = $2, sortorder = $3, intro = $4, kind = $5, atom = $6, name = $7, data = $8 where id = $9' : 'item = ?, language = ?, sortorder = ?, intro = ?, kind = ?, atom = ?, name = ?, data = ? where id = ?'),
 	values,
         function(err) {
           if (err) { 

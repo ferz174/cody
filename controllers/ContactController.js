@@ -177,7 +177,7 @@ ContactController.prototype.doImportFormData = function (atomId, status, finishe
   var tags = self.getParam("tags");
   if (Array.isArray(tags)) tags = tags.join(",");
 
-  self.query("select data, status, created from data where atom = "+(cody.config.dbsql == "pg" ? '$1' : '?')+" and status = "+(cody.config.dbsql == "pg" ? '$2' : '?'),
+  self.query("select data, status, created from data where "+(cody.config.dbsql == "pg" ? 'atom = $1 and status = $2' : 'atom = ? and status = ?'),
   [atomId, status],
   function(err, result) {
 	result = result.rows ? result.rows : result;
@@ -207,7 +207,7 @@ ContactController.prototype.doImportFormData = function (atomId, status, finishe
                    "N",
                    JSON.stringify(json)];
         console.log(arr);
-        self.query("insert into contacts (company, name, title, street, zipcity, country, email, phone, phone2, origin, tags, active, note, nomail, data) values ("+(cody.config.dbsql == "pg" ? '$1' : '?')+", "+(cody.config.dbsql == "pg" ? '$2' : '?')+", "+(cody.config.dbsql == "pg" ? '$3' : '?')+", "+(cody.config.dbsql == "pg" ? '$4' : '?')+", "+(cody.config.dbsql == "pg" ? '$5' : '?')+", "+(cody.config.dbsql == "pg" ? '$6' : '?')+", "+(cody.config.dbsql == "pg" ? '$7' : '?')+", "+(cody.config.dbsql == "pg" ? '$8' : '?')+", "+(cody.config.dbsql == "pg" ? '$9' : '?')+", "+(cody.config.dbsql == "pg" ? '$10' : '?')+", "+(cody.config.dbsql == "pg" ? '$11' : '?')+", "+(cody.config.dbsql == "pg" ? '$12' : '?')+", "+(cody.config.dbsql == "pg" ? '$13' : '?')+", "+(cody.config.dbsql == "pg" ? '$14' : '?')+", "+(cody.config.dbsql == "pg" ? '$15' : '?')+")",
+        self.query("insert into contacts (company, name, title, street, zipcity, country, email, phone, phone2, origin, tags, active, note, nomail, data) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)' : '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'),
 		arr, done);
 
       }, function(err) {
