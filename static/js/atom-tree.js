@@ -355,7 +355,7 @@ function jAtomTree(theRoot, theInitialNode, theLanguage, theService, theImages) 
               self.pleaseOpen = msg.node;
               aNode.attr("id", msg.node);
 
-              self.warnUser("Please choose a name for your item and press the 'enter'-key.");
+              self.warnUser("Please choose a name for your item and press Enter.");
             }
       });
     })

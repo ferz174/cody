@@ -134,7 +134,7 @@ Item.prototype.scrapeFrom = function(controller) {
 Item.prototype.doUpdate = function(controller, finish) {
   var self = this;
   
-  var values = [self.name, self.parentId, self.user, self.templateId, self.orderby, self.sortorder, self.dated, self.validfrom, self.validto, self.showcontent, self.needslogin, self.defaultrequest, self.alloweddomains];
+  var values = [self.name, self.parentId, self.user_id, self.templateId, self.orderby, self.sortorder, self.dated, self.validfrom, self.validto, self.showcontent, self.needslogin, self.defaultrequest, self.alloweddomains];
   
   // new or existing record?
   if ((typeof self.id === "undefined") || (self.id === 0)) {

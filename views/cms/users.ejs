@@ -63,7 +63,7 @@
 				</div>
 				<div>
 					<label for="password"><%= __("Password")%></label>
-					<input name="password" id="password" type="text" value="" <% if (typeof user.username === "undefined") { %> class="required" <% } %> />
+					<input name="password" id="password" type="password" value="" <% if (typeof user.username === "undefined") { %> class="required" <% } %> />
           <% if (user.id > 0) { %>
             <span><%= __("Leave empty if you don't want to change your password")%></span>
           <% } %>

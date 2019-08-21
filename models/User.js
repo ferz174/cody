@@ -199,7 +199,7 @@ User.prototype.doUpdate = function(controller, finish) {
         } else {
           console.log("updated user: " + self.id);
           if (self.password != "") {
-            controller.query("update users set "+(cody.config.dbsql == "pg" ? 'password = md5($1) where id $2' : 'password = password(?) where id ?'),
+            controller.query("update users set "+(cody.config.dbsql == "pg" ? 'password = md5($1) where id = $2' : 'password = password(?) where id = ?'),
 			[self.password, self.id],
 			function() {
               if (err) {

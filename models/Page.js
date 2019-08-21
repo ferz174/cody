@@ -296,9 +296,7 @@ Page.prototype.doUpdate = function(controller, next, isNew) {
   // new or existing record?
   if (isNew) {
     console.log("Page.doUpdate -> insert page " + self.itemId);
-	console.log(self);
-	console.log("===================================");
-    controller.query("insert into pages (title, link, active, keywords, description , updated, created, item, language) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7)' : '(?, ?, ?, ?, ?, ?, ?)'),
+    controller.query("insert into pages (title, link, active, keywords, description , updated, created, item, language) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, now(), now(), $6, $7)' : '(?, ?, ?, ?, ?, now(), now(), ?, ?)'),
 	values,
     function(err, result) {
       if (err) { 

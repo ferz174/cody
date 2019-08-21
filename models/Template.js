@@ -92,13 +92,13 @@ Template.prototype.doUpdate = function(controller, finish) {
   if ((typeof self.id === "undefined") || (self.id === 0)) {
 
     console.log("insert template " + this.name);
-    controller.query("insert into templates (name, description, controller, fn,  allowedtemplates, maxnumber, system, defaultchild) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8)' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
+    controller.query("insert into templates (name, description, controller, fn,  allowedtemplates, maxnumber, system, defaultchild) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8) returning id' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
 	values,
       function(err, result) {
         if (err) {
           console.log(err); throw(new Error("Template.doUpdate/insert failed with sql errors"));
         } else {
-          self.id = (result.rows ? result.rows : result).insertId;
+          self.id = result.rows ? result.rows[0].id : result.insertId;
           controller.app.templates[self.id] = self;
           console.log("inserted new template: " + self.id);
           if (typeof finish === "function") { finish(); }

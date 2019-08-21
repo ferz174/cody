@@ -23,7 +23,7 @@ module.exports = ScanDrawing;
 //Вставка новой записи
 ScanDrawing.NewScanDrawing = function(controller, data, finish) {
 	controller.resetConnection(controller.app).query("insert into "+db_scan_table+" (item) values "+(cody.config.dbsql == "pg" ? '($1)' : '(?)'),
-	data,
+	[data],
 	function(error, result) {
 		if (error) throw(new Error("ScanDrawing.NewScanDrawing sql error: "+error));
 		finish((result.rows ? result.rows : result).insertId);
@@ -32,8 +32,8 @@ ScanDrawing.NewScanDrawing = function(controller, data, finish) {
 
 //Обновление записей из асинхронных функций
 ScanDrawing.SetScanDrawing = function(controller, data, id, finish) {
-	controller.resetConnection(controller.app).query("update "+db_scan_table+" set "+(cody.config.dbsql == "pg" ? '$1 where $2' : '? where ?'),
-	[data, id],
+	controller.resetConnection(controller.app).query("update "+db_scan_table+" set "+(cody.config.dbsql == "pg" ? 'name = $1, parent = $2 where id = $3' : 'name = ?, parent = ? where id = ?'),
+	[data.name, data.parent, id],
 	function(error) {
 		if (error) throw(new Error("ScanDrawing.SetScanDrawing sql error: "+error));
 	});
@@ -51,8 +51,8 @@ ScanDrawing.SetScanDrawingData = function(controller, data, finish) {
 //Получение сканируемого чертежа
 ScanDrawing.GetScanDrawing = function(controller, data, finish) {
 	var store = finish;
-	controller.resetConnection(controller.app).query("select * from "+db_scan_table+" where "+(cody.config.dbsql == "pg" ? '$1' : '?'),
-	[data],
+	controller.resetConnection(controller.app).query("select * from "+db_scan_table+" where "+(cody.config.dbsql == "pg" ? 'item = $1' : 'item = ?'),
+	[data.item],
 	function(error, result) {
 		if (error) throw(new Error("ScanDrawing.GetScanDrawing sql errors: "+error));
 		store((result.rows ? result.rows : result)[0] ? new cody.ScanDrawing((result.rows ? result.rows : result)[0]) : false);
@@ -61,13 +61,10 @@ ScanDrawing.GetScanDrawing = function(controller, data, finish) {
 
 ScanDrawing.GetScanDrawings = function(controller, data, finish) {
 	var store = finish;
-	console.log(data);
 	controller.query("select date_format(scandate,'%d.%m.%Y') Date, date_format(scandate,'%H:%i:%s') Time, parent Project, name FileName, item File from "+db_scan_table+" where "+(cody.config.dbsql == "pg" ? 'scandate > $1' : 'scandate > ?')+" and scandate < adddate("+(cody.config.dbsql == "pg" ? '$1' : '?')+", interval 1 day)",
 	[data, data],
 	function(error, result) {
 		if (error) throw(new Error("ScanDrawing.GetScanDrawings sql errors: "+error));
-		//var temp = result[0].File;
-		//console.log(temp);
 		store(result.rows ? result.rows : result);
 	});
 };
@@ -75,7 +72,7 @@ ScanDrawing.GetScanDrawings = function(controller, data, finish) {
 //Получение чертеже которые не перемещены в сводку т.е. поле name null
 ScanDrawing.GetScanDrawingsNotName = function(controller, data, finish) {
 	var store = finish;
-	controller.resetConnection(controller.app).query("select * from "+db_scan_table+" as scantable where ("+(cody.config.dbsql == "pg" ? '$1' : '?')+" REGEXP scantable.detect or "+(cody.config.dbsql == "pg" ? 'scantable.item = $2' : 'scantable.item = ?')+") and (scantable.name is null or scantable.name = '') order by scantable.scandate desc",
+	controller.resetConnection(controller.app).query("select * from "+db_scan_table+" as scantable where "+(cody.config.dbsql == "pg" ? '($1 ~ scantable.detect or scantable.item = $2)' : '(? regexp scantable.detect or scantable.item = ?)')+" and (scantable.name is null or scantable.name='') order by scantable.scandate desc",
 	[data, data],
 	function(error, result) {
 		if (error) {

@@ -230,14 +230,14 @@ Content.prototype.doUpdate = function(controller, isNew, finish) {
   // new or existing record?
   if (isNew) {
     // console.log("Content.doUpdate -> insert content " + self.name);
-    controller.query("insert into content (item, language, sortorder, intro, kind , atom, name, data) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8)' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
+    controller.query("insert into content (item, language, sortorder, intro, kind , atom, name, data) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, $6, $7, $8) returning id' : '(?, ?, ?, ?, ?, ?, ?, ?)'),
 	values,
       function(err, result) {
         if (err) { 
           console.log("Content.doUpdate -> error inserting content for: " + self.language + "/" + self.itemId);
           console.log(err); 
         } else {
-          self.id = (result.rows ? result.rows : result).insertId;
+          self.id = result.rows ? result.rows[0].id : result.insertId;
           console.log("Content.doUpdate -> inserted content: " + self.id + ", order: " + self.sortorder + ", for: " + self.language + "/" + self.itemId);
           if (typeof finish === "function") { finish(); }
         }

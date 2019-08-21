@@ -3,6 +3,8 @@
 //
 //
 console.log("loading " + module.id);
+
+var cody = require("./../index.js");
 var fs = require("fs");
 
 
@@ -136,15 +138,15 @@ Atom.prototype.doUpdate = function(controller, finish) {
   if ((typeof self.id === "undefined") || (self.id === 0)) {
     
     console.log("Atom.doUpdate -> insert atom " + self.name);
-    values.push(controller.getLoginId());
-    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, now(), now())' : '(?, ?, ?, ?, ?, now(), now())'),
+    //values.push(controller.getLoginId());
+    controller.query("insert into atoms (name, parent, sortorder, note, extention, updated, created) values "+(cody.config.dbsql == "pg" ? '($1, $2, $3, $4, $5, now(), now()) returning id' : '(?, ?, ?, ?, ?, now(), now())'),
 	values,
       function(err, result) {
         if (err) { 
           console.log("Atom.doUpdate -> erroring inserting atom: " + self.name);
           console.log(err); 
         } else {
-          self.id = (result.rows ? result.rows : result).insertId;
+          self.id = result.rows ? result.rows[0].id : result.insertId;
           console.log("Atom.doUpdate -> inserted atom: " + self.id);
           if (typeof finish === "function") { finish(); }
         }

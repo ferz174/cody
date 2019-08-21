@@ -267,10 +267,10 @@ Meta.prototype.saveValues = function( controller, status, done ) {
   var data = JSON.stringify(values);
 
   if ((typeof this.objectId === "undefined") || (this.objectId === 0)) {
-    controller.query("insert into data (atom, data, created, modified, status) values ("+(cody.config.dbsql == "pg" ? '$1, $2' : '?, ?')+", now(), now(), 'N')",
+    controller.query("insert into data (atom, data, created, modified, status) values "+(cody.config.dbsql == "pg" ? '($1, $2, now(), now(), "N") returning id' : '(?, ?, now(), now(), "N")'),
     [self.metaId, data],
       function(error, result){
-        self.objectId = (result.rows ? result.rows : result).insertId;
+        self.objectId = result.rows ? result.rows[0].id : result.insertId;
         done();
     });
 
