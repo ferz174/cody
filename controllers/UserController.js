@@ -63,15 +63,21 @@ UserController.prototype.doDelete = function( theId, finish ) {
 	
 UserController.prototype.doSave = function( theId, finish ) {
   var self = this;
-  cody.User.getUser( self, theId, function(aUser) {
-    aUser.scrapeFrom(self);
-    aUser.doUpdate(self, function() {
-      if (aUser.id === self.getLoginId()) {
-        self.setLogin(aUser);
-      }
-      self.feedBack(true, "Successfully saved the user");
-      finish();
-    });    
+  var result = aUser.scrapeFrom(self);
+  cody.User.getUser(self, false, result, function(list) {
+
+	  self.feedBack(false, "Saved the user faild");
+	  finish(list);
+  
+	cody.User.getUser( self, theId, function(aUser) {
+		aUser.doUpdate(self, function() {
+		  if (aUser.id === self.getLoginId()) {
+			self.setLogin(aUser);
+		  }
+		  self.feedBack(true, "Successfully saved the user");
+		  finish();
+		});
+	  });
   });
 };
 

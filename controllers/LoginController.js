@@ -86,7 +86,7 @@ LoginController.prototype.tryLogin = function( finish ) {
   // remove login from context and session -> there is no way back...
   self.setLogin({});
   
-  cody.User.getUser(self, aUserName, this.getParam("password"), function (aUser) {
+  cody.User.getUser(self, true, aUserName, this.getParam("password"), function (aUser) {
     
     console.log("login rec: " + aUserName + " - " + aUser.id + " - " + aUser.badlogins + " - " + aUser.maxbadlogins);
     if (aUser && (aUser.badlogins >= aUser.maxbadlogins)) {
