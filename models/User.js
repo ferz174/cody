@@ -64,7 +64,6 @@ User.getUser = function() {
   
   if (arguments.length === 5) {
     store = arguments[4];
-	console.log(cody.config.dbsql);
     controller.query("select * from users where "+(cody.config.dbsql == "pg" ? 'username = $1 and password = md5($2)' : 'username = ? and password = password(?)'),
 	[arguments[2], arguments[3]],
 	function(error, result) {
@@ -78,7 +77,6 @@ User.getUser = function() {
 	[arguments[2]],
 	function(error, result) {
       if (error) { console.log(error); throw(new Error("User.getUser failed with sql errors")); }
-	  console.log(result.rows[0]);
       store(new User((result.rows ? result.rows : result)[0]));
     });
     
@@ -150,7 +148,6 @@ User.prototype.scrapeFrom = function(controller) {
   this.maxbadlogins = controller.getParam("maxbadlogins", this.maxbadlogins);
   this.active = controller.getParam("active", this.active);
   this.sortorder = controller.getParam("sortorder", this.sortorder);
-  return this.username;
 };
 
 // not on prototype, no user object exists

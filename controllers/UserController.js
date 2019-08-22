@@ -63,13 +63,11 @@ UserController.prototype.doDelete = function( theId, finish ) {
 	
 UserController.prototype.doSave = function( theId, finish ) {
   var self = this;
-  var result = aUser.scrapeFrom(self);
-  cody.User.getUser(self, false, result, function(list) {
-
-	  self.feedBack(false, "Saved the user faild");
-	  finish(list);
   
-	cody.User.getUser( self, theId, function(aUser) {
+  cody.User.getUser(self, false, self.getParam("username"), function(NewUser) {
+	if (NewUser.id <= 0) {
+	   cody.User.getUser( self, theId, function(aUser) {
+		aUser.scrapeFrom(self);
 		aUser.doUpdate(self, function() {
 		  if (aUser.id === self.getLoginId()) {
 			self.setLogin(aUser);
@@ -78,6 +76,11 @@ UserController.prototype.doSave = function( theId, finish ) {
 		  finish();
 		});
 	  });
+	} else {
+	  console.log("UserController.doSave - > Failed to save the user: "+NewUser.username);
+	  self.feedBack(false, "Failed to save the user");
+	  finish();
+	}
   });
 };
 
