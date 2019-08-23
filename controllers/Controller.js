@@ -300,10 +300,12 @@ Controller.prototype.sendMail = function (pFrom, pTo, pSubject, pText, pHtml, fi
   // create transport options -- smtp defaults
   var options = {
       host: self.context.app.smtp,
-      secureConnection: false,
+      secure:false,
+      tls: {rejectUnauthorized: false},
+      debug:true,
       port: self.context.app.smtpssl,
       auth: {
-        user: self.context.app.mailfrom,
+        user: self.context.app.mailfrom.substr(0, self.context.app.mailfrom.indexOf("@")),
         pass: self.context.app.smtppass
       }
   };

@@ -179,7 +179,7 @@ CREATE TABLE `items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
   `parent` int(11) NOT NULL DEFAULT '0',
-  `user` int(11) DEFAULT '0',
+  `user_id` int(11) DEFAULT '0',
   `template` int(11) NOT NULL DEFAULT '1',
   `orderby` char(1) DEFAULT 'A',
   `sortorder` int(11) DEFAULT '0',

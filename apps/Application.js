@@ -667,7 +667,7 @@ Application.prototype.findPage = function(path) {
   // hash based on only language/domain
   
   // if only language is specified (can be the defaultlanguage), serve the welcome/home page
-  var aPage = self.urls[path.pagelink + ((path.domain === "" || path.domain === "notallowed") ? "main" : "")];
+  var aPage = self.urls[path.pagelink + ((path.domain === "" || path.domain === "notallowed") ? "global" : "")];
   
   // if page not found -> serve the language/notfound page
   if (typeof aPage === "undefined") {
