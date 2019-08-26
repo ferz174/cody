@@ -9,7 +9,7 @@
 	"Username": "Логин",
 	"Password": "Пароль",
 	"Log on": "Войти",
-	"login-failed": "Ошибка авторизации, повторите попытку",
+	"login-failed": "Ошибка доступа",
 	"Wrong username of password, please try again": "Неверное имя пользователя или пароль",
 	"Account": "Профиль",
 	"Sign out": "Выйти",

@@ -122,8 +122,9 @@ Application.prototype.err = function(p1, p2, res) {
   
   if (typeof res !== "undefined") {
     res.writeHead(404, { "Content-Type": "text/plain" });
-    res.write("404 Not Found\n");
+    res.write("404 Not Found\n TEXT");
     res.end();
+	
   }
 };
 Application.prototype.log = function(p1, p2) {
@@ -671,8 +672,8 @@ Application.prototype.findPage = function(path) {
   
   // if page not found -> serve the language/notfound page
   if (typeof aPage === "undefined") {
-    console.log("Application.findPage - not found -> " + path.pagelink + ", trying -> " + path.language + "/notfound");
-    aPage = self.urls[path.language + "/"];
+    console.log("Application.findPage - not found -> " + path.pagelink + ", trying -> " + path.language + "/404");
+    aPage = self.urls[path.language + "/404"];
   }
 
   if (typeof aPage !== "undefined") {
