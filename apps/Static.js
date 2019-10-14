@@ -168,7 +168,7 @@ Static.prototype.serve = function () {
 		  "Access-Control-Allow-Origin": "*",
 		  //"Access-Control-Allow-Credentials": "true",
         });
-		console.log("This is Access-Control-Allow-Origin: *");
+		//console.log("This is Access-Control-Allow-Origin: *");
         self.response.write(file, "binary");
         self.response.end();
         
