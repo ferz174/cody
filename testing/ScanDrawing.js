@@ -25,17 +25,26 @@ ScanDrawing.NewScanDrawing = function(controller, data, finish) {
 	controller.resetConnection(controller.app).query("insert into "+db_scan_table+" (item) values "+(cody.config.dbsql == "pg" ? '($1)' : '(?)'),
 	[data],
 	function(error, result) {
-		if (error) throw(new Error("ScanDrawing.NewScanDrawing sql error: "+error));
+		if (error) throw new Error("ScanDrawing.NewScanDrawing sql error: "+error);
 		finish((result.rows ? result.rows : result).insertId);
     });
 };
 
 //Обновление записей из асинхронных функций
 ScanDrawing.SetScanDrawing = function(controller, data, id, finish) {
-	controller.resetConnection(controller.app).query("update "+db_scan_table+" set "+(cody.config.dbsql == "pg" ? 'name = $1, parent = $2 where id = $3' : 'name = ?, parent = ? where id = ?'),
+	var ApplyOut = "";
+	if (cody.config.dbsql == "pg") {
+		for (var i in id)
+		{
+			ApplyOut = i;
+		}
+		id = id[ApplyOut];
+	}
+	
+	controller.resetConnection(controller.app).query("update "+db_scan_table+" set "+(cody.config.dbsql == "pg" ? 'name = $1, parent = $2 where '+ApplyOut+' = $3': 'name = ?, parent = ? where id = ?'),
 	[data.name, data.parent, id],
 	function(error) {
-		if (error) throw(new Error("ScanDrawing.SetScanDrawing sql error: "+error));
+		if (error) throw new Error("ScanDrawing.SetScanDrawing sql error: "+error);
 	});
 };
 
