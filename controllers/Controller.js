@@ -267,7 +267,7 @@ Controller.prototype.alertFormOwner = function(atom, form) {
       }
     }
     mail += "\n\nYour website.\n";
-    self.sendMail(self.app.mailfrom, formDesc.alert, "Message from " + atom.app.name, mail);
+    if (self.app.smtp != "false") self.sendMail(self.app.mailfrom, formDesc.alert, "Message from " + atom.app.name, mail);
   }
 };
 
@@ -299,7 +299,7 @@ Controller.prototype.sendMail = function (pFrom, pTo, pSubject, pText, pHtml, fi
 
   // create transport options -- smtp defaults
   var options = {
-      host: self.context.app.smtp,
+      host: self.context.app.smtphost,
       secure:false,
       tls: {rejectUnauthorized: false},
       debug:true,
