@@ -43,7 +43,8 @@ function Application(config) {
   this.dbport = config.dbport || 3306;
   this.db = config.db || "cody";
   this.db = config.db || "empty";
-  this.smtp = config.smtp || "smtp.mail.ru";
+  this.smtp = config.smtp || "false";
+  this.smtphost = config.smtphost || "smtp.mail.ru";
   this.smtpssl = config.smtpssl || "587";
   this.smtppass = config.smtppass || "empty";
   this.smtpoptions = config.smtpoptions; // see https://github.com/andris9/Nodemailer

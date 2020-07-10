@@ -318,7 +318,8 @@ Controller.prototype.sendMail = function (pFrom, pTo, pSubject, pText, pHtml, fi
     options.auth = self.app.smtpauth;
   }
 
-  console.log(" connecting to " + options.host);
+  console.log(" connecting to " + options.host + " ||| " + self.context.app.smtphost);
+  console.log(self.context.app);
   var smtpTransport = nodemailer.createTransport(options);
 
   smtpTransport.sendMail(mailOptions, function (error, info) {
