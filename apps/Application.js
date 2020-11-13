@@ -25,7 +25,7 @@ function Application(config) {
   this.testing = config.testing || config.testing || false;
   this.logging = config.logging || config.logging || true;
 
-  this.defaultlanguage = config.defaultlanguage || config.defaultlanguage || Application.kDefaultLanguage;
+  this.defaultlanguage = config.defaultlanguage || Application.kDefaultLanguage;
   Application.kDefaultLanguage = this.defaultlanguage;
 
   //TODO: don't we have to return errors if some of these are missing ?

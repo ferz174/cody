@@ -10,7 +10,6 @@ module.exports.Meta = require("./models/Meta.js");
 module.exports.Content = require("./models/Content.js");
 module.exports.Template = require("./models/Template.js");
 module.exports.User = require("./models/User.js");
-module.exports.ScanDrawing = require("./testing/ScanDrawing.js");
 
 module.exports.Path = require("./models/Path.js");
 module.exports.Context = require("./models/Context.js");
