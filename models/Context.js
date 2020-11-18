@@ -29,12 +29,12 @@ function Context(path, page, app, req, res) {
   this.params = {};
   for(var q in req.query) {
     if (req.query.hasOwnProperty(q)) {
-      this.params[q] = decodeURI(req.query[q]);
+      this.params[q] = decodeURI(req.query[q]) || req.query[q];
     }
   }
   for(var b in req.body) {
     if (req.body.hasOwnProperty(b)) {
-      this.params[b] = decodeURI(req.body[b]);
+      this.params[b] = req.body[b];
     }
   }
   this.request = this.params.request || path.request || page.item.defaultrequest || "";
